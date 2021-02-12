@@ -1,25 +1,41 @@
 import React from "react"
-import 'react-bootstrap/Navbar'
-import {Form, FormControl, Nav, Button} from "react-bootstrap";
+import {Form, FormControl, Nav, Button, Navbar, NavDropdown} from "react-bootstrap";
 
 
-function Navbar() {
+function Header() {
     return(
-        <div>
-            <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                </Nav>
+        <Navbar bg="primary" variant="dark" >
+            <Navbar.Brand href="#home">
+                <img
+                    src={require('C:/Users/nickv/source/repos/Chirpel/chirpel-react/src/logo-rounded.png')}
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                />
+
+            </Navbar.Brand>
+
+            <Nav className="mr-auto">
+            </Nav>
+            <Nav className="mr-md-auto">
                 <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                    <Button variant="outline-info">Search</Button>
+                    <FormControl type="text" placeholder="Username" size="sm" />
                 </Form>
-            </Navbar>
-        </div>
+            </Nav>
+            <Nav>
+                <Nav.Link href="#home">Home</Nav.Link>
+                <Nav.Link href="#post">Post</Nav.Link>
+                <Nav.Link href="#explore">Explore</Nav.Link>
+                <NavDropdown title="Username" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">Settings</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Help</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action/3.4">Log Out</NavDropdown.Item>
+                </NavDropdown>
+            </Nav>
+        </Navbar>
     )
 }
 
-export default Navbar
+export default Header
