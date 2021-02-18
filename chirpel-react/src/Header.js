@@ -7,7 +7,7 @@ function Header() {
         <Navbar bg="primary" variant="dark" >
             <Navbar.Brand href="#home">
                 <img
-                    src={require('C:/Users/nickv/source/repos/Chirpel/chirpel-react/src/logo-rounded.png')}
+                    src={require('C:/Users/nickv/source/repos/Chirpel/chirpel-react/src/logo.svg')}
                     width="30"
                     height="30"
                     className="d-inline-block align-top"
