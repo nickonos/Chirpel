@@ -6,15 +6,15 @@ namespace Chirpel.data
 {
     public class UserManager
     {
-        //public string connectionString = "Data Source=(LocalDB)/MSSQLLocalDB;AttachDbFilename=C:/Users/nickv/source/repos/Chirpel/chirpel/Chirpel.data/Chirpel.mdf;Integrated Security=True";
-        private string connectionString = "Server=studmysql01.fhict.local; Database=dbi434661; Uid=dbi434661; Pwd=daivbot;";
+        public string connectionString = "Data Source = (LocalDB)\\MSSQLLocalDB;;Integrated Security=True;AttachDbFilename=C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.mdf;";
+
         public List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using (SqlCommand query = new SqlCommand("select * from User"))
+                using (SqlCommand query = new SqlCommand("select * from [User]",conn))
                 {
                     conn.Open();
 
