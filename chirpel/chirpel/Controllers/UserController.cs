@@ -1,4 +1,4 @@
-﻿using Chirpel.data;
+﻿using Chirpel.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace chirpel.Controllers
+
+
+namespace Chirpel.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -31,19 +33,61 @@ namespace chirpel.Controllers
         }
 
         [HttpPut]
-        public IEnumerable<User> Put()
+        public HttpResponse Put()
         {
-            List<User> users = new List<User>();
-            users = userManager.GetAllUsers();
-            return users;
+            return new HttpResponse()
+            {
+                Succes = true,
+                Message = "test"
+            };
         }
 
-        [HttpPost("User/login")]
-        public IEnumerable<User> Post()
+        [HttpPost("login")]
+        public HttpResponse Post(LoginUser loginUser)
         {
-            List<User> users = new List<User>();
-            users = userManager.GetAllUsers();
-            return users;
+            User user = userManager.FindUser(loginUser.Username,loginUser.Password);
+            if(user != null)
+            {
+                return new HttpResponse()
+                {
+                    Succes = true,
+                    Message = $"{user.Username}, {user.Password}"
+                };
+            }
+            return new HttpResponse()
+            {
+                Succes = false,
+                Message = $"login requirements not met"
+            };
+        }
+
+        [HttpPost("Register")]
+        public HttpResponse Post(RegisterUser registerUser)
+        {
+            User user = userManager.FindUser(registerUser.Username,registerUser.Password);
+            if (user != null)
+            {
+                return new HttpResponse()
+                {
+                    Succes = false,
+                    Message = $"Username {user.Username} already exists"
+                };
+            }
+            bool response = userManager.CreateUser(registerUser);
+            if (response)
+            {
+                return new HttpResponse()
+                {
+                    Succes = true,
+                    Message = $"account created"
+                };
+            }
+            return new HttpResponse()
+            {
+                Succes = false,
+                Message = $"unknown error"
+            };
+
         }
     }
 }

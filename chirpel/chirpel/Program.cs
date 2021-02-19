@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace chirpel
+namespace Chirpel
 {
     public class Program
     {

@@ -6,12 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Chirpel.data/1.0.0": {
+      "Chirpel.Data/1.0.0": {
         "dependencies": {
           "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
-          "Chirpel.data.dll": {}
+          "Chirpel.Data.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/3.1.0": {},
@@ -92,7 +92,7 @@
     }
   },
   "libraries": {
-    "Chirpel.data/1.0.0": {
+    "Chirpel.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

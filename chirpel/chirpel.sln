@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chirpel", "chirpel\chirpel.csproj", "{707D3EEB-8489-4D3A-9EF3-3DBC3C648F2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirpel.data", "Chirpel.data\Chirpel.data.csproj", "{141BCB3B-F04A-4CD6-B8C1-5C0CADB48A31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Data", "Chirpel.data\Chirpel.Data.csproj", "{141BCB3B-F04A-4CD6-B8C1-5C0CADB48A31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

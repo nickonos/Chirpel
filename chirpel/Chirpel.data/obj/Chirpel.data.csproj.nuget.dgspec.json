@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.data.csproj": {}
+    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.data.csproj": {
+    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.data.csproj",
-        "projectName": "Chirpel.data",
-        "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.data.csproj",
+        "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.Data.csproj",
+        "projectName": "Chirpel.Data",
+        "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.Data.csproj",
         "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\obj\\",
         "projectStyle": "PackageReference",

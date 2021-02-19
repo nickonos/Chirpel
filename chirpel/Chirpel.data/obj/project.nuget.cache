@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mQbngFPjimh7vyOsDRsIGw16GAjAk1X3qjWKi6S3Iv2H3SgG3DPUJjzvk1ZZL571dKgorVcxphSK1NsLE89mvg==",
+  "dgSpecHash": "m2fybNWiTQ+TxJjfwomSPu3aITCIJiAXYcNyDzIC5Dt1uFYwYJ8gguJ9OZAulYVXe8r72mLkuis2VFXfapxzFQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.data.csproj",
+  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
