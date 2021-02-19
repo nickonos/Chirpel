@@ -34,12 +34,11 @@ namespace Chirpel.Controllers
             return users;
         }
 
-        public User? FindUser(string username,string password)
+        public User? FindUser(string value, string Table)
         {
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using (SqlCommand query = new SqlCommand($"select * from [User] Where Username='{username}' AND Password='{password}'", conn))
+                using (SqlCommand query = new SqlCommand($"select * from [User] Where {Table}='{value}'", conn))
                 {
                     conn.Open();
 
@@ -60,7 +59,7 @@ namespace Chirpel.Controllers
             return null;
         }
 
-        public bool CreateUser(RegisterUser user)
+        public bool AddUser(RegisterUser user)
         {
             Guid id = Guid.NewGuid();
      
@@ -72,6 +71,24 @@ namespace Chirpel.Controllers
                     query.Parameters.AddWithValue("@Username", user.Username);
                     query.Parameters.AddWithValue("@Email", user.Email);
                     query.Parameters.AddWithValue("@Password", user.Password);
+                    conn.Open();
+                    int result = query.ExecuteNonQuery();
+
+
+                    if (result < 0)
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        public bool DeleteUser(DeleteUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand query = new SqlCommand($"DELETE FROM [User] WHERE Username='{user.Username}' AND Password='{user.Password}'", conn))
+                {
+
                     conn.Open();
                     int result = query.ExecuteNonQuery();
 

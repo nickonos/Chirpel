@@ -477,9 +477,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\Chirpel.csproj",
+      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\chirpel.csproj",
       "projectName": "Chirpel",
-      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\Chirpel.csproj",
+      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\chirpel.csproj",
       "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\obj\\",
       "projectStyle": "PackageReference",
@@ -531,7 +531,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

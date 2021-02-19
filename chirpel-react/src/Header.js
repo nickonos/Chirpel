@@ -1,18 +1,15 @@
 import React from "react"
 import {Form, FormControl, Nav, Button, Navbar, NavDropdown} from "react-bootstrap";
-
+import logo from './logo-rounded.png'
 
 function Header() {
     return(
-        <Navbar bg="primary" variant="dark" >
+        <Navbar bg="dark" variant="dark" >
             <Navbar.Brand href="#home">
-                <img
-                    src={require('C:/Users/nickv/source/repos/Chirpel/chirpel-react/src/logo.svg')}
-                    width="30"
-                    height="30"
-                    className="d-inline-block align-top"
+                <img src={logo}
+                height="35"
+                width="45"
                 />
-
             </Navbar.Brand>
 
             <Nav className="mr-auto">

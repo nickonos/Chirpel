@@ -45,26 +45,55 @@ namespace Chirpel.Controllers
         [HttpPost("login")]
         public HttpResponse Post(LoginUser loginUser)
         {
-            User user = userManager.FindUser(loginUser.Username,loginUser.Password);
-            if(user != null)
+            User user = userManager.FindUser(loginUser.Username, "Username");
+            if(user != null  && user.Password == loginUser.Password)
             {
                 return new HttpResponse()
                 {
                     Succes = true,
-                    Message = $"{user.Username}, {user.Password}"
+                    Message = $"login succesful"
                 };
             }
             return new HttpResponse()
             {
                 Succes = false,
-                Message = $"login requirements not met"
+                Message = $"user credentials don't match"
+            };
+        }
+
+        [HttpPost("Delete")]
+        public HttpResponse Post(DeleteUser deleteUser)
+        {
+            User user = userManager.FindUser(deleteUser.Username, "Username");
+            if (user != null && user.Password == deleteUser.Password)
+            {
+                bool response = userManager.DeleteUser(deleteUser);
+                if (response)
+                {
+                    return new HttpResponse()
+                    {
+                        Succes = true,
+                        Message = $"delete succesful"
+                    };
+                }
+                return new HttpResponse()
+                {
+                    Succes = false,
+                    Message = $"Error deleting user from database"
+                };
+
+            }
+            return new HttpResponse()
+            {
+                Succes = false,
+                Message = $"user credentials don't match"
             };
         }
 
         [HttpPost("Register")]
         public HttpResponse Post(RegisterUser registerUser)
         {
-            User user = userManager.FindUser(registerUser.Username,registerUser.Password);
+            User user = userManager.FindUser(registerUser.Username, "Username");
             if (user != null)
             {
                 return new HttpResponse()
@@ -73,7 +102,7 @@ namespace Chirpel.Controllers
                     Message = $"Username {user.Username} already exists"
                 };
             }
-            bool response = userManager.CreateUser(registerUser);
+            bool response = userManager.AddUser(registerUser);
             if (response)
             {
                 return new HttpResponse()
