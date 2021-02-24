@@ -9,5 +9,11 @@ namespace Chirpel.Models
     {
         public bool Succes { get; set; }
         public string Message { get; set; }
+
+        public HttpResponse(bool _succes, string _message)
+        {
+            Succes = _succes;
+            Message = _message;
+        }
     }
 }
