@@ -118,12 +118,21 @@ namespace Chirpel.Managers
         {
             Guid id = Guid.Parse(FindUser(user.Username, "Username").id);
             using (SqlConnection conn = new SqlConnection(connectionString))
-            {                
-                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Settings] WHERE UserID='{id}'", conn))
+            {
+                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Followers] WHERE Followed='{id}' OR Follower='{id}'",conn))
                 {
                     conn.Open();
+
                     int result = query.ExecuteNonQuery();
+
+                    if (result < 0)
+                        return false;
+                }
+                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Settings] WHERE UserID='{id}'", conn))
+                {
                     
+                    int result = query.ExecuteNonQuery();
+
                     if (result < 0)
                         return false;
                 }

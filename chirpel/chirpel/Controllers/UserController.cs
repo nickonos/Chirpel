@@ -140,5 +140,13 @@ namespace Chirpel.Controllers
 
             return followers;
         }
+
+        [HttpPost("{UserId}/settings/bio")]
+        public HttpResponse UpdateBio(string UserId)
+        {
+
+
+            return new HttpResponse(false, "eatr");
+        }
     }
 }
