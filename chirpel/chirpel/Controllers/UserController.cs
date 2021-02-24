@@ -100,7 +100,8 @@ namespace Chirpel.Controllers
         {
             List<Guid> followerIds = userManager.GetFollowers(UserId);
             List<string> followers = new List<string>();
-            foreach( Guid guid in followerIds)
+
+            foreach(Guid guid in followerIds)
                 followers.Add(userManager.FindUser(guid.ToString(), "UserId").Username);
 
             return followers;
@@ -111,13 +112,33 @@ namespace Chirpel.Controllers
         {
             if (userManager.VerifyUser(follower) && userManager.FindUser(UserId,"UserId") != null)
             {
-                bool res = userManager.AddFollower(UserId, follower.Username);
-                if (res)
-                    return new HttpResponse(true, "Follow succesfull");
-                else
-                    return new HttpResponse(false, "Already following");
+                HttpResponse res = userManager.AddFollower(UserId, follower.Username);
+                return res;
             }
             return new HttpResponse(false, "Couldn't verify user");
+        }
+
+        [HttpPost("unfollow/{UserId}")]
+        public HttpResponse RemoveFollower(DBUser follower, string UserId)
+        {
+            if (userManager.VerifyUser(follower) && userManager.FindUser(UserId, "UserId") != null)
+            {
+                HttpResponse res = userManager.RemoveFollower(UserId, follower.Username);
+                return res;
+            }
+            return new HttpResponse(false, "Couldn't verify user");
+        }
+
+        [HttpGet("{UserId}/following")]
+        public IEnumerable<string> GetFollowing(string UserId)
+        {
+            List<Guid> followerIds = userManager.GetFollowing(UserId);
+            List<string> followers = new List<string>();
+
+            foreach (Guid guid in followerIds)
+                followers.Add(userManager.FindUser(guid.ToString(), "UserId").Username);
+
+            return followers;
         }
     }
 }

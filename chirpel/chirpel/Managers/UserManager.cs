@@ -181,12 +181,14 @@ namespace Chirpel.Managers
             return followers;
         }
 
-        public bool AddFollower(string UserId, string FollowerName)
+        public HttpResponse AddFollower(string UserId, string FollowerName)
         {
             string FollowerId = FindUser(FollowerName, "Username").id;
+            if (UserId == FollowerId)
+                return new HttpResponse(false, "you can't follow yourself");
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                Guid test = new Guid();
+                string test ="";
                 using (SqlCommand query = new SqlCommand($"select * from [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
                 {
                     
@@ -194,11 +196,11 @@ namespace Chirpel.Managers
                     var Reader = query.ExecuteReader();
                     while (Reader.Read())
                     {
-                        test = Guid.Parse(Reader.GetString(0));
+                        test = Reader.GetString(0);
                     }
                     Reader.Close();
                 }
-                if (test != null)
+                if (test == "")
                 {
                     using (SqlCommand query = new SqlCommand($"INSERT INTO [User_Followers] (Followed, Follower) VALUES (@followed, @follower)", conn))
                     {
@@ -208,12 +210,49 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database");
                     }
-                    return true;
+                    return new HttpResponse(true, "transaction succesful");
                 }     
             }
-            return false;
+            return new HttpResponse(false, "you already follow this user");
+        }
+
+        public HttpResponse RemoveFollower(string UserId, string FollowerName)
+        {
+            string FollowerId = FindUser(FollowerName, "Username").id;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
+                {
+
+                    conn.Open();
+                    int response = query.ExecuteNonQuery();
+
+                    if (response < 0)
+                        return new HttpResponse(false, "Error inserting into database");
+
+                    return new HttpResponse(true, "transaction succesful");
+                }
+            }
+        }
+
+        public List<Guid> GetFollowing(string UserId)
+        {
+            List<Guid> followers = new List<Guid>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand query = new SqlCommand($"SELECT * from [User_Followers] WHERE Follower ='{UserId}'", conn))
+                {
+                    conn.Open();
+                    var Reader = query.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        followers.Add(Guid.Parse(Reader.GetString(0)));
+                    }
+                }
+            }
+            return followers;
         }
     }
 }
