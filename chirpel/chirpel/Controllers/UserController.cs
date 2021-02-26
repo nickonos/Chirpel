@@ -64,11 +64,8 @@ namespace Chirpel.Controllers
             User user = userManager.FindUser(dbUser.Username, "Username");
             if (user != null && user.Password == dbUser.Password)
             {
-                bool response = userManager.DeleteUser(dbUser);
-                if (response)
-                    return new HttpResponse(true, $"delete succesful");
-
-                return new HttpResponse(false, $"Error deleting user from database");
+                HttpResponse response = userManager.DeleteUser(dbUser);
+                return response;
             }
             return new HttpResponse(false, $"user credentials don't match");
         }
@@ -80,11 +77,8 @@ namespace Chirpel.Controllers
             if (user != null)
                 return new HttpResponse(false, $"Username {user.Username} already exists");
 
-            bool response = userManager.AddUser(registerUser);
-            if (response)
-                return new HttpResponse(true, $"account created");
-
-            return new HttpResponse(false, $"unknown error");
+            HttpResponse response = userManager.AddUser(registerUser);
+            return response;
         }
 
         [HttpGet("{UserId}/settings")]
@@ -144,8 +138,6 @@ namespace Chirpel.Controllers
         [HttpPost("{UserId}/settings/bio")]
         public HttpResponse UpdateBio(string UserId)
         {
-
-
             return new HttpResponse(false, "eatr");
         }
     }

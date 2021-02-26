@@ -78,7 +78,7 @@ namespace Chirpel.Managers
             return false;
         }
 
-        public bool AddUser(RegisterUser user)
+        public HttpResponse AddUser(RegisterUser user)
         {
             Guid id = Guid.NewGuid();
 
@@ -94,7 +94,7 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database"); ;
                 }
                 
                 using (SqlCommand query = new SqlCommand($"INSERT INTO [User_Settings] (UserId, DarkModeEnabled, IsPrivate, Bio, ProfilePicture) VALUES (@UserId, @DarkModeEnabled, @IsPrivate, @Bio, @ProfilePicture)", conn))
@@ -108,13 +108,13 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database"); ;
                 }
             }
-            return true;
+            return new HttpResponse(true, "transaction succesful"); ;
         }
 
-        public bool DeleteUser(DBUser user)
+        public HttpResponse DeleteUser(DBUser user)
         {
             Guid id = Guid.Parse(FindUser(user.Username, "Username").id);
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -126,7 +126,7 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database"); ;
                 }
                 using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Settings] WHERE UserID='{id}'", conn))
                 {
@@ -134,17 +134,17 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database"); ;
                 }
                 using (SqlCommand query = new SqlCommand($"DELETE FROM [User] WHERE Username='{user.Username}' AND Password='{user.Password}'", conn))
                 {
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database"); ;
                 }
             }
-            return true;
+            return new HttpResponse(true, "transaction succesful"); ;
         }
 
         public UserSettings? GetSettings(string UserId)
@@ -190,7 +190,7 @@ namespace Chirpel.Managers
             return followers;
         }
 
-        public bool AddFollower(string UserId, string FollowerName)
+        public HttpResponse AddFollower(string UserId, string FollowerName)
         {
             string FollowerId = FindUser(FollowerName, "Username").id;
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -217,12 +217,23 @@ namespace Chirpel.Managers
                     int result = query.ExecuteNonQuery();
 
                     if (result < 0)
-                        return false;
+                        return new HttpResponse(false, "error inserting into database");
                     }
-                    return true;
+                    return new HttpResponse(true, "transaction succesful");
                 }     
             }
-            return false;
+            return new HttpResponse(false, "userpair not found"); ;
+        }
+
+        public HttpResponse RemoveFollower(string UserId, string FollowerName)
+        {
+            return new HttpResponse(false, "method not made yet");
+        }
+
+        public List<Guid> GetFollowing(string UserId)
+        {
+            List<Guid> following = new List<Guid>();
+            return following;
         }
     }
 }

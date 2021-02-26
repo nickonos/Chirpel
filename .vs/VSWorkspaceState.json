@@ -1,4 +1,11 @@
 {
-  "ExpandedNodes": [],
+  "ExpandedNodes": [
+    "",
+    "\\chirpel",
+    "\\chirpel\\chirpel",
+    "\\chirpel\\chirpel\\Controllers",
+    "\\chirpel\\chirpel\\Managers"
+  ],
+  "SelectedNode": "\\chirpel\\chirpel.sln",
   "PreviewInSolutionExplorer": false
 }
