@@ -7,7 +7,7 @@ namespace Chirpel.Managers
 {
     public class UserManager
     {
-        private readonly string connectionString = "Data Source = (LocalDB)\\MSSQLLocalDB; Integrated Security=True;AttachDbFilename=C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.mdf;";
+        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True";
 
         public List<User> GetAllUsers()
         {
