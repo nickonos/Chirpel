@@ -1,5 +1,5 @@
-﻿using Chirpel.Models;
-using Chirpel.Managers;
+﻿using Chirpel.Common.Models;
+using Chirpel.Logic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -75,7 +75,7 @@ namespace Chirpel.Controllers
         {
             User user = userManager.FindUser(registerUser.Username, "Username");
             if (user != null)
-                return new HttpResponse(false, $"Username {user.Username} already exists");
+                return new HttpResponse(false, $"Username {user.Username} already in use");
 
             HttpResponse response = userManager.AddUser(registerUser);
             return response;

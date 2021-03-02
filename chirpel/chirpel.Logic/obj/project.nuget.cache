@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ne+P4eCt/9+6nkzesoydtkdOjx5HFNGbBs+epTMbhh7B2qB4CfyRGgyswCV2MN7AfCagh+1+A0XxibRThWgu1w==",
+  "dgSpecHash": "sVPq2uonpISp8+0cufB39r8Am3KA0euKFvQySwpsw25FFutywQ13N863nTXg9Fbc6ac458Qh9BXX3iwa5zCVxw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\chirpel.csproj",
+  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",

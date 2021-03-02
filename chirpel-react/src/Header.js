@@ -14,9 +14,9 @@ function Header() {
                          alt="logo"
                     />
                 </Navbar.Brand>
-                <Nav className="mr-md-auto">
+                <Nav className="mx-auto" >
                     <Form inline>
-                        <FormControl type="text" placeholder="Username" size="sm" />
+                        <FormControl type="text" placeholder="Username" size="md" />
                     </Form>
                 </Nav>
                 <Nav>

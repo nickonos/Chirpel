@@ -140,20 +140,6 @@
         "runtime": {
           "bin/placeholder/Chirpel.Common.dll": {}
         }
-      },
-      "Chirpel.Logic/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v3.1",
-        "dependencies": {
-          "Chirpel.Common": "1.0.0",
-          "System.Data.SqlClient": "4.8.2"
-        },
-        "compile": {
-          "bin/placeholder/Chirpel.Logic.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Chirpel.Logic.dll": {}
-        }
       }
     }
   },
@@ -475,17 +461,11 @@
       "type": "project",
       "path": "../Chirpel.Common/Chirpel.Common.csproj",
       "msbuildProject": "../Chirpel.Common/Chirpel.Common.csproj"
-    },
-    "Chirpel.Logic/1.0.0": {
-      "type": "project",
-      "path": "../chirpel.Logic/Chirpel.Logic.csproj",
-      "msbuildProject": "../chirpel.Logic/Chirpel.Logic.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
       "Chirpel.Common >= 1.0.0",
-      "Chirpel.Logic >= 1.0.0",
       "System.Data.SqlClient >= 4.8.2"
     ]
   },
@@ -495,11 +475,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\chirpel.csproj",
-      "projectName": "Chirpel",
-      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\chirpel.csproj",
+      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj",
+      "projectName": "Chirpel.Logic",
+      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj",
       "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel\\obj\\",
+      "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nickv\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -518,9 +498,6 @@
           "projectReferences": {
             "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
               "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
-            },
-            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj": {
-              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj"
             }
           }
         }
@@ -551,9 +528,6 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }

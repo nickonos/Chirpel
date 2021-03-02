@@ -1,11 +1,11 @@
-﻿using Chirpel.Models;
+﻿using Chirpel.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chirpel.Managers
+namespace Chirpel.Logic
 {
     public class PostManager
     {

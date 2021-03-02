@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Chirpel.Models;
+using Chirpel.Common.Models;
 
-namespace Chirpel.Managers
+namespace Chirpel.Logic
 {
     public class UserManager
     {
@@ -196,7 +196,7 @@ namespace Chirpel.Managers
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 Guid test = new Guid();
-                using (SqlCommand query = new SqlCommand($"select * from [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
+                using (SqlCommand query = new SqlCommand($"SELECT * FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
                 {
                     
                     conn.Open();
@@ -227,12 +227,37 @@ namespace Chirpel.Managers
 
         public HttpResponse RemoveFollower(string UserId, string FollowerName)
         {
-            return new HttpResponse(false, "method not made yet");
+            string FollowerId = FindUser(FollowerName, "Username").id;
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
+                {
+                    conn.Open();
+
+                    int result = query.ExecuteNonQuery();
+
+                    if (result < 0)
+                        return new HttpResponse(false, "error deleting from database");
+                }
+                return new HttpResponse(true, "transaction succesful");
+            }
         }
 
         public List<Guid> GetFollowing(string UserId)
         {
             List<Guid> following = new List<Guid>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand query = new SqlCommand($"SELECT * FROM [User_followers] WHERE follower='{UserId}'", conn))
+                {
+                    conn.Open();
+                    var Reader = query.ExecuteReader();
+                    while (Reader.Read())
+                    {
+                        following.Add(Guid.Parse(Reader.GetString(0)));
+                    }
+                }
+            }
             return following;
         }
     }

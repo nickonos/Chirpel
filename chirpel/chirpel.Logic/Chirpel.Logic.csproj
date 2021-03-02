@@ -1,10 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>Chirpel</AssemblyName>
-    <RootNamespace>Chirpel</RootNamespace>
-    <Nullable>annotations</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chirpel.Common\Chirpel.Common.csproj" />
-    <ProjectReference Include="..\chirpel.Logic\Chirpel.Logic.csproj" />
   </ItemGroup>
-
 
 </Project>
