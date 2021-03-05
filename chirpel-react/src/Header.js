@@ -1,7 +1,8 @@
 import React from "react"
 import {Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import logo from './logo-rounded.png'
-import {BrowserRouter as Router, Link} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
+
 
 function Header() {
     return(
@@ -20,15 +21,9 @@ function Header() {
                     </Form>
                 </Nav>
                 <Nav>
-                    <Link to={'/home'}>
-                        <Nav.Link href="#home">Home</Nav.Link>
-                    </Link>
-                    <Link to={'/post'}>
-                        <Nav.Link href="#post">Post</Nav.Link>
-                    </Link>
-                    <Link to={'/explore'}>
-                        <Nav.Link href="#explore">Explore</Nav.Link>
-                    </Link>
+                    <Nav.Link href="/home">Home</Nav.Link>
+                    <Nav.Link href="/post">Post</Nav.Link>
+                    <Nav.Link href="/explore">Explore</Nav.Link>
                     <NavDropdown title="Username" id="basic-nav-dropdown">
                         <NavDropdown.Item href="{Username}">Profile</NavDropdown.Item>
                         <NavDropdown.Item href="{Username}/settings">Settings</NavDropdown.Item>
@@ -39,7 +34,6 @@ function Header() {
                 </Nav>
             </Navbar>
         </Router>
-
     )
 }
 

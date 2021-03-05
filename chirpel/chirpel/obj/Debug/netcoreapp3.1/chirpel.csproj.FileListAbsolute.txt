@@ -25,3 +25,7 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\runt
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\obj\Debug\netcoreapp3.1\chirpel.csproj.CopyComplete
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Common.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Logic.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Common.pdb
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Logic.pdb

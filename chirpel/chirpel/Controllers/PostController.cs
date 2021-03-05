@@ -1,5 +1,5 @@
-﻿using Chirpel.Models;
-using Chirpel.Managers;
+﻿using Chirpel.Common.Models;
+using Chirpel.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

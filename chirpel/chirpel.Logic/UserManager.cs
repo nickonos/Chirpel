@@ -22,11 +22,13 @@ namespace Chirpel.Logic
                     var reader = query.ExecuteReader();
                     while (reader.Read())
                     {
-                        User temp = new User();
-                        temp.id = reader.GetString(0);
-                        temp.Username = reader.GetString(1);
-                        temp.Email = reader.GetString(2);
-                        temp.Password = reader.GetString(3);
+                        User temp = new User()
+                        {
+                            id = reader.GetString(0),
+                            Username = reader.GetString(1),
+                            Email = reader.GetString(2),
+                            Password = reader.GetString(3)
+                        }; 
                         users.Add(temp);
                     }
                 }

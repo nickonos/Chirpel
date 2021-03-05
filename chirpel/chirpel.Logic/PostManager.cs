@@ -9,7 +9,7 @@ namespace Chirpel.Logic
 {
     public class PostManager
     {
-        private readonly string connectionString = "Data Source = (LocalDB)\\MSSQLLocalDB; Integrated Security=True;AttachDbFilename=C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.data\\Chirpel.mdf;";
+        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True;";
 
         public Post GetPost(string id)
         {
