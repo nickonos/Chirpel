@@ -45,9 +45,9 @@ class Auth extends React.Component {
             if (this.state.registerUser.password === this.state.registerUser.confirmpass){
 
                 api.post('/user/register',{
-                    Username: this.state.username,
-                    email: this.state.email,
-                    Password: this.state.password
+                    Username: this.state.registerUser.username,
+                    email: this.state.registerUser.email,
+                    Password: this.state.registerUser.password
                 }).then(res =>{
                     if(res.data.succes){
                         this.setState({
