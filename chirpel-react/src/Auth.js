@@ -43,7 +43,6 @@ class Auth extends React.Component {
         this.resetError()
         if(this.checkFilled("register")){
             if (this.state.registerUser.password === this.state.registerUser.confirmpass){
-
                 api.post('/user/register',{
                     Username: this.state.registerUser.username,
                     email: this.state.registerUser.email,
@@ -112,6 +111,7 @@ class Auth extends React.Component {
             this.resetError()
         }
     }
+
     SetRegisterPanel = (visible) => {
         this.setState({
             registerPanel: visible,
