@@ -52,10 +52,13 @@ namespace Chirpel.Controllers
         public HttpResponse PostLogin(DBUser dbUser)
         {
             User user = userManager.FindUser(dbUser.Username, "Username");
-            if (user != null && user.Password == dbUser.Password)
-                return new HttpResponse(true, $"login succesful");
+            if (user == null)
+                return new HttpResponse(false, "username");
 
-            return new HttpResponse(false, $"user credentials don't match");
+            if (user.Password == dbUser.Password)
+                return new HttpResponse(true, $"login succesful");
+            else
+                return new HttpResponse(false, $"password");
         }
 
         [HttpPost("Delete")]
@@ -73,12 +76,13 @@ namespace Chirpel.Controllers
         [HttpPost("Register")]
         public HttpResponse PostRegister(RegisterUser registerUser)
         {
-            User user = userManager.FindUser(registerUser.Username, "Username");
-            if (user != null)
-                return new HttpResponse(false, $"Username {user.Username} already in use");
+            if (userManager.FindUser(registerUser.Username, "Username") != null)
+                return new HttpResponse(false, $"username");
 
-            HttpResponse response = userManager.AddUser(registerUser);
-            return response;
+            if (userManager.FindUser(registerUser.Email, "Email") != null)
+                return new HttpResponse(false, "email");
+            
+            return userManager.AddUser(registerUser);
         }
 
         [HttpGet("{UserId}/settings")]

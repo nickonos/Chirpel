@@ -1,40 +1,65 @@
 import React from "react"
-import {Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import logo from './logo-rounded.png'
-import {BrowserRouter as Router} from "react-router-dom";
 
+import { Menubar } from 'primereact/menubar';
+import { InputText } from 'primereact/inputtext';
+const items = [
+    {
+        icon:'pi pi-home',
+    },
+    {
+        icon:'pi pi-fw pi-users',
+    },
+    {
+        label:'Events',
+        icon:'pi pi-fw pi-calendar',
+        items:[
+            {
+                label:'Edit',
+                icon:'pi pi-fw pi-pencil',
+                items:[
+                    {
+                        label:'Save',
+                        icon:'pi pi-fw pi-calendar-plus'
+                    },
+                    {
+                        label:'Delete',
+                        icon:'pi pi-fw pi-calendar-minus'
+                    },
 
-function Header() {
-    return(
-        <Router>
-            <Navbar bg="dark" variant="dark" >
-                <Navbar.Brand href="#home">
-                    <img src={logo}
-                         height="35"
-                         width="45"
-                         alt="logo"
-                    />
-                </Navbar.Brand>
-                <Nav className="mx-auto" >
-                    <Form inline>
-                        <FormControl type="text" placeholder="Username" size="md" />
-                    </Form>
-                </Nav>
-                <Nav>
-                    <Nav.Link href="/home">Home</Nav.Link>
-                    <Nav.Link href="/post">Post</Nav.Link>
-                    <Nav.Link href="/explore">Explore</Nav.Link>
-                    <NavDropdown title="Username" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="{Username}">Profile</NavDropdown.Item>
-                        <NavDropdown.Item href="{Username}/settings">Settings</NavDropdown.Item>
-                        <NavDropdown.Item href="Help">Help</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="{Username/logout}">Log Out</NavDropdown.Item>
-                    </NavDropdown>
-                </Nav>
-            </Navbar>
-        </Router>
-    )
+                ]
+            },
+            {
+                label:'Archieve',
+                icon:'pi pi-fw pi-calendar-times',
+                items:[
+                    {
+                        label:'Remove',
+                        icon:'pi pi-fw pi-calendar-minus'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        label:'Quit',
+        icon:'pi pi-fw pi-power-off'
+    }
+];
+
+const start = <img alt="logo" src={require("./logo-rounded.png")} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="p-mr-2"></img>;
+const end = <div>
+    <i className={"pi pi-user"}/>
+    <span style={{margin: "5px"}}>Username</span>
+</div>
+
+class Header extends React.Component{
+
+    render(){
+        return(
+            <Menubar model={items} start={start} end={end}></Menubar>
+        )
+    }
 }
+
 
 export default Header

@@ -7,7 +7,9 @@ namespace Chirpel.Logic
 {
     public class UserManager
     {
-        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True";
+        //private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
+
+        private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
 
         public List<User> GetAllUsers()
         {
