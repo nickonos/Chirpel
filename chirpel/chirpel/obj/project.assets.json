@@ -141,11 +141,25 @@
           "bin/placeholder/Chirpel.Common.dll": {}
         }
       },
+      "Chirpel.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "System.Data.SqlClient": "4.8.2"
+        },
+        "compile": {
+          "bin/placeholder/Chirpel.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chirpel.Data.dll": {}
+        }
+      },
       "Chirpel.Logic/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "Chirpel.Common": "1.0.0",
+          "Chirpel.Data": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "compile": {
@@ -476,6 +490,11 @@
       "path": "../Chirpel.Common/Chirpel.Common.csproj",
       "msbuildProject": "../Chirpel.Common/Chirpel.Common.csproj"
     },
+    "Chirpel.Data/1.0.0": {
+      "type": "project",
+      "path": "../Chirpel.Data/Chirpel.Data.csproj",
+      "msbuildProject": "../Chirpel.Data/Chirpel.Data.csproj"
+    },
     "Chirpel.Logic/1.0.0": {
       "type": "project",
       "path": "../chirpel.Logic/Chirpel.Logic.csproj",
@@ -558,7 +577,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

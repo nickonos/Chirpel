@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using Chirpel.Common.Models;
+using Chirpel.Data;
 
 namespace Chirpel.Logic
 {
     public class UserManager
     {
-        //private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
+        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
 
-        private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
+        //private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
 
-        public List<User> GetAllUsers()
+        DatabaseQuery databaseQuery = new DatabaseQuery();
+
+        public List<DBUser> GetAllUsers()
         {
-            List<User> users = new List<User>();
+            List<DBUser> users = new List<DBUser>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -24,9 +27,9 @@ namespace Chirpel.Logic
                     var reader = query.ExecuteReader();
                     while (reader.Read())
                     {
-                        User temp = new User()
+                        DBUser temp = new DBUser()
                         {
-                            id = reader.GetString(0),
+                            UserID = reader.GetString(0),
                             Username = reader.GetString(1),
                             Email = reader.GetString(2),
                             Password = reader.GetString(3)
@@ -38,29 +41,18 @@ namespace Chirpel.Logic
             return users;
         }
 
-        public User? FindUser(string value, string Table)
+        public DBUser? FindUser(string value, string Table)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"SELECT * from [User] Where {Table}='{value}'", conn))
-                {
-                    conn.Open();
-
-                    var reader = query.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        User temp = new User()
-                        {
-                        id = reader.GetString(0),
-                        Username = reader.GetString(1),
-                        Email = reader.GetString(2),
-                        Password = reader.GetString(3)
-                        };
-                        return temp;
-                    }
-                }
-            }
+            List<DBUser> users = databaseQuery.Select<DBUser>("User", $"{Table}='{value}'");
+            if (users.Count > 0)
+                return users[0];
             return null;
+        }
+
+        public DBUser FindUserTest()
+        {
+            List<DBUser> user = databaseQuery.Select<DBUser>("User", $"Username='nick'");
+            return user[0];
         }
 
         public bool VerifyUser(DBUser user)
@@ -120,35 +112,26 @@ namespace Chirpel.Logic
 
         public HttpResponse DeleteUser(DBUser user)
         {
-            Guid id = Guid.Parse(FindUser(user.Username, "Username").id);
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            DBUser userCheck = FindUser(user.Username, "Username");
+            if(userCheck!= null && user.Password == userCheck.Password)
             {
-                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Followers] WHERE Followed='{id}' OR Follower='{id}'",conn))
-                {
-                    conn.Open();
+                Guid id = Guid.Parse(userCheck.UserID);
+                bool res = databaseQuery.Delete("User_Followers", $"Followed='{id}' OR Follower='{id}'");
+                if (!res)
+                    return new HttpResponse(false, "Error deleting from database");
 
-                    int result = query.ExecuteNonQuery();
+                res = databaseQuery.Delete("User_Settings", $"UserID='{id}'");
+                if (!res)
+                    return new HttpResponse(false, "Error deleting from database");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database"); ;
-                }
-                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_Settings] WHERE UserID='{id}'", conn))
-                {
-                    
-                    int result = query.ExecuteNonQuery();
+                res = databaseQuery.Delete("User", $"UserID='{id}'");
+                if (!res)
+                    return new HttpResponse(false, "Error deleting from database");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database"); ;
-                }
-                using (SqlCommand query = new SqlCommand($"DELETE FROM [User] WHERE Username='{user.Username}' AND Password='{user.Password}'", conn))
-                {
-                    int result = query.ExecuteNonQuery();
-
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database"); ;
-                }
+                return new HttpResponse(true, "transaction succesful");
             }
-            return new HttpResponse(true, "transaction succesful"); ;
+
+            return new HttpResponse(false, "usercredentials don't match");
         }
 
         public UserSettings? GetSettings(string UserId)
@@ -196,7 +179,7 @@ namespace Chirpel.Logic
 
         public HttpResponse AddFollower(string UserId, string FollowerName)
         {
-            string FollowerId = FindUser(FollowerName, "Username").id;
+            string FollowerId = FindUser(FollowerName, "Username").UserID;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 Guid test = new Guid();
@@ -231,7 +214,7 @@ namespace Chirpel.Logic
 
         public HttpResponse RemoveFollower(string UserId, string FollowerName)
         {
-            string FollowerId = FindUser(FollowerName, "Username").id;
+            string FollowerId = FindUser(FollowerName, "Username").UserID;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand query = new SqlCommand($"DELETE FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))

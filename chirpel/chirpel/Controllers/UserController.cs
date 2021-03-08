@@ -25,21 +25,21 @@ namespace Chirpel.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<User> GetAll()
+        public IEnumerable<DBUser> GetAll()
         {
-            List<User> users = new List<User>();
+            List<DBUser> users = new List<DBUser>();
             users = userManager.GetAllUsers();
-            foreach (User user in users)
+            foreach (DBUser user in users)
                 user.Password = "";
 
             return users;
         }
 
         [HttpGet("{Username}")]
-        public IEnumerable<User> GetUser(string Username)
+        public IEnumerable<DBUser> GetUser(string Username)
         {
-            List<User> users = new List<User>();
-            User user = userManager.FindUser(Username, "Username");
+            List<DBUser> users = new List<DBUser>();
+            DBUser user = userManager.FindUser(Username, "Username");
 
             if (user != null)
                 user.Password = "";
@@ -51,7 +51,7 @@ namespace Chirpel.Controllers
         [HttpPost("login")]
         public HttpResponse PostLogin(DBUser dbUser)
         {
-            User user = userManager.FindUser(dbUser.Username, "Username");
+            DBUser user = userManager.FindUser(dbUser.Username, "Username");
             if (user == null)
                 return new HttpResponse(false, "username");
 
@@ -64,7 +64,7 @@ namespace Chirpel.Controllers
         [HttpPost("Delete")]
         public HttpResponse PostDelete(DBUser dbUser)
         {
-            User user = userManager.FindUser(dbUser.Username, "Username");
+            DBUser user = userManager.FindUser(dbUser.Username, "Username");
             if (user != null && user.Password == dbUser.Password)
             {
                 HttpResponse response = userManager.DeleteUser(dbUser);

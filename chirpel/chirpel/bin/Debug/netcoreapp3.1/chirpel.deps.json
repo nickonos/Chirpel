@@ -403,9 +403,21 @@
           "Chirpel.Common.dll": {}
         }
       },
+      "Chirpel.Data/1.0.0": {
+        "dependencies": {
+          "System.Data.SqlClient": "4.8.2"
+        },
+        "runtime": {
+          "Chirpel.Data.dll": {}
+        },
+        "compile": {
+          "Chirpel.Data.dll": {}
+        }
+      },
       "Chirpel.Logic/1.0.0": {
         "dependencies": {
           "Chirpel.Common": "1.0.0",
+          "Chirpel.Data": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
@@ -2179,6 +2191,11 @@
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
     },
     "Chirpel.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Chirpel.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -29,3 +29,5 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chir
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Logic.dll
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Common.pdb
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Logic.pdb
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Data.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Debug\netcoreapp3.1\Chirpel.Data.pdb
