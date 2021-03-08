@@ -16,29 +16,7 @@ namespace Chirpel.Logic
 
         public List<DBUser> GetAllUsers()
         {
-            List<DBUser> users = new List<DBUser>();
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand("SELECT * from [User]",conn))
-                {
-                    conn.Open();
-
-                    var reader = query.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        DBUser temp = new DBUser()
-                        {
-                            UserID = reader.GetString(0),
-                            Username = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            Password = reader.GetString(3)
-                        }; 
-                        users.Add(temp);
-                    }
-                }
-            }
-            return users;
+            return databaseQuery.Select<DBUser>("User");
         }
 
         public DBUser? FindUser(string value, string Table)
@@ -47,12 +25,6 @@ namespace Chirpel.Logic
             if (users.Count > 0)
                 return users[0];
             return null;
-        }
-
-        public DBUser FindUserTest()
-        {
-            List<DBUser> user = databaseQuery.Select<DBUser>("User", $"Username='nick'");
-            return user[0];
         }
 
         public bool VerifyUser(DBUser user)
@@ -78,35 +50,28 @@ namespace Chirpel.Logic
         {
             Guid id = Guid.NewGuid();
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            bool res = databaseQuery.Insert(new DBUser()
             {
-                using (SqlCommand query = new SqlCommand($"INSERT INTO [User] (UserId, Username, Email, Password) VALUES (@id,@Username,@Email,@Password)", conn))
-                {
-                    query.Parameters.AddWithValue("@id", id);
-                    query.Parameters.AddWithValue("@Username", user.Username);
-                    query.Parameters.AddWithValue("@Email", user.Email);
-                    query.Parameters.AddWithValue("@Password", user.Password);
-                    conn.Open();
-                    int result = query.ExecuteNonQuery();
+                UserID = id.ToString(),
+                Username = user.Username,
+                Email = user.Email,
+                Password = user.Password
+            }, "User");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database"); ;
-                }
-                
-                using (SqlCommand query = new SqlCommand($"INSERT INTO [User_Settings] (UserId, DarkModeEnabled, IsPrivate, Bio, ProfilePicture) VALUES (@UserId, @DarkModeEnabled, @IsPrivate, @Bio, @ProfilePicture)", conn))
-                {
-                    query.Parameters.AddWithValue("@UserId", id);
-                    query.Parameters.AddWithValue("@DarkModeEnabled", false);
-                    query.Parameters.AddWithValue("@IsPrivate", false);
-                    query.Parameters.AddWithValue("@Bio", "");
-                    query.Parameters.AddWithValue("@ProfilePicture", "");
-                    
-                    int result = query.ExecuteNonQuery();
+            if (!res)
+                return new HttpResponse(false, "Error inserting into database");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database"); ;
-                }
-            }
+            res = databaseQuery.Insert(new UserSettings {
+            UserId = id,
+            DarkModeEnabled = false,
+            IsPrivate = false,
+            Bio = "",
+            ProfilePicture = ""
+            }, "User_settings");
+            
+            if (!res)
+                return new HttpResponse(false, "Error inserting into database");
+
             return new HttpResponse(true, "transaction succesful"); ;
         }
 

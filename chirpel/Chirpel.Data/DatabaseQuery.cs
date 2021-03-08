@@ -115,6 +115,57 @@ namespace Chirpel.Data
             return list;
         }
 
+        public bool Insert<T>(T data, string table)
+        {
+            string QueryString = $"Insert into [{table}] (";
+            PropertyInfo[] propInfoList = typeof(T).GetProperties();
+            for (int i = 0; i < propInfoList.Length; i++)
+            {
+                if (i == propInfoList.Length - 1)
+                    QueryString += $"{propInfoList[i].Name} ) VALUES (";
+                else
+                    QueryString += $"{propInfoList[i].Name}, ";
+            }
+
+            for (int i = 0; i < propInfoList.Length; i++)
+            {
+                if (i == propInfoList.Length - 1)
+                    QueryString += $"@{propInfoList[i].Name} )";
+                else
+                    QueryString += $"@{propInfoList[i].Name}, ";
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using SqlCommand query = new SqlCommand(QueryString, conn);
+                foreach (PropertyInfo property in propInfoList)
+                {
+                    query.Parameters.AddWithValue($"@{property.Name}", property.GetValue(data));
+                }
+
+
+                conn.Open();
+
+                int result = query.ExecuteNonQuery();
+
+                if (result < 0)
+                    return false;
+
+                return true;
+            }
+        }
+
+        public void Insert1<T>(T data)
+        {
+            var properties = data.GetType().GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                var value = property.GetValue(property, null);
+            }
+        }
+
+
         private Int32? readInt32(SqlDataReader reader, string columnName)
         {
             Int32? result = null;
@@ -132,7 +183,6 @@ namespace Chirpel.Data
 
             if (!reader.IsDBNull(reader.GetOrdinal(columnName)))
                 result = reader.GetString(reader.GetOrdinal(columnName));
-
 
             return result;
         }
