@@ -28,10 +28,10 @@ import 'primeflex/primeflex.css';
                             {this.state.loggedIn ? <Redirect to="/"/> : <Auth />}
                         </Route>
                         <Route path="/home">
-                            {this.state.loggedIn ?<Home/> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <Home/> : <Redirect to="/auth"/>}
                         </Route>
                         <Route>
-                            {this.state.loggedIn ? <Home /> : <Redirect to="/auth"/>}
+                            <Home />
                         </Route>
                     </Switch>
                 </Router>

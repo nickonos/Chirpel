@@ -12,11 +12,10 @@ class Home extends React.Component{
     }
 
     render() {
-        document.body.style.backgroundColor = "gray"
         return (
             <div className="App">
                 <Header/>
-                <body style={{backgroundColor: "gray", textAlign: "center"}}>
+                <body style={{textAlign: "center"}}>
                     <p>
                         test
                     </p>

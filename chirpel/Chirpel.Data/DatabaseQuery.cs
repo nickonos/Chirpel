@@ -54,9 +54,9 @@ namespace Chirpel.Data
                     PropertyInfo[] propInfoList = typeof(T).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
-                        if (p.PropertyType == typeof(string)) p.SetValue(o, readString(Reader, p.Name));
-                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, readInt32(Reader, p.Name));
-                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, readBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
                     }
                     list.Add((T)o);
                 }
@@ -69,7 +69,10 @@ namespace Chirpel.Data
             List<T> list = new List<T>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select * from [{table}] Where {condition}", conn);
+                SqlCommand cmd = new SqlCommand($"Select * from [@table] Where @condition", conn);
+                cmd.Parameters.AddWithValue("@table", table);
+                cmd.Parameters.AddWithValue("@condition", condition);
+                using SqlCommand query = cmd;
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
@@ -79,9 +82,9 @@ namespace Chirpel.Data
                     PropertyInfo[] propInfoList = typeof(T).GetProperties();
                     foreach(PropertyInfo p in propInfoList)
                     {
-                        if (p.PropertyType == typeof(string)) p.SetValue(o, readString(Reader, p.Name));
-                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, readInt32(Reader, p.Name));
-                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, readBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
                     }
                     list.Add((T)o);   
                 }
@@ -104,10 +107,10 @@ namespace Chirpel.Data
                     PropertyInfo[] propInfoList = typeof(T).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
-                        if (p.PropertyType == typeof(string)) p.SetValue(o, readString(Reader, p.Name));
-                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, readInt32(Reader, p.Name));
-                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, readBool(Reader, p.Name));
-                        if (p.PropertyType == typeof(DateTime)) p.SetValue(o, readTime(Reader, p.Name));
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
                     list.Add((T)o);
                 }
@@ -115,8 +118,83 @@ namespace Chirpel.Data
             return list;
         }
 
+        public T SelectFirst<T>(string table)
+        {
+            List<T> list = new List<T>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{table}] LIMIT 1 ", conn);
+                conn.Open();
+
+                var Reader = query.ExecuteReader();
+                while (Reader.Read())
+                {
+                    object o = Activator.CreateInstance(typeof(T));
+                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    foreach (PropertyInfo p in propInfoList)
+                    {
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                    }
+                    return (T)o;
+                }
+            }
+            return default(T);
+        }
+
+        public T SelectFirst<T>(string table, string condition)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{table}] Where {condition} ", conn);
+                conn.Open();
+
+                var Reader = query.ExecuteReader();
+                while (Reader.Read())
+                {
+                    object o = Activator.CreateInstance(typeof(T));
+                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    foreach (PropertyInfo p in propInfoList)
+                    {
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                    }
+                    return (T)o;
+                }
+            }
+            return default(T);
+        }
+
+        public T SelectFirst<T>(string table, string condition, string selecter)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using SqlCommand query = new SqlCommand($"Select TOP 1 {selecter} from [{table}] Where {condition}", conn);
+                conn.Open();
+
+                var Reader = query.ExecuteReader();
+                while (Reader.Read())
+                {
+                    object o = Activator.CreateInstance(typeof(T));
+                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    foreach (PropertyInfo p in propInfoList)
+                    {
+                        if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
+                        if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
+                        if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
+                    }
+                    return (T)o;
+                }
+            }
+            return default(T);
+        }
+
         public bool Insert<T>(T data, string table)
         {
+
             string QueryString = $"Insert into [{table}] (";
             PropertyInfo[] propInfoList = typeof(T).GetProperties();
             for (int i = 0; i < propInfoList.Length; i++)
@@ -143,7 +221,6 @@ namespace Chirpel.Data
                     query.Parameters.AddWithValue($"@{property.Name}", property.GetValue(data));
                 }
 
-
                 conn.Open();
 
                 int result = query.ExecuteNonQuery();
@@ -155,29 +232,17 @@ namespace Chirpel.Data
             }
         }
 
-        public void Insert1<T>(T data)
-        {
-            var properties = data.GetType().GetProperties();
-
-            foreach (PropertyInfo property in properties)
-            {
-                var value = property.GetValue(property, null);
-            }
-        }
-
-
-        private Int32? readInt32(SqlDataReader reader, string columnName)
+        private Int32? ReadInt32(SqlDataReader reader, string columnName)
         {
             Int32? result = null;
 
             if (!reader.IsDBNull(reader.GetOrdinal(columnName)))
                 result = reader.GetInt32(reader.GetOrdinal(columnName));
 
-
             return result;
         }
 
-        private string? readString(SqlDataReader reader, string columnName)
+        private string? ReadString(SqlDataReader reader, string columnName)
         {
             string? result = null;
 
@@ -187,7 +252,7 @@ namespace Chirpel.Data
             return result;
         }
         
-        private bool? readBool(SqlDataReader reader, string columnName)
+        private bool? ReadBool(SqlDataReader reader, string columnName)
         {
             bool? result = null;
 
@@ -197,7 +262,7 @@ namespace Chirpel.Data
             return result;
         }
         
-        private DateTime? readTime(SqlDataReader reader, string columnName)
+        private DateTime? ReadTime(SqlDataReader reader, string columnName)
         {
             DateTime? result = null;
 
@@ -206,6 +271,5 @@ namespace Chirpel.Data
 
             return result;
         }
-
     }
 }

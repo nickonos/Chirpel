@@ -18,7 +18,7 @@ class Auth extends React.Component {
         super(props);
 
         this.state = {
-            loggedIn: false,
+            loggedIn: true,
             msg: null,
             loginPanel: false,
             registerPanel: false,
@@ -218,7 +218,6 @@ class Auth extends React.Component {
     render(){
         return (
             <div>
-                <Header />
                 <div className={"p-grid"} style={{overflow: "hidden"}}>
 
                     <div className="p-col-3 p-p-0" >

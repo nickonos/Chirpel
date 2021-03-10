@@ -1,5 +1,8 @@
 ﻿using Chirpel.Common.Models;
+using Chirpel.Common.Models.Auth;
+using System.Security.Claims;
 using Chirpel.Logic;
+using Chirpel.Logic.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -143,6 +146,33 @@ namespace Chirpel.Controllers
         public HttpResponse UpdateBio(string UserId)
         {
             return new HttpResponse(false, "eatr");
+        }
+
+        [HttpGet("CreateToken/{text}")]
+        public HttpResponse CreateToken(string text)
+        {
+            IAuthContainerModel model = new JWTContainerModel() {
+                Claims = new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, text)
+                }
+            };
+            IAuthService authService = new JWTService(model.SecretKey);
+
+            string token = authService.GenerateToken(model);
+
+            return new HttpResponse(true, token);
+        }
+
+        [HttpGet("ValidateToken/{token}")]
+        public HttpResponse ValidateToken(string token)
+        {
+            IAuthService auth = new JWTService(Environment.GetEnvironmentVariable("CHIRPEL_SECRET") ?? "YWJjZGVmZ2hpamtsbW5vcHE=");
+            if (!auth.IsTokenValid(token))
+                return new HttpResponse(false, "invalid token");
+
+            List<Claim> claims = auth.GetTokenClaims(token).ToList();
+                return new HttpResponse(true, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
         }
     }
 }

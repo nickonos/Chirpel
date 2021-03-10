@@ -8,41 +8,23 @@ namespace Chirpel.Logic
 {
     public class UserManager
     {
-        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
-
-        //private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
-
-        DatabaseQuery databaseQuery = new DatabaseQuery();
+        private readonly DatabaseQuery databaseQuery = new DatabaseQuery();
 
         public List<DBUser> GetAllUsers()
         {
             return databaseQuery.Select<DBUser>("User");
         }
 
-        public DBUser? FindUser(string value, string Table)
+        public DBUser FindUser(string value, string column)
         {
-            List<DBUser> users = databaseQuery.Select<DBUser>("User", $"{Table}='{value}'");
-            if (users.Count > 0)
-                return users[0];
-            return null;
+            return databaseQuery.SelectFirst<DBUser>("User", $"{column}='{value}'");
         }
 
         public bool VerifyUser(DBUser user)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"SELECT * from [User] WHERE Username='{user.Username}'", conn))
-                {
-                    conn.Open();
+            if (databaseQuery.SelectFirst<DBUser>("User", $"Username='{user.Username}'").Password == user.Password)
+                return true;
 
-                    var reader = query.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        if (reader.GetString(1) == user.Username && reader.GetString(3) == user.Password)
-                            return true;
-                    }
-                }
-            }
             return false;
         }
 
@@ -77,7 +59,8 @@ namespace Chirpel.Logic
 
         public HttpResponse DeleteUser(DBUser user)
         {
-            DBUser userCheck = FindUser(user.Username, "Username");
+            DBUser userCheck = databaseQuery.SelectFirst<DBUser>("Username", $"Username='{user.Username}'");
+
             if(userCheck!= null && user.Password == userCheck.Password)
             {
                 Guid id = Guid.Parse(userCheck.UserID);
@@ -99,117 +82,71 @@ namespace Chirpel.Logic
             return new HttpResponse(false, "usercredentials don't match");
         }
 
-        public UserSettings? GetSettings(string UserId)
+        public UserSettings GetSettings(string UserId)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"SELECT * from [User_Settings] WHERE UserId ='{UserId}'", conn))
-                {
-                    conn.Open();
-                    var Reader = query.ExecuteReader();
-                    while (Reader.Read())
-                    {
-                        UserSettings settings = new UserSettings
-                        {
-                            UserId = Guid.Parse(Reader.GetString(0)),
-                            DarkModeEnabled = Reader.GetBoolean(1),
-                            IsPrivate = Reader.GetBoolean(2),
-                            Bio = Reader.GetString(3),
-                            ProfilePicture = Reader.GetString(4)
-                        };
-                        return settings;
-                    }
-                }
-            }
-            return null;
+            return databaseQuery.SelectFirst<UserSettings>("User_settings", $"UserId ='{UserId}'");
         }
 
         public List<Guid> GetFollowers(string UserId)
         {
             List<Guid> followers = new List<Guid>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"SELECT * from [User_Followers] WHERE Followed ='{UserId}'", conn))
-                {
-                    conn.Open();
-                    var Reader = query.ExecuteReader();
-                    while (Reader.Read())
-                    {
-                        followers.Add(Guid.Parse(Reader.GetString(1)));
-                    }
-                }
-            }
+            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"Followed = '{UserId}'");
+            foreach(UserFollower user in list)
+                followers.Add(Guid.Parse(user.Follower));
+
             return followers;
         }
 
         public HttpResponse AddFollower(string UserId, string FollowerName)
         {
-            string FollowerId = FindUser(FollowerName, "Username").UserID;
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                Guid test = new Guid();
-                using (SqlCommand query = new SqlCommand($"SELECT * FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
-                {
-                    
-                    conn.Open();
-                    var Reader = query.ExecuteReader();
-                    while (Reader.Read())
-                    {
-                        test = Guid.Parse(Reader.GetString(0));
-                    }
-                    Reader.Close();
-                }
-                if (test != null)
-                {
-                    using (SqlCommand query = new SqlCommand($"INSERT INTO [User_Followers] (Followed, Follower) VALUES (@followed, @follower)", conn))
-                    {
-                    query.Parameters.AddWithValue("followed", UserId);
-                    query.Parameters.AddWithValue("follower", FollowerId);
-                    
-                    int result = query.ExecuteNonQuery();
+            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId='{UserId}'");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error inserting into database");
-                    }
-                    return new HttpResponse(true, "transaction succesful");
-                }     
-            }
-            return new HttpResponse(false, "userpair not found"); ;
+            if (user == null)
+                return new HttpResponse(false, "User not found");
+
+            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username='{FollowerName}'").UserID;
+            if (FollowerId == null)
+                return new HttpResponse(false, "Follower not found");
+
+            string test = databaseQuery.SelectFirst<string>("User_followers", $"followed='{UserId}' AND follower='{FollowerId}'");
+
+            if (test != null)
+                return new HttpResponse(false, "already following this user");
+
+            bool res = databaseQuery.Insert(new UserFollower() {Followed = UserId, Follower = FollowerId }, "User_Followers");
+
+            if (!res)
+                return new HttpResponse(false, "Error inserting into database");
+
+            return new HttpResponse(true, "transaction succesful"); 
         }
 
         public HttpResponse RemoveFollower(string UserId, string FollowerName)
         {
-            string FollowerId = FindUser(FollowerName, "Username").UserID;
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"DELETE FROM [User_followers] WHERE followed='{UserId}' AND follower='{FollowerId}'", conn))
-                {
-                    conn.Open();
+            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId='{UserId}'");
+            if (user == null)
+                return new HttpResponse(false, "User not found");
 
-                    int result = query.ExecuteNonQuery();
+            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username='{FollowerName}'").UserID;
+            if (FollowerId == null)
+                return new HttpResponse(false, "Follower not found");
 
-                    if (result < 0)
-                        return new HttpResponse(false, "error deleting from database");
-                }
-                return new HttpResponse(true, "transaction succesful");
-            }
+            bool res = databaseQuery.Delete("User_followers", $"followed = '{UserId}' AND follower = '{FollowerId}'");
+
+            if (!res)
+                return new HttpResponse(false, "error deleting from database");
+
+            return new HttpResponse(true, "transaction succesful");
         }
 
         public List<Guid> GetFollowing(string UserId)
         {
             List<Guid> following = new List<Guid>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand query = new SqlCommand($"SELECT * FROM [User_followers] WHERE follower='{UserId}'", conn))
-                {
-                    conn.Open();
-                    var Reader = query.ExecuteReader();
-                    while (Reader.Read())
-                    {
-                        following.Add(Guid.Parse(Reader.GetString(0)));
-                    }
-                }
-            }
+            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"Where follower='{UserId}'");
+
+            foreach (UserFollower user in list)
+                following.Add(Guid.Parse(user.Followed));
+            
             return following;
         }
     }
