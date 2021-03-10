@@ -17,12 +17,12 @@ namespace Chirpel.Logic
 
         public DBUser FindUser(string value, string column)
         {
-            return databaseQuery.SelectFirst<DBUser>("User", $"{column}='{value}'");
+            return databaseQuery.SelectFirst<DBUser>("User", $"{column}=@value",new SQLinjection[] { new SQLinjection {name = "@value", value = value } });
         }
 
         public bool VerifyUser(DBUser user)
         {
-            if (databaseQuery.SelectFirst<DBUser>("User", $"Username='{user.Username}'").Password == user.Password)
+            if (databaseQuery.SelectFirst<DBUser>("User", $"Username=@Username", new SQLinjection[] { new SQLinjection { name = "@Username", value = user.Username} }).Password == user.Password)
                 return true;
 
             return false;
@@ -59,20 +59,20 @@ namespace Chirpel.Logic
 
         public HttpResponse DeleteUser(DBUser user)
         {
-            DBUser userCheck = databaseQuery.SelectFirst<DBUser>("Username", $"Username='{user.Username}'");
+            DBUser userCheck = databaseQuery.SelectFirst<DBUser>("Username", $"Username=@Username", new SQLinjection[] { new SQLinjection {name= "@Username", value = user.Username } });
 
             if(userCheck!= null && user.Password == userCheck.Password)
             {
                 Guid id = Guid.Parse(userCheck.UserID);
-                bool res = databaseQuery.Delete("User_Followers", $"Followed='{id}' OR Follower='{id}'");
+                bool res = databaseQuery.Delete("User_Followers", $"Followed=@id1 OR Follower=@id2", new SQLinjection[] { new SQLinjection { name = "@id1", value = id.ToString() }, new SQLinjection { name = "@id2", value = id.ToString() } });
                 if (!res)
                     return new HttpResponse(false, "Error deleting from database");
 
-                res = databaseQuery.Delete("User_Settings", $"UserID='{id}'");
+                res = databaseQuery.Delete("User_Settings", $"UserID=@id", new SQLinjection[] { new SQLinjection { name = "@id", value = id.ToString() } });
                 if (!res)
                     return new HttpResponse(false, "Error deleting from database");
 
-                res = databaseQuery.Delete("User", $"UserID='{id}'");
+                res = databaseQuery.Delete("User", $"UserID=@id'", new SQLinjection[] { new SQLinjection { name = "@id", value = id.ToString() } });
                 if (!res)
                     return new HttpResponse(false, "Error deleting from database");
 
@@ -84,7 +84,7 @@ namespace Chirpel.Logic
 
         public UserSettings GetSettings(string UserId)
         {
-            return databaseQuery.SelectFirst<UserSettings>("User_settings", $"UserId ='{UserId}'");
+            return databaseQuery.SelectFirst<UserSettings>("User_settings", $"UserId =@id'", new SQLinjection[] { new SQLinjection { name = "@id", value = UserId } });
         }
 
         public List<Guid> GetFollowers(string UserId)
@@ -99,16 +99,16 @@ namespace Chirpel.Logic
 
         public HttpResponse AddFollower(string UserId, string FollowerName)
         {
-            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId='{UserId}'");
+            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @id'", new SQLinjection[] { new SQLinjection { name = "@id", value = UserId } });
 
             if (user == null)
                 return new HttpResponse(false, "User not found");
 
-            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username='{FollowerName}'").UserID;
+            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username= @username", new SQLinjection[] { new SQLinjection { name = "@Username", value = FollowerName } }).UserID;
             if (FollowerId == null)
                 return new HttpResponse(false, "Follower not found");
 
-            string test = databaseQuery.SelectFirst<string>("User_followers", $"followed='{UserId}' AND follower='{FollowerId}'");
+            string test = databaseQuery.SelectFirst<string>("User_followers", $"followed= @followed AND follower= @follower", new SQLinjection[] { new SQLinjection { name = "@followed", value = UserId }, new SQLinjection { name = "@follower", value = FollowerId } });
 
             if (test != null)
                 return new HttpResponse(false, "already following this user");
@@ -123,15 +123,15 @@ namespace Chirpel.Logic
 
         public HttpResponse RemoveFollower(string UserId, string FollowerName)
         {
-            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId='{UserId}'");
+            DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @id", new SQLinjection[] { new SQLinjection { name = "@id", value = UserId } });
             if (user == null)
                 return new HttpResponse(false, "User not found");
 
-            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username='{FollowerName}'").UserID;
+            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username= @username", new SQLinjection[] { new SQLinjection { name = "@username", value = FollowerName } }).UserID;
             if (FollowerId == null)
                 return new HttpResponse(false, "Follower not found");
 
-            bool res = databaseQuery.Delete("User_followers", $"followed = '{UserId}' AND follower = '{FollowerId}'");
+            bool res = databaseQuery.Delete("User_followers", $"followed = @id1 AND follower = @id2", new SQLinjection[] { new SQLinjection { name = "@id1", value = UserId }, new SQLinjection { name = "@id2" , value = FollowerId} });
 
             if (!res)
                 return new HttpResponse(false, "error deleting from database");
