@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chirpel.Common.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -7,9 +8,9 @@ namespace Chirpel.Data
 {
     public class DatabaseQuery
     {
-        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
+        //private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
 
-        //private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
+        private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
 
         public bool Delete(string table)
         {
@@ -25,11 +26,14 @@ namespace Chirpel.Data
             return true;
         }
 
-        public bool Delete(string table, string condition)
+        public bool Delete(string table, string condition, SQLinjection[] sql)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using SqlCommand query = new SqlCommand($"DELETE from [{table}] Where {condition}", conn);
+                for (int i = 0; i < sql.Length; i++)
+                    query.Parameters.AddWithValue(sql[i].name, sql[i].value);
+
                 conn.Open();
                 int res = query.ExecuteNonQuery();
 
@@ -64,15 +68,16 @@ namespace Chirpel.Data
             return list;
         }
 
-        public List<T> Select<T>(string table, string condition)
+        public List<T> Select<T>(string table, string condition, SQLinjection[] sql)
         {
             List<T> list = new List<T>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand($"Select * from [@table] Where @condition", conn);
-                cmd.Parameters.AddWithValue("@table", table);
-                cmd.Parameters.AddWithValue("@condition", condition);
-                using SqlCommand query = cmd;
+                SqlCommand query = new SqlCommand($"Select * from {table} Where {condition}", conn);
+                for(int i = 0; i < sql.Length; i++)
+                    query.Parameters.AddWithValue(sql[i].name, sql[i].value);
+
+
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
@@ -92,12 +97,15 @@ namespace Chirpel.Data
             return list;
         }
 
-        public List<T> Select<T>(string table, string condition, string selecter)
+        public List<T> Select<T>(string table, string condition, string selecter, SQLinjection[] sql)
         {
             List<T> list = new List<T>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using SqlCommand query = new SqlCommand($"Select {selecter} from [{table}] Where {condition}", conn);
+                for (int i = 0; i < sql.Length; i++)
+                    query.Parameters.AddWithValue(sql[i].name, sql[i].value);
+
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
@@ -143,11 +151,14 @@ namespace Chirpel.Data
             return default(T);
         }
 
-        public T SelectFirst<T>(string table, string condition)
+        public T SelectFirst<T>(string table, string condition, SQLinjection[] sql)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{table}] Where {condition} ", conn);
+                for (int i = 0; i < sql.Length; i++)
+                    query.Parameters.AddWithValue(sql[i].name, sql[i].value);
+
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
@@ -167,11 +178,14 @@ namespace Chirpel.Data
             return default(T);
         }
 
-        public T SelectFirst<T>(string table, string condition, string selecter)
+        public T SelectFirst<T>(string table, string condition, string selecter, SQLinjection[] sql)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using SqlCommand query = new SqlCommand($"Select TOP 1 {selecter} from [{table}] Where {condition}", conn);
+                for (int i = 0; i < sql.Length; i++)
+                    query.Parameters.AddWithValue(sql[i].name, sql[i].value);
+
                 conn.Open();
 
                 var Reader = query.ExecuteReader();

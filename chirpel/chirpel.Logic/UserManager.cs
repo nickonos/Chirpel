@@ -90,7 +90,7 @@ namespace Chirpel.Logic
         public List<Guid> GetFollowers(string UserId)
         {
             List<Guid> followers = new List<Guid>();
-            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"Followed = '{UserId}'");
+            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"Followed = @userId", new SQLinjection[] { new SQLinjection {name = "@userid", value = UserId } } );
             foreach(UserFollower user in list)
                 followers.Add(Guid.Parse(user.Follower));
 
@@ -142,7 +142,7 @@ namespace Chirpel.Logic
         public List<Guid> GetFollowing(string UserId)
         {
             List<Guid> following = new List<Guid>();
-            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"Where follower='{UserId}'");
+            List<UserFollower> list = databaseQuery.Select<UserFollower>("User_Followers", $"follower = @userid", new SQLinjection[] { new SQLinjection { name = "@userid", value = UserId } });
 
             foreach (UserFollower user in list)
                 following.Add(Guid.Parse(user.Followed));
