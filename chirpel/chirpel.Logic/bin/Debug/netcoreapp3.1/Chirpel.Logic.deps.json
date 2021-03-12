@@ -148,6 +148,7 @@
       },
       "Chirpel.Data/1.0.0": {
         "dependencies": {
+          "Chirpel.Common": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
