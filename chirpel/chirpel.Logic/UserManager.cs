@@ -1,18 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Security.Claims;
 using Chirpel.Common.Models;
+using Chirpel.Common.Models.Auth;
 using Chirpel.Data;
+using Chirpel.Logic.Auth;
 
 namespace Chirpel.Logic
 {
     public class UserManager
     {
         private readonly DatabaseQuery databaseQuery = new DatabaseQuery();
+        private readonly IAuthService _authService;
+
+        public UserManager(IAuthService authService)
+        {
+            _authService = authService;
+        }
 
         public List<DBUser> GetAllUsers()
         {
             return databaseQuery.Select<DBUser>("User");
+        }
+
+        public HttpResponse Login(LoginUser user)
+        {
+            DBUser dbUser = databaseQuery.SelectFirst<DBUser>("User", $"Username= @Value1", new string[] { user.Username });
+
+            if (dbUser == null)
+                return new HttpResponse(false, "username");
+
+            if (dbUser.Password == user.Password)
+            {
+                IAuthContainerModel model = new JWTContainerModel()
+                {
+                    Claims = new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, dbUser.UserID)
+                }
+                };
+                string token = _authService.GenerateToken(model);
+                return new HttpResponse(true, token);
+            }
+
+            return new HttpResponse(false, "password");
         }
 
         public DBUser FindUser(string value, string column)
@@ -97,20 +129,20 @@ namespace Chirpel.Logic
             return followers;
         }
 
-        public HttpResponse AddFollower(string UserId, string FollowerName)
+        public HttpResponse AddFollower(string UserId, string FollowerId)
         {
             DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @Value1", new string[] { UserId });
 
             if (user == null)
                 return new HttpResponse(false, "User not found");
 
-            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username= @Value1", new string[] { FollowerName }).UserID;
-            if (FollowerId == null)
+            DBUser Follower = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @Value1", new string[] { FollowerId });
+            if (Follower == null)
                 return new HttpResponse(false, "Follower not found");
 
-            UserFollower test = databaseQuery.SelectFirst<UserFollower>("User_followers", $"followed= @Value1 AND follower= @Value2", new string[] { UserId, FollowerId});
+            UserFollower following = databaseQuery.SelectFirst<UserFollower>("User_followers", $"followed= @Value1 AND follower= @Value2", new string[] { UserId, FollowerId});
 
-            if (test != null)
+            if (following != null)
                 return new HttpResponse(false, "already following this user");
 
             bool res = databaseQuery.Insert(new UserFollower() {Followed = UserId, Follower = FollowerId }, "User_Followers");
@@ -121,15 +153,20 @@ namespace Chirpel.Logic
             return new HttpResponse(true, "transaction succesful"); 
         }
 
-        public HttpResponse RemoveFollower(string UserId, string FollowerName)
+        public HttpResponse RemoveFollower(string UserId, string FollowerId)
         {
             DBUser user = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @Value1 ", new string[] { UserId });
             if (user == null)
                 return new HttpResponse(false, "User not found");
 
-            string FollowerId = databaseQuery.SelectFirst<DBUser>("User", $"Username= @Value1", new string[] { FollowerName}).UserID;
-            if (FollowerId == null)
+            DBUser Follower = databaseQuery.SelectFirst<DBUser>("User", $"UserId= @Value1", new string[] { FollowerId});
+            if (Follower == null)
                 return new HttpResponse(false, "Follower not found");
+
+            UserFollower following = databaseQuery.SelectFirst<UserFollower>("User_followers", $"followed= @Value1 AND follower= @Value2", new string[] { UserId, FollowerId });
+
+            if (following == null)
+                return new HttpResponse(false, "you aren't following this user");
 
             bool res = databaseQuery.Delete("User_followers", $"followed = @Value1 AND follower = @Value2", new string[] { UserId, FollowerId });
 

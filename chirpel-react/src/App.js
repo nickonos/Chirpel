@@ -17,6 +17,12 @@ import 'primeflex/primeflex.css';
         }
     }
 
+    SetLogin = (loggedIn) => {
+       this.setState({
+           loggedIn: loggedIn
+       })
+    }
+
     render() {
         return (
                 <Router>
@@ -25,7 +31,7 @@ import 'primeflex/primeflex.css';
                             {this.state.loggedIn ? <Home /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route path="/auth" exact>
-                            {this.state.loggedIn ? <Redirect to="/"/> : <Auth />}
+                            {this.state.loggedIn ? <Redirect to="/"/> : <Auth loggedin={this.SetLogin} />}
                         </Route>
                         <Route path="/home">
                             {this.state.loggedIn ? <Home/> : <Redirect to="/auth"/>}

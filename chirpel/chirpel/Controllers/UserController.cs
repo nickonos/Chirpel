@@ -18,20 +18,24 @@ namespace Chirpel.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        UserManager userManager = new UserManager();
-
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
+        private readonly IAuthService _authService;
+
+        private readonly UserManager _userManager; 
+
+        public UserController(ILogger<UserController> logger, JWTService authService)
         {
             _logger = logger;
+            _authService = authService;
+            _userManager = new UserManager(_authService);
         }
 
         [HttpGet]
         public IEnumerable<DBUser> GetAll()
         {
-            List<DBUser> users = new List<DBUser>();
-            users = userManager.GetAllUsers();
+            List<DBUser> users = _userManager.GetAllUsers();
+
             foreach (DBUser user in users)
                 user.Password = "";
 
@@ -42,7 +46,7 @@ namespace Chirpel.Controllers
         public IEnumerable<DBUser> GetUser(string Username)
         {
             List<DBUser> users = new List<DBUser>();
-            DBUser user = userManager.FindUser(Username, "Username");
+            DBUser user = _userManager.FindUser(Username, "Username");
 
             if (user != null)
                 user.Password = "";
@@ -52,46 +56,45 @@ namespace Chirpel.Controllers
 
 
         [HttpPost("login")]
-        public HttpResponse PostLogin(DBUser dbUser)
+        public HttpResponse PostLogin(LoginUser loginUser)
         {
-            DBUser user = userManager.FindUser(dbUser.Username, "Username");
-            if (user == null)
-                return new HttpResponse(false, "username");
-
-            if (user.Password == dbUser.Password)
-                return new HttpResponse(true, $"login succesful");
-            else
-                return new HttpResponse(false, $"password");
+            return _userManager.Login(loginUser);
         }
 
         [HttpPost("Delete")]
-        public HttpResponse PostDelete(DBUser dbUser)
+        public HttpResponse PostDelete(VerificationToken token)
         {
-            DBUser user = userManager.FindUser(dbUser.Username, "Username");
-            if (user != null && user.Password == dbUser.Password)
-            {
-                HttpResponse response = userManager.DeleteUser(dbUser);
-                return response;
-            }
-            return new HttpResponse(false, $"user credentials don't match");
+            if (!_authService.IsTokenValid(token.Value))
+                return new HttpResponse(false, "invalid verification token");
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            
+            HttpResponse response = _userManager.DeleteUser(user);
+            return response;
         }
 
         [HttpPost("Register")]
         public HttpResponse PostRegister(RegisterUser registerUser)
         {
-            if (userManager.FindUser(registerUser.Username, "Username") != null)
+            if (_userManager.FindUser(registerUser.Username, "Username") != null)
                 return new HttpResponse(false, $"username");
 
-            if (userManager.FindUser(registerUser.Email, "Email") != null)
+            if (_userManager.FindUser(registerUser.Email, "Email") != null)
                 return new HttpResponse(false, "email");
             
-            return userManager.AddUser(registerUser);
+            return _userManager.AddUser(registerUser);
         }
 
-        [HttpGet("{UserId}/settings")]
-        public UserSettings GetSettings(string UserId)
+        [HttpPost("settings")]
+        public UserSettings GetSettings(VerificationToken token)
         {
-            UserSettings settings = userManager.GetSettings(UserId);
+            if (!_authService.IsTokenValid(token.Value))
+                return new UserSettings();
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            UserSettings settings = _userManager.GetSettings(user.UserID);
 
             return settings;
         }
@@ -99,45 +102,47 @@ namespace Chirpel.Controllers
         [HttpGet("{UserId}/followers")]
         public IEnumerable<string> GetFollowers(string UserId)
         {
-            List<Guid> followerIds = userManager.GetFollowers(UserId);
+            List<Guid> followerIds = _userManager.GetFollowers(UserId);
             List<string> followers = new List<string>();
 
             foreach(Guid guid in followerIds)
-                followers.Add(userManager.FindUser(guid.ToString(), "UserId").Username);
+                followers.Add(_userManager.FindUser(guid.ToString(), "UserId").Username);
 
             return followers;
         }
 
         [HttpPost("follow/{UserId}")]
-        public HttpResponse AddFollower(DBUser follower, string UserId)
+        public HttpResponse AddFollower(VerificationToken token, string UserId)
         {
-            if (userManager.VerifyUser(follower) && userManager.FindUser(UserId,"UserId") != null)
-            {
-                HttpResponse res = userManager.AddFollower(UserId, follower.Username);
-                return res;
-            }
-            return new HttpResponse(false, "Couldn't verify user");
+            if (!_authService.IsTokenValid(token.Value))
+                return new HttpResponse(false, "invalid verificationtoken");
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+
+            return _userManager.AddFollower(UserId, user.UserID);
         }
 
         [HttpPost("unfollow/{UserId}")]
-        public HttpResponse RemoveFollower(DBUser follower, string UserId)
+        public HttpResponse RemoveFollower(VerificationToken token, string UserId)
         {
-            if (userManager.VerifyUser(follower) && userManager.FindUser(UserId, "UserId") != null)
-            {
-                HttpResponse res = userManager.RemoveFollower(UserId, follower.Username);
-                return res;
-            }
-            return new HttpResponse(false, "Couldn't verify user");
+            if (!_authService.IsTokenValid(token.Value))
+                return new HttpResponse(false, "invalid verificationtoken");
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+  
+            return _userManager.RemoveFollower(UserId, user.UserID);
         }
 
         [HttpGet("{UserId}/following")]
         public IEnumerable<string> GetFollowing(string UserId)
         {
-            List<Guid> followerIds = userManager.GetFollowing(UserId);
+            List<Guid> followerIds = _userManager.GetFollowing(UserId);
             List<string> followers = new List<string>();
 
             foreach (Guid guid in followerIds)
-                followers.Add(userManager.FindUser(guid.ToString(), "UserId").Username);
+                followers.Add(_userManager.FindUser(guid.ToString(), "UserId").Username);
 
             return followers;
         }
@@ -146,33 +151,6 @@ namespace Chirpel.Controllers
         public HttpResponse UpdateBio(string UserId)
         {
             return new HttpResponse(false, "eatr");
-        }
-
-        [HttpGet("CreateToken/{text}")]
-        public HttpResponse CreateToken(string text)
-        {
-            IAuthContainerModel model = new JWTContainerModel() {
-                Claims = new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, text)
-                }
-            };
-            IAuthService authService = new JWTService(model.SecretKey);
-
-            string token = authService.GenerateToken(model);
-
-            return new HttpResponse(true, token);
-        }
-
-        [HttpGet("ValidateToken/{token}")]
-        public HttpResponse ValidateToken(string token)
-        {
-            IAuthService auth = new JWTService(Environment.GetEnvironmentVariable("CHIRPEL_SECRET") ?? "YWJjZGVmZ2hpamtsbW5vcHE=");
-            if (!auth.IsTokenValid(token))
-                return new HttpResponse(false, "invalid token");
-
-            List<Claim> claims = auth.GetTokenClaims(token).ToList();
-                return new HttpResponse(true, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
         }
     }
 }

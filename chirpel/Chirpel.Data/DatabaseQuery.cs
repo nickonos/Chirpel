@@ -144,6 +144,8 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
                         if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
                         if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
+                        if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
                     return (T)o;
                 }
@@ -171,6 +173,7 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
                         if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
                         if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
+                        if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                     }
                     return (T)o;
@@ -200,6 +203,7 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Int32)) p.SetValue(o, ReadInt32(Reader, p.Name));
                         if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
+                        if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                     }
                     return (T)o;
                 }

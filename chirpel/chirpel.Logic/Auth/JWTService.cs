@@ -16,6 +16,7 @@ namespace Chirpel.Logic.Auth
         {
             SecretKey = secretKey;
         }
+
         public string GenerateToken(IAuthContainerModel model)
         {
             if (model == null || model.Claims == null || model.Claims.Length == 0)
