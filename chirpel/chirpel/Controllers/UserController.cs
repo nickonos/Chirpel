@@ -9,8 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
+using Chirpel.Common.Models.Account;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Chirpel.Controllers
 {
@@ -42,46 +43,52 @@ namespace Chirpel.Controllers
             return users;
         }
 
-        [HttpGet("{Username}")]
-        public IEnumerable<DBUser> GetUser(string Username)
+        [HttpGet("{UserId}")]
+        public UIAccount GetUser(string UserId)
         {
-            List<DBUser> users = new List<DBUser>();
-            DBUser user = _userManager.FindUser(Username, "Username");
-
-            if (user != null)
-                user.Password = "";
-            users.Add(user);
-            return users;
+            UIAccount account =_userManager.GetUIAccount(UserId);
+            return account;
         }
 
 
+        [HttpPost("VerifyUser")]
+        public ApiResponse VerifyUser(VerificationToken token)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new ApiResponse(false, "invalid verification token");
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            string userId = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
+
+            return new ApiResponse(true, userId);
+        }
+
         [HttpPost("login")]
-        public HttpResponse PostLogin(LoginUser loginUser)
+        public ApiResponse PostLogin(LoginUser loginUser)
         {
             return _userManager.Login(loginUser);
         }
 
         [HttpPost("Delete")]
-        public HttpResponse PostDelete(VerificationToken token)
+        public ApiResponse PostDelete(VerificationToken token)
         {
             if (!_authService.IsTokenValid(token.Value))
-                return new HttpResponse(false, "invalid verification token");
+                return new ApiResponse(false, "invalid verification token");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
             DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
-            
-            HttpResponse response = _userManager.DeleteUser(user);
-            return response;
+             
+            return _userManager.DeleteUser(user);
         }
 
         [HttpPost("Register")]
-        public HttpResponse PostRegister(RegisterUser registerUser)
+        public ApiResponse PostRegister(RegisterUser registerUser)
         {
             if (_userManager.FindUser(registerUser.Username, "Username") != null)
-                return new HttpResponse(false, $"username");
+                return new ApiResponse(false, $"username");
 
             if (_userManager.FindUser(registerUser.Email, "Email") != null)
-                return new HttpResponse(false, "email");
+                return new ApiResponse(false, "email");
             
             return _userManager.AddUser(registerUser);
         }
@@ -94,9 +101,8 @@ namespace Chirpel.Controllers
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
             DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
-            UserSettings settings = _userManager.GetSettings(user.UserID);
 
-            return settings;
+            return _userManager.GetSettings(user.UserID);
         }
 
         [HttpGet("{UserId}/followers")]
@@ -112,10 +118,10 @@ namespace Chirpel.Controllers
         }
 
         [HttpPost("follow/{UserId}")]
-        public HttpResponse AddFollower(VerificationToken token, string UserId)
+        public ApiResponse AddFollower(VerificationToken token, string UserId)
         {
             if (!_authService.IsTokenValid(token.Value))
-                return new HttpResponse(false, "invalid verificationtoken");
+                return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
             DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
@@ -124,10 +130,10 @@ namespace Chirpel.Controllers
         }
 
         [HttpPost("unfollow/{UserId}")]
-        public HttpResponse RemoveFollower(VerificationToken token, string UserId)
+        public ApiResponse RemoveFollower(VerificationToken token, string UserId)
         {
             if (!_authService.IsTokenValid(token.Value))
-                return new HttpResponse(false, "invalid verificationtoken");
+                return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
             DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
@@ -147,10 +153,17 @@ namespace Chirpel.Controllers
             return followers;
         }
 
-        [HttpPost("{UserId}/settings/bio")]
-        public HttpResponse UpdateBio(string UserId)
+        [HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
+        public ApiResponse UpdadateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
         {
-            return new HttpResponse(false, "eatr");
+            if (!_authService.IsTokenValid(profilePictureModel.token))
+                return new ApiResponse(false, "invalid verificationtoken");
+
+            List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
+
+            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            
+            return _userManager.SetProfilePicture(profilePictureModel.picture, user.UserID);
         }
     }
 }

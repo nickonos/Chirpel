@@ -16,5 +16,9 @@
     <ProjectReference Include="..\chirpel.Logic\Chirpel.Logic.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
 
 </Project>

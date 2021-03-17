@@ -6,12 +6,6 @@ import { InputText } from "primereact/inputtext";
 import {Password} from 'primereact/password';
 import Header from "./Header";
 
-const axios = require('axios');
-
-const api = axios.create({
-    baseURL: 'https://localhost:44380',
-    timeout: 5000
-});
 
 class Auth extends React.Component {
     constructor(props) {
@@ -44,7 +38,7 @@ class Auth extends React.Component {
         this.resetError()
         if(this.checkFilled("register")){
             if (this.state.registerUser.password === this.state.registerUser.confirmpass){
-                api.post('/user/register',{
+                this.props.api.post('/user/register',{
                     Username: this.state.registerUser.username,
                     email: this.state.registerUser.email,
                     Password: this.state.registerUser.password
@@ -80,13 +74,14 @@ class Auth extends React.Component {
     LogIn = () => {
         this.resetError()
         if(this.checkFilled("login")){
-            api.post('/user/login', {
+            this.props.api.post('/user/login', {
                 username: this.state.loginUser.username,
                 password: this.state.loginUser.password
             })
                 .then(res =>{
                     if(res.data.succes){
-                        localStorage.setItem("token", res.data.message);
+                        localStorage.setItem("token", res.data.message)
+                        console.log(res.data.message)
                         this.props.loggedin(res.data.succes)
                     }
                     else{

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Chirpel.Common.Models
 {
-    public class HttpResponse
+    public class ApiResponse
     {
         public bool Succes { get; set; }
         public string Message { get; set; }
 
-        public HttpResponse(bool _succes, string _message)
+        public ApiResponse(bool _succes, string _message)
         {
             Succes = _succes;
             Message = _message;

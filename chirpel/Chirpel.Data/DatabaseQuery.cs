@@ -251,6 +251,27 @@ namespace Chirpel.Data
             }
         }
 
+        public bool Update(string table,string set, string where, string[] values)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using SqlCommand query = new SqlCommand($"Update [{table}] set {set} Where {where}", conn);
+
+                for (int i = 0; i < values.Length; i++)
+                    query.Parameters.AddWithValue($"@Value{i + 1}", values[i]);
+
+                conn.Open();
+
+                int res = query.ExecuteNonQuery();
+
+                if (res < 0)
+                    return false;
+
+                return true;
+            }
+        }
+
+
         private Int32? ReadInt32(SqlDataReader reader, string columnName)
         {
             Int32? result = null;

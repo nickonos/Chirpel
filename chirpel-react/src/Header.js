@@ -1,62 +1,67 @@
 import React from "react"
 
 import { Menubar } from 'primereact/menubar';
+import {Image} from "react-bootstrap";
+import {Avatar} from "primereact/avatar";
+import {AutoComplete} from "primereact/autocomplete";
+
 
 const items = [
     {
-        icon:'pi pi-home',
+        icon:'pi pi-fw pi-home',
     },
     {
-        icon:'pi pi-fw pi-users',
+        icon:'pi pi-fw pi-compass',
     },
     {
-        label:'Events',
-        icon:'pi pi-fw pi-calendar',
-        items:[
+        icon:'pi pi-fw pi-inbox',
+    },
+    {
+        icon:'pi pi-fw pi-cog',
+        items: [
+            {label: 'Profile', command:(event) =>{
+                    window.location ="/profile";
+                }},
+            {label: 'Settings', command:(event) =>{
+                window.location ="/settings";
+                }},
+            {label: 'Help',command:(event) =>{
+                    window.location ="/help";
+                }},
             {
-                label:'Edit',
-                icon:'pi pi-fw pi-pencil',
-                items:[
-                    {
-                        label:'Save',
-                        icon:'pi pi-fw pi-calendar-plus'
-                    },
-                    {
-                        label:'Delete',
-                        icon:'pi pi-fw pi-calendar-minus'
-                    },
-
-                ]
+                separator:true
             },
-            {
-                label:'Archieve',
-                icon:'pi pi-fw pi-calendar-times',
-                items:[
-                    {
-                        label:'Remove',
-                        icon:'pi pi-fw pi-calendar-minus'
-                    }
-                ]
-            }
+            {label: 'Log out', command:(event) =>{
+
+                }},
+
         ]
-    },
-    {
-        label:'Quit',
-        icon:'pi pi-fw pi-power-off'
     }
 ];
 
-const start = <img alt="logo" src={require("./logo-rounded.png")} onError={(e) => e.target.src='https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} height="40" className="p-mr-2"></img>;
-const end = <div>
-    <i className={"pi pi-user"}/>
-    <span style={{margin: "5px"}}>Username</span>
-</div>
-
 class Header extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    log = () =>{
+        console.log("test");
+    }
+
+    end = () =>{
+        return(
+            <span>
+                <AutoComplete placeholder={"Username"} style={{margin: "5px", verticalAlign:"middle"}}></AutoComplete>
+            {this.props.account.profilePicture !== undefined ?
+                <Avatar image={require("./pictures/" + this.props.account.profilePicture)} shape={"circle"} style={{margin: "5px", verticalAlign:"middle"}}/> :
+                <Avatar image={require("./pictures/Default.jpg")} shape={"circle"} style={{margin: "5px", verticalAlign:"middle"}} /> }
+        </span>)
+    }
 
     render(){
+        console.log(this.props.account.profilePicture)
         return(
-            <Menubar model={items} start={start} end={end}></Menubar>
+            <Menubar style={{maxHeight:"60px"}} model={items} end={this.end}></Menubar>
         )
     }
 }
