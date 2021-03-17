@@ -49,10 +49,11 @@ class Header extends React.Component{
     }
 
     end = () =>{
+        console.log(this.props.account.profilePicture)
         return(
             <span>
                 <AutoComplete placeholder={"Username"} style={{margin: "5px", verticalAlign:"middle"}}></AutoComplete>
-            {this.props.account.profilePicture !== undefined ?
+            {this.props.account.profilePicture !== undefined && this.props.account.profilePicture !== "" ?
                 <Avatar image={require("./pictures/" + this.props.account.profilePicture)} shape={"circle"} style={{margin: "5px", verticalAlign:"middle"}}/> :
                 <Avatar image={require("./pictures/Default.jpg")} shape={"circle"} style={{margin: "5px", verticalAlign:"middle"}} /> }
         </span>)

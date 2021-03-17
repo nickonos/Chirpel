@@ -8,9 +8,9 @@ namespace Chirpel.Data
 {
     public class DatabaseQuery
     {
-        private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
+        //private readonly string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Chirpel;Integrated Security=True"; //Moeder
 
-        //private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
+        private readonly string connectionString = "Server=localhost;Database=Chirpel;Trusted_Connection=True;"; // Vader
 
         public bool Delete(string table)
         {
