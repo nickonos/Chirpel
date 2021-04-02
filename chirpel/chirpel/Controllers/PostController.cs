@@ -1,10 +1,15 @@
 ﻿using Chirpel.Common.Models;
+using Chirpel.Common.Models.Auth;
+using Chirpel.Common.Models.Post;
+using Chirpel.Data;
 using Chirpel.Logic;
+using Chirpel.Logic.Auth;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Chirpel.Controllers
 {
@@ -12,16 +17,57 @@ namespace Chirpel.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
-        PostManager postManager = new PostManager();
+        private readonly PostManager postManager;
+
+        private readonly IAuthService _authService;
+        public PostController(DatabaseQuery databaseQuery, JWTService authservice)
+        {
+            postManager = new PostManager(databaseQuery, authservice);
+            _authService = authservice;
+        }
+
         [HttpGet("{id}")]
-        public Post Get(string id)
+        public DBPost Get(string id)
         {
             return postManager.GetPost(id);
         }
 
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("explore")]
+        public List<UIPost> GetExplore()
         {
+            return postManager.GetExploreFeed();
+        }
+        [HttpGet("explore/{lastPost}")]
+        public List<UIPost> GetExplore(string lastPost)
+        {
+            return postManager.GetExploreFeed(lastPost);
+        }
+
+        [HttpPost("personal")]
+        public List<UIPost> GetPersonal(VerificationToken token)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new List<UIPost>();
+
+            return postManager.GetPersonalFeed(token.Value);
+        }
+
+        [HttpPost("personal/{lastPost}")]
+        public List<UIPost> GetPersonal(VerificationToken token, string lastPost)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new List<UIPost>();
+
+            return postManager.GetPersonalFeed(token.Value, lastPost);
+        }
+
+        [HttpPost("create")]
+        public ApiResponse Post(NewPost newPost)
+        {
+            if (!_authService.IsTokenValid(newPost.Token))
+                return new ApiResponse(false, "invalid token");
+
+            return postManager.CreatePost(newPost);
         }
 
         [HttpPut("{id}")]

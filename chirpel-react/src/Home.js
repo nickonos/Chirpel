@@ -1,6 +1,7 @@
 import Header from "./Header";
 import React from "react";
 import {Button} from "primereact/button";
+import ExplorePage from  "./Pages/ExplorePage"
 
 
 class Home extends React.Component{
@@ -30,7 +31,7 @@ class Home extends React.Component{
     }
 
 
-    componentWillMount(){
+    componentDidMount(){
         if(this.state.accountId !== null){
             this.props.api.get('/user/'+this.props.accountId)
                 .then(res =>{
@@ -54,7 +55,8 @@ class Home extends React.Component{
     render() {
         return (
             <div className="App">
-                    <Header account={this.state.account}/>
+                    <Header account={this.state.account} logOut={this.LogOut}/>
+                    <ExplorePage api={this.props.api}></ExplorePage>
                     <Button onClick={this.LogOut}>token</Button>
             </div>
         )

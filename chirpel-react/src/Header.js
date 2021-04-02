@@ -1,10 +1,12 @@
 import React from "react"
 
 import { Menubar } from 'primereact/menubar';
-import {Image} from "react-bootstrap";
 import {Avatar} from "primereact/avatar";
 import {AutoComplete} from "primereact/autocomplete";
 
+const LogOut = () => {
+    localStorage.removeItem("token")
+}
 
 const items = [
     {
@@ -32,7 +34,7 @@ const items = [
                 separator:true
             },
             {label: 'Log out', command:(event) =>{
-
+                LogOut()
                 }},
 
         ]
@@ -44,12 +46,7 @@ class Header extends React.Component{
         super(props);
     }
 
-    log = () =>{
-        console.log("test");
-    }
-
     end = () =>{
-        console.log(this.props.account.profilePicture)
         return(
             <span>
                 <AutoComplete placeholder={"Username"} style={{margin: "5px", verticalAlign:"middle"}}></AutoComplete>
@@ -60,7 +57,6 @@ class Header extends React.Component{
     }
 
     render(){
-        console.log(this.props.account.profilePicture)
         return(
             <Menubar style={{maxHeight:"60px"}} model={items} end={this.end}></Menubar>
         )

@@ -17,9 +17,10 @@ namespace Chirpel.Logic
         private readonly DatabaseQuery _databaseQuery = new DatabaseQuery();
         private readonly IAuthService _authService;
 
-        public UserManager(IAuthService authService)
+        public UserManager(IAuthService authService, DatabaseQuery databaseQuery)
         {
             _authService = authService;
+            _databaseQuery = databaseQuery;
         }
 
         public List<DBUser> GetAllUsers()

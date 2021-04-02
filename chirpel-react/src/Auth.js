@@ -4,8 +4,6 @@ import {Button} from "primereact/button";
 import {Sidebar} from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import {Password} from 'primereact/password';
-import Header from "./Header";
-
 
 class Auth extends React.Component {
     constructor(props) {
@@ -81,7 +79,6 @@ class Auth extends React.Component {
                 .then(res =>{
                     if(res.data.succes){
                         localStorage.setItem("token", res.data.message)
-                        console.log(res.data.message)
                         this.props.loggedin(res.data.succes)
                     }
                     else{
@@ -219,6 +216,7 @@ class Auth extends React.Component {
                     <div className="p-col-3 p-p-0" >
 
                     </div>
+
                     <div className="p-col-6 p-p-0 Center" style={{overflow: "hidden"}}>
                         <h1 style={{fontSize:"100px", marginTop:"30%", marginBottom:"5%"}}>Chirpel</h1>
                         <Button label="Login" style={{width:"10em"}} className={"p-button-rounded"}

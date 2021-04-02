@@ -10,7 +10,7 @@ namespace Chirpel.Common.Models.Auth
     {
         public string SecretKey { get; set; } = Environment.GetEnvironmentVariable("CHIRPEL_SECRET") ?? "YWJjZGVmZ2hpamtsbW5vcHE=";
         public string SecurityAlogrithm { get; set; } = SecurityAlgorithms.HmacSha256Signature;
-        public int ExpireMinutes { get; set; } = 10;
+        public int ExpireMinutes { get; set; } = 10080;
         public Claim[] Claims { get; set; }
     }
 }

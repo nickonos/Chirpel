@@ -25,7 +25,7 @@ const api = axios.create({
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if(localStorage.getItem("token") !== null){
             api.post('/user/verifyuser', {
                 value: localStorage.getItem("token")
@@ -48,10 +48,6 @@ const api = axios.create({
     }
 
     render() {
-        if(this.state.loggedIn !== null){
-            console.log(this.state.loggedIn)
-        }
-
         return (
                 <Router>
                     <Switch>

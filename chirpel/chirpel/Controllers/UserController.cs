@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Chirpel.Common.Models.Account;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Chirpel.Data;
 
 namespace Chirpel.Controllers
 {
@@ -25,11 +26,11 @@ namespace Chirpel.Controllers
 
         private readonly UserManager _userManager; 
 
-        public UserController(ILogger<UserController> logger, JWTService authService)
+        public UserController(ILogger<UserController> logger, JWTService authService, DatabaseQuery databaseQuery)
         {
             _logger = logger;
             _authService = authService;
-            _userManager = new UserManager(_authService);
+            _userManager = new UserManager(authService, databaseQuery);
         }
 
         [HttpGet]
