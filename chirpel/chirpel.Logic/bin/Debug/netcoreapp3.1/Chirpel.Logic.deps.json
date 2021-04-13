@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v3.1": {
       "Chirpel.Logic/1.0.0": {
         "dependencies": {
+          "Chipel.Factory": "1.0.0",
           "Chirpel.Common": "1.0.0",
-          "Chirpel.Data": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "System.Data.SqlClient": "4.8.2",
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
@@ -206,6 +206,15 @@
       "System.Security.Cryptography.Cng/4.5.0": {},
       "System.Security.Principal.Windows/4.7.0": {},
       "System.Text.Encodings.Web/4.5.0": {},
+      "Chipel.Factory/1.0.0": {
+        "dependencies": {
+          "Chirpel.Common": "1.0.0",
+          "Chirpel.Data": "1.0.0"
+        },
+        "runtime": {
+          "Chipel.Factory.dll": {}
+        }
+      },
       "Chirpel.Common/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "5.0.4",
@@ -427,6 +436,11 @@
       "sha512": "sha512-Xg4G4Indi4dqP1iuAiMSwpiWS54ZghzR644OtsRCm/m/lBMG8dUBhLVN7hLm8NNrNTR+iGbshCPTwrvxZPlm4g==",
       "path": "system.text.encodings.web/4.5.0",
       "hashPath": "system.text.encodings.web.4.5.0.nupkg.sha512"
+    },
+    "Chipel.Factory/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Chirpel.Common/1.0.0": {
       "type": "project",

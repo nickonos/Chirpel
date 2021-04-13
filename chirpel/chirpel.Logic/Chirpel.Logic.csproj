@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chipel.Factory\Chipel.Factory.csproj" />
     <ProjectReference Include="..\Chirpel.Common\Chirpel.Common.csproj" />
-    <ProjectReference Include="..\Chirpel.Data\Chirpel.Data.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

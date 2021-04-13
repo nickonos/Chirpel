@@ -7,10 +7,11 @@ class Messages extends React.Component {
     }
     render() {
         return (
-            <div>
-                <Message message={this.props.MessageList[0]}></Message><br/>
-                <Message message={this.props.MessageList[1]}></Message><br/>
-                <Message message={this.props.MessageList[2]}></Message><br/>
+            <div class={"p-jc-between p-ai-center textAlign-left"}>
+                {this.props.MessageList.map(message => {
+                    return <div><Message message={message}/><br/></div>
+                })}
+
             </div>
         )
     }

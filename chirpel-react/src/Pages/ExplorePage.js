@@ -19,7 +19,8 @@ class ExplorePage extends React.Component{
     render() {
         return(
             <div>
-                {this.state.MessageList[0] !== undefined ? <Messages MessageList={this.state.MessageList}></Messages> : <span>no messages found</span>}
+
+                {this.state.MessageList[0] !== undefined ? <Messages  MessageList={this.state.MessageList}></Messages> : <span>no messages found</span>}
 
             </div>)
     }

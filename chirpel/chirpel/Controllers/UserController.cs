@@ -34,11 +34,13 @@ namespace Chirpel.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<DBUser> GetAll()
+        public IEnumerable<User> GetAll()
         {
-            List<DBUser> users = _userManager.GetAllUsers();
+            //List<User> users = _userManager.GetAllUsers();
+            _userManager.TestMethod();
+            List<User> users = new List<User>();
 
-            foreach (DBUser user in users)
+            foreach (User user in users)
                 user.Password = "";
 
             return users;
@@ -77,7 +79,7 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verification token");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
              
             return _userManager.DeleteUser(user);
         }
@@ -85,10 +87,10 @@ namespace Chirpel.Controllers
         [HttpPost("Register")]
         public ApiResponse PostRegister(RegisterUser registerUser)
         {
-            if (_userManager.FindUser(registerUser.Username, "Username") != null)
+            if (_userManager.FindUserByName(registerUser.Username) != null)
                 return new ApiResponse(false, $"username");
 
-            if (_userManager.FindUser(registerUser.Email, "Email") != null)
+            if (_userManager.FindUserByName(registerUser.Email) != null)
                 return new ApiResponse(false, "email");
             
             return _userManager.AddUser(registerUser);
@@ -101,9 +103,9 @@ namespace Chirpel.Controllers
                 return new UserSettings();
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            return _userManager.GetSettings(user.UserID);
+            return _userManager.GetSettings(user.Id);
         }
 
         [HttpGet("{UserId}/followers")]
@@ -113,7 +115,7 @@ namespace Chirpel.Controllers
             List<string> followers = new List<string>();
 
             foreach(Guid guid in followerIds)
-                followers.Add(_userManager.FindUser(guid.ToString(), "UserId").Username);
+                followers.Add(_userManager.FindUserById(guid.ToString()).Username);
 
             return followers;
         }
@@ -125,9 +127,9 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            return _userManager.AddFollower(UserId, user.UserID);
+            return _userManager.AddFollower(UserId, user.Id);
         }
 
         [HttpPost("unfollow/{UserId}")]
@@ -137,9 +139,9 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
   
-            return _userManager.RemoveFollower(UserId, user.UserID);
+            return _userManager.RemoveFollower(UserId, user.Id);
         }
 
         [HttpGet("{UserId}/following")]
@@ -149,7 +151,7 @@ namespace Chirpel.Controllers
             List<string> followers = new List<string>();
 
             foreach (Guid guid in followerIds)
-                followers.Add(_userManager.FindUser(guid.ToString(), "UserId").Username);
+                followers.Add(_userManager.FindUserById(guid.ToString()).Username);
 
             return followers;
         }
@@ -162,9 +164,9 @@ namespace Chirpel.Controllers
 
             List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
 
-            DBUser user = _userManager.FindUser(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value, "UserId");
+            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
             
-            return _userManager.SetProfilePicture(profilePictureModel.picture, user.UserID);
+            return _userManager.SetProfilePicture(profilePictureModel.picture, user.Id);
         }
     }
 }

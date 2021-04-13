@@ -348,6 +348,20 @@
           "lib/netstandard2.0/System.Text.Encodings.Web.dll": {}
         }
       },
+      "Chipel.Factory/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "Chirpel.Common": "1.0.0",
+          "Chirpel.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Chipel.Factory.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Chipel.Factory.dll": {}
+        }
+      },
       "Chirpel.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
@@ -1186,6 +1200,11 @@
         "version.txt"
       ]
     },
+    "Chipel.Factory/1.0.0": {
+      "type": "project",
+      "path": "../Chipel.Factory/Chipel.Factory.csproj",
+      "msbuildProject": "../Chipel.Factory/Chipel.Factory.csproj"
+    },
     "Chirpel.Common/1.0.0": {
       "type": "project",
       "path": "../Chirpel.Common/Chirpel.Common.csproj",
@@ -1199,8 +1218,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Chipel.Factory >= 1.0.0",
       "Chirpel.Common >= 1.0.0",
-      "Chirpel.Data >= 1.0.0",
       "Microsoft.AspNetCore.Http >= 2.2.2",
       "System.Data.SqlClient >= 4.8.2",
       "System.IdentityModel.Tokens.Jwt >= 6.8.0"
@@ -1233,11 +1252,11 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
+            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chipel.Factory.csproj": {
+              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chipel.Factory.csproj"
+            },
             "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
               "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
-            },
-            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj": {
-              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj"
             }
           }
         }

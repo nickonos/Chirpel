@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Chirpel.Common.Models.Post
 {
-    public class DBPost
+    public class Post
     {
-        public string PostId { get; set; }
+        public string Id { get; set; }
         public string Content { get; set; }
         public string UserId { get; set; }
         public DateTime PostDate { get; set; }

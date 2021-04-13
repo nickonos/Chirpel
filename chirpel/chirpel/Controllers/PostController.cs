@@ -20,14 +20,14 @@ namespace Chirpel.Controllers
         private readonly PostManager postManager;
 
         private readonly IAuthService _authService;
-        public PostController(DatabaseQuery databaseQuery, JWTService authservice)
+        public PostController(JWTService authservice, DatabaseQuery databaseQuery)
         {
-            postManager = new PostManager(databaseQuery, authservice);
+            postManager = new PostManager(authservice, databaseQuery);
             _authService = authservice;
         }
 
         [HttpGet("{id}")]
-        public DBPost Get(string id)
+        public Post Get(string id)
         {
             return postManager.GetPost(id);
         }

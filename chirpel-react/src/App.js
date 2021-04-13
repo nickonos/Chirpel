@@ -51,17 +51,18 @@ const api = axios.create({
         return (
                 <Router>
                     <Switch>
-                        <Route path="/" exact>
-                            {this.state.loggedIn ? <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
-                        </Route>
                         <Route path="/auth" exact>
                             {this.state.loggedIn ? <Redirect to="/"/> : <Auth loggedin={this.SetLogin} api={api} />}
                         </Route>
+                        <Route path="/" exact>
+                            {this.state.loggedIn ? <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
+                        </Route>
+
                         <Route path="/home">
                             {this.state.loggedIn ? <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route>
-                            <Home />
+                            <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} />
                         </Route>
                     </Switch>
                 </Router>

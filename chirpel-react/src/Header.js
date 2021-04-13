@@ -5,18 +5,25 @@ import {Avatar} from "primereact/avatar";
 import {AutoComplete} from "primereact/autocomplete";
 
 const LogOut = () => {
+    console.log("logout");
     localStorage.removeItem("token")
 }
 
 const items = [
     {
-        icon:'pi pi-fw pi-home',
+        icon:'pi pi-fw pi-home', command:(event) =>{
+            window.location ="/home";
+        }
     },
     {
-        icon:'pi pi-fw pi-compass',
+        icon:'pi pi-fw pi-compass',command:(event) =>{
+            window.location ="/explore";
+        }
     },
     {
-        icon:'pi pi-fw pi-inbox',
+        icon:'pi pi-fw pi-inbox',command:(event) =>{
+            window.location ="/personal";
+        }
     },
     {
         icon:'pi pi-fw pi-cog',
