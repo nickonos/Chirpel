@@ -1,4 +1,5 @@
 ﻿using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace Chirpel.Data.DAL
         protected readonly DatabaseQuery _databaseQuery;
         public void Add(TEntity entity)
         {
-            _databaseQuery.Insert(entity, typeof(TEntity).Name);
+            _databaseQuery.Insert(entity);
         }
 
         public TEntity Get(string id)
@@ -20,14 +21,14 @@ namespace Chirpel.Data.DAL
             foreach(PropertyInfo prop in propInfo)
             {
                 if (prop.Name == "Id")
-                    return _databaseQuery.SelectFirst<TEntity>(typeof(TEntity).Name, "id=@value1", new string[] { id });
+                    return _databaseQuery.SelectFirst<TEntity>( "id=@value1", new string[] { id });
             }
-            return null;
+            return default(TEntity);
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            return _databaseQuery.Select<TEntity>(typeof(TEntity).Name);
+            return _databaseQuery.Select<TEntity>();
         }
 
         public void Remove(TEntity entity)
@@ -35,24 +36,64 @@ namespace Chirpel.Data.DAL
             string query = "";
             
             PropertyInfo[] propInfo = typeof(TEntity).GetProperties();
-            string[] values = new string[propInfo.Length];
+            string[] tempValues = new string[propInfo.Length];
             int i = 0;
             foreach (PropertyInfo prop in propInfo)
             {
-                if(i != 0)
+                if(prop.GetValue(entity) != null)
                 {
-                    query += " and ";
+                    if(i != 0)
+                        query += " and ";
+
+                    query += $"{prop.Name}=@Value{i + 1}";
+                    tempValues[i] = prop.GetValue(entity).ToString();
+                    i++;
                 }
-                query += $"{prop.Name}=@Value{i}";
-                values[i] = prop.GetValue(entity).ToString();
-                i++;
+
+            }
+            string[] values = new string[i];
+            for (int j = 0; j < values.Length; j++)
+            {
+                values[j] = tempValues[j];
             }
             _databaseQuery.Delete(typeof(TEntity).Name, query, values);
         }
 
-        public void Update(TEntity entity)//TODO Implement method
+        public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            PropertyInfo[] propInfo = typeof(TEntity).GetProperties();
+            bool exec = false;
+            string[] tempValues = new string[propInfo.Length];
+            int i = 0;
+            string query = "";
+            string idval = "";
+            foreach (PropertyInfo prop in propInfo)
+            {
+                if (prop.Name == "Id")
+                {
+                    idval = prop.GetValue(entity).ToString();
+                    exec = true;
+                }
+                    
+                if(prop.GetValue(entity) != null)
+                {
+                    if (i != 0)
+                        query += ", ";
+
+                    query += $"{prop.Name}=@Value{i + 1}";
+                    tempValues[i] = prop.GetValue(entity).ToString();
+                    i++;
+                }
+                
+            }
+            tempValues[i] = idval;
+            string[] values = new string[i+1];
+            for(int j =0; j < values.Length; j++)
+            {
+                values[j] = tempValues[j];
+            }
+            if(exec)
+                _databaseQuery.Update(typeof(TEntity).Name, query,$"id=@value{i+1}", values);
         }
 
         public DAL(DatabaseQuery databaseQuery)

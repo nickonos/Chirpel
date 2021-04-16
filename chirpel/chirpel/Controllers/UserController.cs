@@ -8,11 +8,8 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Chirpel.Common.Models.Account;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Chirpel.Data;
+using Chirpel.Common.Interfaces.Auth;
 
 namespace Chirpel.Controllers
 {
@@ -20,25 +17,20 @@ namespace Chirpel.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> _logger;
-
-        private readonly IAuthService _authService;
+          private readonly IAuthService _authService;
 
         private readonly UserManager _userManager; 
 
-        public UserController(ILogger<UserController> logger, JWTService authService, DatabaseQuery databaseQuery)
+        public UserController(JWTService authService)
         {
-            _logger = logger;
             _authService = authService;
-            _userManager = new UserManager(authService, databaseQuery);
+            _userManager = new UserManager(authService);
         }
 
         [HttpGet]
         public IEnumerable<User> GetAll()
         {
-            //List<User> users = _userManager.GetAllUsers();
-            _userManager.TestMethod();
-            List<User> users = new List<User>();
+            List<User> users = _userManager.GetAllUsers();
 
             foreach (User user in users)
                 user.Password = "";
@@ -79,7 +71,7 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verification token");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            User user = _userManager.GetUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
              
             return _userManager.DeleteUser(user);
         }
@@ -87,10 +79,10 @@ namespace Chirpel.Controllers
         [HttpPost("Register")]
         public ApiResponse PostRegister(RegisterUser registerUser)
         {
-            if (_userManager.FindUserByName(registerUser.Username) != null)
+            if (_userManager.GetUserByName(registerUser.Username) != null)
                 return new ApiResponse(false, $"username");
 
-            if (_userManager.FindUserByName(registerUser.Email) != null)
+            if (_userManager.GetUserByName(registerUser.Email) != null)
                 return new ApiResponse(false, "email");
             
             return _userManager.AddUser(registerUser);
@@ -103,7 +95,7 @@ namespace Chirpel.Controllers
                 return new UserSettings();
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            User user = _userManager.GetUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
             return _userManager.GetSettings(user.Id);
         }
@@ -115,7 +107,7 @@ namespace Chirpel.Controllers
             List<string> followers = new List<string>();
 
             foreach(Guid guid in followerIds)
-                followers.Add(_userManager.FindUserById(guid.ToString()).Username);
+                followers.Add(_userManager.GetUserById(guid.ToString()).Username);
 
             return followers;
         }
@@ -127,7 +119,7 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            User user = _userManager.GetUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
             return _userManager.AddFollower(UserId, user.Id);
         }
@@ -139,7 +131,7 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verificationtoken");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            User user = _userManager.GetUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
   
             return _userManager.RemoveFollower(UserId, user.Id);
         }
@@ -151,7 +143,7 @@ namespace Chirpel.Controllers
             List<string> followers = new List<string>();
 
             foreach (Guid guid in followerIds)
-                followers.Add(_userManager.FindUserById(guid.ToString()).Username);
+                followers.Add(_userManager.GetUserById(guid.ToString()).Username);
 
             return followers;
         }
@@ -164,7 +156,7 @@ namespace Chirpel.Controllers
 
             List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
 
-            User user = _userManager.FindUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            User user = _userManager.GetUserById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
             
             return _userManager.SetProfilePicture(profilePictureModel.picture, user.Id);
         }

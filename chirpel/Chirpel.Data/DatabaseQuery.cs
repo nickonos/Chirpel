@@ -32,7 +32,13 @@ namespace Chirpel.Data
             {
                 using SqlCommand query = new SqlCommand($"DELETE from [{table}] Where {condition}", conn);
                 for (int i = 0; i < values.Length; i++)
-                    query.Parameters.AddWithValue($"@Value{i+1}", values[i]);
+                {
+                    if(values[i] != null)
+                    {
+                        query.Parameters.AddWithValue($"@Value{i + 1}", values[i]);
+                    }
+                }
+
 
                 conn.Open();
                 int res = query.ExecuteNonQuery();
@@ -43,19 +49,19 @@ namespace Chirpel.Data
             return true;
         }
 
-        public List<T> Select<T>(string table)
+        public List<TEntity> Select<TEntity>()
         {
-            List<T> list = new List<T>();
+            List<TEntity> list = new List<TEntity>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select * from [{table}]", conn);
+                using SqlCommand query = new SqlCommand($"Select * from [{typeof(TEntity).Name}]", conn);
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -63,26 +69,26 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    list.Add((T)o);
+                    list.Add((TEntity)o);
                 }
             }
             return list;
         }
 
-        public List<T> Select<T>(string table, string orderby)
+        public List<TEntity> Select<TEntity>(string orderby)
         {
-            List<T> list = new List<T>();
+            List<TEntity> list = new List<TEntity>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand query = new SqlCommand($"Select * from {table} order by {orderby}", conn);
+                SqlCommand query = new SqlCommand($"Select * from [{typeof(TEntity).Name}] order by {orderby}", conn);
 
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -90,26 +96,26 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Boolean)) p.SetValue(o, ReadBool(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    list.Add((T)o);
+                    list.Add((TEntity)o);
                 }
             }
             return list;
         }
 
-        public List<T> Select<T>(string table, string orderby, int limit)
+        public List<TEntity> Select<TEntity>(string orderby, int limit)
         {
-            List<T> list = new List<T>();
+            List<TEntity> list = new List<TEntity>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand query = new SqlCommand($"Select * from {table} order by {orderby} limit {limit}", conn);
+                SqlCommand query = new SqlCommand($"Select * from [{typeof(TEntity).Name}] order by {orderby} limit {limit}", conn);
 
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -118,18 +124,18 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    list.Add((T)o);
+                    list.Add((TEntity)o);
                 }
             }
             return list;
         }
 
-        public List<T> Select<T>(string table, string condition, string[] values)
+        public List<TEntity> Select<TEntity>(string condition, string[] values)
         {
-            List<T> list = new List<T>();
+            List<TEntity> list = new List<TEntity>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                SqlCommand query = new SqlCommand($"Select * from {table} Where {condition}", conn);
+                SqlCommand query = new SqlCommand($"Select * from [{typeof(TEntity).Name}] Where {condition}", conn);
                 for (int i = 0; i < values.Length; i++)
                     query.Parameters.AddWithValue($"@Value{i+1}", values[i]);
 
@@ -139,8 +145,8 @@ namespace Chirpel.Data
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach(PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -149,7 +155,7 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    list.Add((T)o);   
+                    list.Add((TEntity)o);   
                 }
             }
             return list;
@@ -157,12 +163,12 @@ namespace Chirpel.Data
 
 
 
-        public List<T> Select<T>(string table, string condition, string selecter, string[] values)
+        public List<TEntity> Select<TEntity>(string condition, string selecter, string[] values)
         {
-            List<T> list = new List<T>();
+            List<TEntity> list = new List<TEntity>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select {selecter} from [{table}] Where {condition}", conn);
+                using SqlCommand query = new SqlCommand($"Select {selecter} from [{typeof(TEntity).Name}] Where {condition}", conn);
                 for (int i = 0; i < values.Length; i++)
                     query.Parameters.AddWithValue($"@Value{i+1}", values[i]);
 
@@ -171,8 +177,8 @@ namespace Chirpel.Data
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -181,24 +187,24 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    list.Add((T)o);
+                    list.Add((TEntity)o);
                 }
             }
             return list;
         }
 
-        public T SelectFirst<T>(string table)
+        public TEntity SelectFirst<TEntity>()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{table}] LIMIT 1 ", conn);
+                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{typeof(TEntity).Name}] LIMIT 1 ", conn);
                 conn.Open();
 
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -207,17 +213,17 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                     }
-                    return (T)o;
+                    return (TEntity)o;
                 }
             }
-            return default(T);
+            return default(TEntity);
         }
 
-        public T SelectFirst<T>(string table, string condition, string[] values)
+        public TEntity SelectFirst<TEntity>(string condition, string[] values)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{table}] Where {condition} ", conn);
+                using SqlCommand query = new SqlCommand($"Select TOP 1 * from [{typeof(TEntity).Name}] Where {condition} ", conn);
                 for (int i = 0; i < values.Length; i++)
                     query.Parameters.AddWithValue($"@Value{i+1}", values[i]);
 
@@ -226,8 +232,8 @@ namespace Chirpel.Data
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -236,17 +242,17 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                     }
-                    return (T)o;
+                    return (TEntity)o;
                 }
             }
-            return default(T);
+            return default(TEntity);
         }
 
-        public T SelectFirst<T>(string table, string condition, string selecter, string[] values)
+        public TEntity SelectFirst<TEntity>( string condition, string selecter, string[] values)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                using SqlCommand query = new SqlCommand($"Select TOP 1 {selecter} from [{table}] Where {condition}", conn);
+                using SqlCommand query = new SqlCommand($"Select TOP 1 {selecter} from [{typeof(TEntity).Name}] Where {condition}", conn);
                 for (int i = 0; i < values.Length; i++)
                     query.Parameters.AddWithValue($"@Value{i+1}", values[i]);
 
@@ -255,8 +261,8 @@ namespace Chirpel.Data
                 var Reader = query.ExecuteReader();
                 while (Reader.Read())
                 {
-                    object o = Activator.CreateInstance(typeof(T));
-                    PropertyInfo[] propInfoList = typeof(T).GetProperties();
+                    object o = Activator.CreateInstance(typeof(TEntity));
+                    PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
                     foreach (PropertyInfo p in propInfoList)
                     {
                         if (p.PropertyType == typeof(string)) p.SetValue(o, ReadString(Reader, p.Name));
@@ -265,16 +271,16 @@ namespace Chirpel.Data
                         if (p.PropertyType == typeof(DateTime)) p.SetValue(o, ReadTime(Reader, p.Name));
                         if (p.PropertyType == typeof(Guid)) p.SetValue(o, ReadGuid(Reader, p.Name));
                     }
-                    return (T)o;
+                    return (TEntity)o;
                 }
             }
-            return default(T);
+            return default(TEntity);
         }
 
-        public bool Insert<T>(T data, string table)
+        public bool Insert<TEntity>(TEntity data)
         {
-            string QueryString = $"Insert into [{table}] (";
-            PropertyInfo[] propInfoList = typeof(T).GetProperties();
+            string QueryString = $"Insert into [{typeof(TEntity).Name}] (";
+            PropertyInfo[] propInfoList = typeof(TEntity).GetProperties();
             for (int i = 0; i < propInfoList.Length; i++)
             {
                 if (i == propInfoList.Length - 1)
@@ -310,7 +316,7 @@ namespace Chirpel.Data
             }
         }
 
-        public bool Update(string table,string set, string where, string[] values)
+        public bool Update(string table, string set, string where, string[] values)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {

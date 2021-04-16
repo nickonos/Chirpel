@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Chirpel.Common.Interfaces.DAL;
 
 namespace Chirpel.Common.Interfaces
 {

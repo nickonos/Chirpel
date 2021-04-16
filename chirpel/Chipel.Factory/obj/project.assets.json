@@ -867,9 +867,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chipel.Factory.csproj",
-      "projectName": "Chipel.Factory",
-      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chipel.Factory.csproj",
+      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chirpel.Factory.csproj",
+      "projectName": "Chirpel.Factory",
+      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chirpel.Factory.csproj",
       "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\obj\\",
       "projectStyle": "PackageReference",

@@ -7,7 +7,7 @@ namespace Chirpel.Common.Models.Account
 {
     public class UserSettings
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public bool DarkModeEnabled { get; set; }
         public bool IsPrivate { get; set; }
         public string Bio { get; set; }

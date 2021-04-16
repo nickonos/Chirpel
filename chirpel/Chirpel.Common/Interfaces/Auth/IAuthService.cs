@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using Chirpel.Common.Models.Auth;
 
-namespace Chirpel.Logic.Auth
+namespace Chirpel.Common.Interfaces.Auth
 {
     public interface IAuthService
     {

@@ -1,4 +1,5 @@
 ﻿using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,4 +1,5 @@
 ﻿using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.DAL;
 using Chirpel.Data.DAL;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,15 @@ namespace Chirpel.Data
 
         public IUserFollowersDAL UserFollowers { get; private set; }
 
-        public UnitOfWork(PostDAL postDAL, UserDAL userDAL, UserSettingsDAL userSettingsDAL, UserFollowersDAL userFollowersDAL)
+        public IPostLikesDAL PostLikes { get; set; }
+
+        public UnitOfWork(PostDAL postDAL, UserDAL userDAL, UserSettingsDAL userSettingsDAL, UserFollowersDAL userFollowersDAL, PostLikesDAL postLikesDAL)
         {
             Post = postDAL;
             User = userDAL;
             UserSettings = userSettingsDAL;
             UserFollowers = userFollowersDAL;
+            PostLikes = postLikesDAL;
         }
     }
 }

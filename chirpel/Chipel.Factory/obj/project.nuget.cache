@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Kd/UWPopIx0cpdBsbxY1CRGH7CkKTmtwIarim1L+gvpgooZlkLIK+pHg1+D7Zze4IYx0/bwxmnZhnqxJTqhKwA==",
+  "dgSpecHash": "KntGq4xDCuNw4OcL4afp3JEuoxc9choxwURLESU9QDuMcjm/arj8PWaTxtRgv0jTId8RL1RpB1Uf0u7/9LoJGA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chipel.Factory.csproj",
+  "projectFilePath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chirpel.Factory.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.4\\microsoft.aspnetcore.http.features.5.0.4.nupkg.sha512",
     "C:\\Users\\nickv\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

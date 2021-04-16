@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Common", "Chirpel.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Data", "Chirpel.Data\Chirpel.Data.csproj", "{60E118DB-9C9C-4D9B-8F63-F887DB33C348}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chipel.Factory", "Chipel.Factory\Chipel.Factory.csproj", "{3F2BBF85-9798-4C69-8CAF-2101E0673D27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Factory", "Chipel.Factory\Chirpel.Factory.csproj", "{3F2BBF85-9798-4C69-8CAF-2101E0673D27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

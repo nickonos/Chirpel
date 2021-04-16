@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 
-namespace Chirpel.Common.Models.Auth
+namespace Chirpel.Common.Interfaces.Auth
 {
     public interface IAuthContainerModel
     {

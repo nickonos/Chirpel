@@ -1,0 +1,14 @@
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Factory.deps.json
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Factory.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Factory.pdb
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Common.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Data.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Common.pdb
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\bin\Debug\netcoreapp3.1\Chirpel.Data.pdb
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.csprojAssemblyReference.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.AssemblyInfoInputs.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.AssemblyInfo.cs
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.csproj.CoreCompileInputs.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.csproj.CopyComplete
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.dll
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chipel.Factory\obj\Debug\netcoreapp3.1\Chirpel.Factory.pdb

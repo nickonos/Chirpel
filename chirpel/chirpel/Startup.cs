@@ -65,7 +65,7 @@ namespace Chirpel
             });
 
             app.Run(async (context) => {
-                await context.Response.WriteAsync("Could not find anything");
+                await context.Response.WriteAsync("404 Error - Page not found");
             });
         }
     }

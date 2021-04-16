@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using Chipel.Factory;
 using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.Auth;
 using Chirpel.Common.Models;
 using Chirpel.Common.Models.Account;
 using Chirpel.Common.Models.Auth;
@@ -19,10 +20,10 @@ namespace Chirpel.Logic
     {
         private readonly IAuthService _authService;
         private readonly IUnitOfWork _unitOfWork;
-        public UserManager(IAuthService authService, DatabaseQuery databaseQuery)
+        public UserManager(JWTService authService)
         {
             _authService = authService;
-            _unitOfWork = Factory.CreateIUnitofWork(databaseQuery);
+            _unitOfWork = Factory.CreateIUnitofWork();
         }
 
         public List<User> GetAllUsers()
@@ -81,12 +82,12 @@ namespace Chirpel.Logic
             };    
         }
 
-        public User FindUserByName(string name)
+        public User GetUserByName(string name)
         {
             return _unitOfWork.User.GetByUsername(name);
         }
 
-        public User FindUserById(string id)
+        public User GetUserById(string id)
         {
             return _unitOfWork.User.Get(id);
         }
@@ -105,7 +106,7 @@ namespace Chirpel.Logic
 
             _unitOfWork.UserSettings.Add(new UserSettings
             {
-                Id = id,
+                Id = id.ToString(),
                 DarkModeEnabled = false,
                 IsPrivate = false,
                 Bio = "",
@@ -121,19 +122,13 @@ namespace Chirpel.Logic
 
             if(userCheck!= null && user.Password == userCheck.Password)
             {
-                Guid id = Guid.Parse(userCheck.Id);
-                _unitOfWork.UserFollowers.Remove(new UserFollower() { Followed = id.ToString() });
-                //bool res = _databaseQuery.Delete("User_Followers", $"Followed= @Value1 OR Follower= @Value2", new string[] { id.ToString(), id.ToString() });
-                //if (!res)
-                //    return new ApiResponse(false, "Error deleting from database");
+                _unitOfWork.UserFollowers.Remove(new UserFollowers() { Followed = userCheck.Id });
+                
+                _unitOfWork.UserFollowers.Remove(new UserFollowers() { Follower = userCheck.Id });
 
-                //res = _databaseQuery.Delete("User_Settings", $"Id= @Value1", new string[] { id.ToString() });
-                //if (!res)
-                //    return new ApiResponse(false, "Error deleting from database");
+                _unitOfWork.UserSettings.Remove(new UserSettings() { Id = userCheck.Id });
 
-                //res = _databaseQuery.Delete("User", $"Id= @Value1", new string[] { id.ToString() });
-                //if (!res)
-                //    return new ApiResponse(false, "Error deleting from database");
+                _unitOfWork.User.Remove(new User() { Id = userCheck.Id });
 
                 return new ApiResponse(true, "transaction succesful");
             }
@@ -149,8 +144,8 @@ namespace Chirpel.Logic
         public List<Guid> GetFollowers(string UserId)
         {
             List<Guid> followers = new List<Guid>();
-            List<UserFollower> list = _unitOfWork.UserFollowers.GetAll().ToList();
-            foreach(UserFollower user in list)
+            List<UserFollowers> list = _unitOfWork.UserFollowers.GetFollowers(UserId);
+            foreach (UserFollowers user in list)
                 followers.Add(Guid.Parse(user.Follower));
 
             return followers;
@@ -167,12 +162,12 @@ namespace Chirpel.Logic
             if (Follower == null)
                 return new ApiResponse(false, "Follower not found");
 
-            UserFollower following = _unitOfWork.UserFollowers.GetFollowers(UserId, FollowerId);
+            UserFollowers following = _unitOfWork.UserFollowers.GetFollowers(UserId, FollowerId);
 
             if (following != null)
                 return new ApiResponse(false, "already following this user");
 
-            _unitOfWork.UserFollowers.Add(new UserFollower() { Followed = UserId, Follower = FollowerId });
+            _unitOfWork.UserFollowers.Add(new UserFollowers() { Followed = UserId, Follower = FollowerId });
 
             return new ApiResponse(true, "transaction succesful"); 
         }
@@ -187,12 +182,12 @@ namespace Chirpel.Logic
             if (Follower == null)
                 return new ApiResponse(false, "Follower not found");
 
-            UserFollower following = _unitOfWork.UserFollowers.GetFollowers(UserId, FollowerId);
+            UserFollowers following = _unitOfWork.UserFollowers.GetFollowers(UserId, FollowerId);
 
             if (following == null)
                 return new ApiResponse(false, "you aren't following this user");
 
-            _unitOfWork.UserFollowers.Remove(new UserFollower() { Followed = UserId, Follower = FollowerId });
+            _unitOfWork.UserFollowers.Remove(new UserFollowers() { Followed = UserId, Follower = FollowerId });
 
             return new ApiResponse(true, "transaction succesful");
         }
@@ -200,10 +195,9 @@ namespace Chirpel.Logic
         public List<Guid> GetFollowing(string UserId)
         {
             List<Guid> following = new List<Guid>();
-            List<UserFollower> list = _unitOfWork.UserFollowers.GetAll().ToList();//TODO implement Get where with 1 variable
-            
+            List<UserFollowers> list = _unitOfWork.UserFollowers.GetFollowing(UserId);    
 
-            foreach (UserFollower user in list)
+            foreach (UserFollowers user in list)
                 following.Add(Guid.Parse(user.Followed));
             
             return following;
@@ -230,10 +224,6 @@ namespace Chirpel.Logic
             {
                 return new ApiResponse(false, ex.Message.ToString());
             }
-        }
-        public void TestMethod()
-        {
-            _unitOfWork.User.Remove(new User() { Username = "test", Email = "test@mail", Password = "testpass", Id = Guid.NewGuid().ToString() });
         }
     }
 }

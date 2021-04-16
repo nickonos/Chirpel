@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Interfaces
+namespace Chirpel.Common.Interfaces.DAL
 {
     public interface IPostLikesDAL
     {

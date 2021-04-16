@@ -1,16 +1,14 @@
 ﻿using Chipel.Factory;
 using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.Auth;
 using Chirpel.Common.Models;
 using Chirpel.Common.Models.Account;
 using Chirpel.Common.Models.Post;
-using Chirpel.Data;
 using Chirpel.Logic.Auth;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Chirpel.Logic
 {
@@ -19,11 +17,11 @@ namespace Chirpel.Logic
         private readonly IAuthService _authService;
         private readonly UserManager _userManager;
         private readonly IUnitOfWork _unitofWork;
-        public PostManager(JWTService authService, DatabaseQuery databaseQuery)
+        public PostManager(JWTService authService)
         {
             _authService = authService;
-            _userManager = new UserManager(authService, databaseQuery);
-            _unitofWork = Factory.CreateIUnitofWork(databaseQuery);
+            _userManager = new UserManager(authService);
+            _unitofWork = Factory.CreateIUnitofWork();
         }
       
         public Post GetPost(string id)
@@ -41,27 +39,26 @@ namespace Chirpel.Logic
             List<Post> posts = _unitofWork.Post.GetPostsOrderbyDesc();
             List<UIPost> feed = new List<UIPost>();
 
-            //foreach(Post post in posts)
-            //{
-            //    if (feed.Count >= 10)
-            //        return feed;
+            foreach (Post post in posts)
+            {
+                if (feed.Count >= 10)
+                    return feed;
 
-            //    UIAccount user = _userManager.GetUIAccount(post.UserId);
-            //    if (!user.IsPrivate)
-            //    {
-            //        feed.Add(new UIPost()
-            //        {
-            //            PostId = post.Id,
-            //            Content = post.Content,
-            //            PostDate = post.PostDate,
-            //            UserId = post.UserId,
-            //            Username = user.Username,
-            //            Userpfp = user.ProfilePicture
-            //        });
-            //    }
-            //}
+                UIAccount user = _userManager.GetUIAccount(post.UserId);
+                if (!user.IsPrivate)
+                {
+                    feed.Add(new UIPost()
+                    {
+                        PostId = post.Id,
+                        Content = post.Content,
+                        PostDate = post.PostDate,
+                        UserId = post.UserId,
+                        Username = user.Username,
+                        Userpfp = user.ProfilePicture
+                    });
+                }
+            }
 
-            //return feed;
             return feed;
         }
 

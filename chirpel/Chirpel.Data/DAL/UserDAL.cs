@@ -1,4 +1,5 @@
 ﻿using Chirpel.Common.Interfaces;
+using Chirpel.Common.Interfaces.DAL;
 using Chirpel.Common.Models.Account;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Chirpel.Data.DAL
 
         public User GetByUsername(string username)
         {
-            return _databaseQuery.SelectFirst<User>("User", $"Username= @Value1", new string[] { username });
+            return _databaseQuery.SelectFirst<User>($"Username= @Value1", new string[] { username });
         }
     }
 }

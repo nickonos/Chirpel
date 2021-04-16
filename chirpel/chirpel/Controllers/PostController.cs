@@ -1,4 +1,5 @@
-﻿using Chirpel.Common.Models;
+﻿using Chirpel.Common.Interfaces.Auth;
+using Chirpel.Common.Models;
 using Chirpel.Common.Models.Auth;
 using Chirpel.Common.Models.Post;
 using Chirpel.Data;
@@ -20,9 +21,9 @@ namespace Chirpel.Controllers
         private readonly PostManager postManager;
 
         private readonly IAuthService _authService;
-        public PostController(JWTService authservice, DatabaseQuery databaseQuery)
+        public PostController(JWTService authservice)
         {
-            postManager = new PostManager(authservice, databaseQuery);
+            postManager = new PostManager(authservice);
             _authService = authservice;
         }
 
