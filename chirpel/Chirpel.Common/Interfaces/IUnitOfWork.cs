@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Chirpel.Common.Interfaces.DAL;
+using Chirpel.Contract.Interfaces.DAL;
 
-namespace Chirpel.Common.Interfaces
+namespace Chirpel.Contract.Interfaces
 {
     public interface IUnitOfWork
     {

@@ -5,28 +5,27 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using Chipel.Factory;
-using Chirpel.Common.Interfaces;
-using Chirpel.Common.Interfaces.Auth;
-using Chirpel.Common.Models;
-using Chirpel.Common.Models.Account;
-using Chirpel.Common.Models.Auth;
+using Chirpel.Contract.Interfaces;
+using Chirpel.Contract.Interfaces.Auth;
+using Chirpel.Contract.Models;
+using Chirpel.Contract.Models.Account;
 using Chirpel.Data;
 using Chirpel.Logic.Auth;
 using Microsoft.AspNetCore.Http;
 
-namespace Chirpel.Logic
+namespace Chirpel.Logic.User
 {
     public class UserManager
     {
         private readonly IAuthService _authService;
         private readonly IUnitOfWork _unitOfWork;
-        public UserManager(JWTService authService)
+        public UserManager(IAuthService authService)
         {
             _authService = authService;
             _unitOfWork = Factory.CreateIUnitofWork();
         }
 
-        public List<User> GetAllUsers()
+        public List<UserLogic> GetAllUsers()
         {
             return _unitOfWork.User.GetAll().ToList();
         }
@@ -54,16 +53,16 @@ namespace Chirpel.Logic
             return new ApiResponse(false, "password");
         }
 
-        public UIAccount GetUIAccount(string UserId)
+        public UIUser GetUIAccount(string UserId)
         {
             User user = _unitOfWork.User.Get(UserId);
             if (user == null)
-                return new UIAccount();
+                return new UIUser();
 
             UserSettings settings = _unitOfWork.UserSettings.Get(UserId);
 
             if (user == null)
-                return new UIAccount();
+                return new UIUser();
 
             List<Guid> followers = GetFollowers(UserId);
 
@@ -71,7 +70,7 @@ namespace Chirpel.Logic
 
             string pfp = settings.ProfilePicture.Replace("C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel-react\\src\\pictures\\", "");
 
-            return new UIAccount {
+            return new UIUser {
             Id = UserId,
             Username = user.Username,
             Bio = settings.Bio,
@@ -136,7 +135,7 @@ namespace Chirpel.Logic
             return new ApiResponse(false, "usercredentials don't match");
         }
 
-        public UserSettings GetSettings(string UserId)
+        public UserSettingsLogic GetSettings(string UserId)
         {
             return _unitOfWork.UserSettings.Get(UserId);
         }

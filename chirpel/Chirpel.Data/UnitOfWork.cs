@@ -1,5 +1,5 @@
-﻿using Chirpel.Common.Interfaces;
-using Chirpel.Common.Interfaces.DAL;
+﻿using Chirpel.Contract.Interfaces;
+using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Data.DAL;
 using System;
 using System.Collections.Generic;

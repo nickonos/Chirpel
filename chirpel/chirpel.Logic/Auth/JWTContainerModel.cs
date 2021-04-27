@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
-using Chirpel.Common.Interfaces.Auth;
+using Chirpel.Contract.Interfaces.Auth;
 
-namespace Chirpel.Common.Models.Auth
+namespace Chirpel.Logic.Auth
 {
     public class JWTContainerModel : IAuthContainerModel
     {

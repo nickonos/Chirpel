@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Chirpel.Common.Interfaces.Auth;
+using Chirpel.Contract.Interfaces.Auth;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Chirpel.Logic.Auth
 {
     public class JWTService : IAuthService
     {
-        public string SecretKey { get; set; }
+        private string SecretKey { get; set; }
 
         public JWTService(string secretKey)
         {

@@ -28,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
-                "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
+              "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj": {
+                "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj"
               },
               "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj": {
                 "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj"
@@ -65,12 +65,12 @@
         }
       }
     },
-    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
+    "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj",
-        "projectName": "Chirpel.Common",
-        "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj",
+        "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
+        "projectName": "Chirpel.Contract",
+        "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
         "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\obj\\",
         "projectStyle": "PackageReference",
@@ -153,8 +153,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
-                "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
+              "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj": {
+                "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj"
               }
             }
           }

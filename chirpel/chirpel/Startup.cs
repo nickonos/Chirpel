@@ -29,8 +29,6 @@ namespace Chirpel
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<JWTService>(jwtService => new JWTService(Environment.GetEnvironmentVariable("CHIRPEL_SECRET") ?? "YWJjZGVmZ2hpamtsbW5vcHE="));
-            services.AddScoped<DatabaseQuery>(databaseQuery => new DatabaseQuery());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

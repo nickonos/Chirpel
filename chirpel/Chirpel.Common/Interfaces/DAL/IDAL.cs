@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Interfaces.DAL
+namespace Chirpel.Contract.Interfaces.DAL
 {
     public interface IDAL<TEntity> where TEntity : class
     {

@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Chipel.Factory;
+using Chirpel.Contract.Interfaces.Auth;
+using Chirpel.Logic.Auth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Chirpel.Common.Models.Account
+namespace Chirpel.Models
 {
     public class LoginUser
     {

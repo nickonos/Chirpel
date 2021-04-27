@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Chirpel.Common.Interfaces;
-using Chirpel.Common.Interfaces.DAL;
-using Chirpel.Common.Models.Post;
+using Chirpel.Contract.Interfaces;
+using Chirpel.Contract.Interfaces.DAL;
+using Chirpel.Contract.Models.Post;
 
 namespace Chirpel.Data.DAL
 {
@@ -17,6 +17,11 @@ namespace Chirpel.Data.DAL
         public bool CreatePost(Post post)
         {
             return _databaseQuery.Insert(post);
+        }
+
+        public List<Post> GetByUserId(string userId)
+        {
+            return _databaseQuery.Select<Post>("UserId =@value1", new string[] {userId });
         }
 
         public PostDAL(DatabaseQuery databaseQuery) : base(databaseQuery)

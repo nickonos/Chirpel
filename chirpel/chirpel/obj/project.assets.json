@@ -348,7 +348,7 @@
           "lib/netstandard2.0/System.Text.Encodings.Web.dll": {}
         }
       },
-      "Chirpel.Common/1.0.0": {
+      "Chirpel.Contract/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -356,17 +356,17 @@
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
         },
         "compile": {
-          "bin/placeholder/Chirpel.Common.dll": {}
+          "bin/placeholder/Chirpel.Contract.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Chirpel.Common.dll": {}
+          "bin/placeholder/Chirpel.Contract.dll": {}
         }
       },
       "Chirpel.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "compile": {
@@ -380,7 +380,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "Chirpel.Data": "1.0.0"
         },
         "compile": {
@@ -394,7 +394,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "Chirpel.Factory": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "System.Data.SqlClient": "4.8.2",
@@ -1220,10 +1220,10 @@
         "version.txt"
       ]
     },
-    "Chirpel.Common/1.0.0": {
+    "Chirpel.Contract/1.0.0": {
       "type": "project",
-      "path": "../Chirpel.Common/Chirpel.Common.csproj",
-      "msbuildProject": "../Chirpel.Common/Chirpel.Common.csproj"
+      "path": "../Chirpel.Common/Chirpel.Contract.csproj",
+      "msbuildProject": "../Chirpel.Common/Chirpel.Contract.csproj"
     },
     "Chirpel.Data/1.0.0": {
       "type": "project",
@@ -1243,7 +1243,6 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Chirpel.Common >= 1.0.0",
       "Chirpel.Logic >= 1.0.0",
       "System.Data.SqlClient >= 4.8.2"
     ]
@@ -1275,9 +1274,6 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
-              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
-            },
             "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj": {
               "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj"
             }

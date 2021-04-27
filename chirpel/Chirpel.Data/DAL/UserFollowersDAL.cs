@@ -1,6 +1,6 @@
-﻿using Chirpel.Common.Interfaces;
-using Chirpel.Common.Interfaces.DAL;
-using Chirpel.Common.Models.Account;
+﻿using Chirpel.Contract.Interfaces;
+using Chirpel.Contract.Interfaces.DAL;
+using Chirpel.Contract.Models.Account;
 using System;
 using System.Collections.Generic;
 using System.Text;

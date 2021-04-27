@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Chirpel.Contract.Models.Post;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Interfaces.DAL
+namespace Chirpel.Contract.Interfaces.DAL
 {
-    public interface IPostLikesDAL
+    public interface IPostLikesDAL : IDAL<PostLikes>
     {
+        List<PostLikes> GetPostLikes(string postId);
     }
 }

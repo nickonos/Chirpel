@@ -234,7 +234,7 @@
           }
         }
       },
-      "Chirpel.Common/1.0.0": {
+      "Chirpel.Contract/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
@@ -242,17 +242,17 @@
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
         },
         "compile": {
-          "bin/placeholder/Chirpel.Common.dll": {}
+          "bin/placeholder/Chirpel.Contract.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Chirpel.Common.dll": {}
+          "bin/placeholder/Chirpel.Contract.dll": {}
         }
       },
       "Chirpel.Data/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "compile": {
@@ -844,10 +844,10 @@
         "version.txt"
       ]
     },
-    "Chirpel.Common/1.0.0": {
+    "Chirpel.Contract/1.0.0": {
       "type": "project",
-      "path": "../Chirpel.Common/Chirpel.Common.csproj",
-      "msbuildProject": "../Chirpel.Common/Chirpel.Common.csproj"
+      "path": "../Chirpel.Common/Chirpel.Contract.csproj",
+      "msbuildProject": "../Chirpel.Common/Chirpel.Contract.csproj"
     },
     "Chirpel.Data/1.0.0": {
       "type": "project",
@@ -857,7 +857,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
-      "Chirpel.Common >= 1.0.0",
+      "Chirpel.Contract >= 1.0.0",
       "Chirpel.Data >= 1.0.0"
     ]
   },
@@ -888,8 +888,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj": {
-              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj"
+            "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj": {
+              "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj"
             },
             "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj": {
               "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Data\\Chirpel.Data.csproj"

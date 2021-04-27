@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "chirpel", "chirpel\chirpel.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Logic", "chirpel.Logic\Chirpel.Logic.csproj", "{60A9CBE1-3193-45AA-9872-4BBEE96D3EB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Common", "Chirpel.Common\Chirpel.Common.csproj", "{3A47DD79-F175-4B87-93C3-F2C4CBD94A33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Contract", "Chirpel.Common\Chirpel.Contract.csproj", "{3A47DD79-F175-4B87-93C3-F2C4CBD94A33}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Data", "Chirpel.Data\Chirpel.Data.csproj", "{60E118DB-9C9C-4D9B-8F63-F887DB33C348}"
 EndProject

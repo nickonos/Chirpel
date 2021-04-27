@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Models.Account
+namespace Chirpel.Models
 {
     public class ProfilePictureModel
     {

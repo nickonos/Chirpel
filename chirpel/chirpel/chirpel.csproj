@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Chirpel.Common\Chirpel.Common.csproj" />
     <ProjectReference Include="..\chirpel.Logic\Chirpel.Logic.csproj" />
   </ItemGroup>
 

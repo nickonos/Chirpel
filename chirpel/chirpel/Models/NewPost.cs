@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Models.Post
+namespace Chirpel.Models
 {
     public class NewPost
     {

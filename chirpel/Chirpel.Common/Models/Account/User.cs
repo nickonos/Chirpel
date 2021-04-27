@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Common.Models.Account
+namespace Chirpel.Contract.Models.Account
 {
     public class User
     {

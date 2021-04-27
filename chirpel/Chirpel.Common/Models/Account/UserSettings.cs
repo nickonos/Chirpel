@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Chirpel.Common.Models.Account
+namespace Chirpel.Contract.Models.Account
 {
     public class UserSettings
     {

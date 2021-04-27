@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chipel.Factory\Chirpel.Factory.csproj" />
-    <ProjectReference Include="..\Chirpel.Common\Chirpel.Common.csproj" />
+    <ProjectReference Include="..\Chirpel.Common\Chirpel.Contract.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

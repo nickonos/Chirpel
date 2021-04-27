@@ -1,4 +1,4 @@
-﻿using Chirpel.Common.Models;
+﻿using Chirpel.Contract.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

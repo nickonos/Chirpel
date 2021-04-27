@@ -1,14 +1,15 @@
 ﻿using Chipel.Factory;
-using Chirpel.Common.Interfaces;
-using Chirpel.Common.Interfaces.Auth;
-using Chirpel.Common.Models;
-using Chirpel.Common.Models.Account;
-using Chirpel.Common.Models.Post;
+using Chirpel.Contract.Interfaces;
+using Chirpel.Contract.Interfaces.Auth;
+using Chirpel.Contract.Models;
+using Chirpel.Contract.Models.Account;
+using Chirpel.Contract.Models.Post;
 using Chirpel.Logic.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Chirpel.Logic.User;
 
 namespace Chirpel.Logic
 {
@@ -17,7 +18,7 @@ namespace Chirpel.Logic
         private readonly IAuthService _authService;
         private readonly UserManager _userManager;
         private readonly IUnitOfWork _unitofWork;
-        public PostManager(JWTService authService)
+        public PostManager(IAuthService authService)
         {
             _authService = authService;
             _userManager = new UserManager(authService);
@@ -44,7 +45,7 @@ namespace Chirpel.Logic
                 if (feed.Count >= 10)
                     return feed;
 
-                UIAccount user = _userManager.GetUIAccount(post.UserId);
+                UIUser user = _userManager.GetUIAccount(post.UserId);
                 if (!user.IsPrivate)
                 {
                     feed.Add(new UIPost()
@@ -78,7 +79,7 @@ namespace Chirpel.Logic
                 if (feed.Count >= 10)
                     return feed;
 
-                UIAccount user = _userManager.GetUIAccount(post.UserId);
+                UIUser user = _userManager.GetUIAccount(post.UserId);
                 if (!user.IsPrivate)
                 {
                     feed.Add(new UIPost()
@@ -109,7 +110,7 @@ namespace Chirpel.Logic
                 if (feed.Count >= 10)
                     return feed;
 
-                UIAccount user = _userManager.GetUIAccount(post.UserId);
+                UIUser user = _userManager.GetUIAccount(post.UserId);
                 if (following.Contains(Guid.Parse(post.UserId)))
                 {
                     feed.Add(new UIPost()
@@ -146,7 +147,7 @@ namespace Chirpel.Logic
                 if (feed.Count >= 10)
                     return feed;
 
-                UIAccount user = _userManager.GetUIAccount(post.UserId);
+                UIUser user = _userManager.GetUIAccount(post.UserId);
                 if (following.Contains(Guid.Parse(post.UserId)))
                 {
                     feed.Add(new UIPost()

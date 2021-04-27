@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Chirpel.Common.Models.Post
+namespace Chirpel.Contract.Models.Post
 {
     public class Post
     {

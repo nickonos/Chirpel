@@ -387,9 +387,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj",
-      "projectName": "Chirpel.Common",
-      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Common.csproj",
+      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
+      "projectName": "Chirpel.Contract",
+      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
       "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\obj\\",
       "projectStyle": "PackageReference",
