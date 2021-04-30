@@ -23,6 +23,11 @@ namespace Chirpel.Logic.Post
             _authService = Factory.CreateIAuthService();
         }
 
+        public PostLogic(string content, string userId)
+        {
+            Content = content;
+            UserId = userId;
+        }
         public PostLogic(string id, string content, string userId, DateTime postDate)
         {
             Id = id;
@@ -30,13 +35,6 @@ namespace Chirpel.Logic.Post
             UserId = userId;
             PostDate = postDate;
         }
-
-        public PostLogic(string content, string userId)
-        {
-            Content = content;
-            UserId = userId;
-        }
-
         public void GetById(string id)
         {
             Contract.Models.Post.Post post = _postDAL.Get(id);

@@ -7,7 +7,7 @@ namespace Chirpel.Models
 {
     public class ProfilePictureModel
     {
-        public string token { get; set; }
-        public IFormFile picture { get; set; }
+        public string Token { get; set; }
+        public IFormFile Picture { get; set; }
     }
 }

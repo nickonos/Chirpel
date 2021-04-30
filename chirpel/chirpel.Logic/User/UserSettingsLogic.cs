@@ -41,7 +41,7 @@ namespace Chirpel.Logic.User
 
         public void Add()
         {
-
+            throw new NotImplementedException();
         }
 
         public void GetById(string id)

@@ -62,7 +62,7 @@ namespace Chirpel.Logic.User
 
         public void Update()
         {
-
+            throw new NotImplementedException();
         }
 
         public Response Verify()

@@ -156,16 +156,16 @@ namespace Chirpel.Controllers
         [HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
         public ApiResponse UpdadateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
         {
-            if (!_authService.IsTokenValid(profilePictureModel.token))
+            if (!_authService.IsTokenValid(profilePictureModel.Token))
                 return new ApiResponse(false, "invalid verificationtoken");
 
-            List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
+            List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.Token).ToList();
 
             UserLogic user = new UserLogic();
             user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
             UserSettingsLogic userSettings = new UserSettingsLogic();
-            Response res = userSettings.SetProfilePicture(profilePictureModel.picture, user.Id);
+            Response res = userSettings.SetProfilePicture(profilePictureModel.Picture, user.Id);
 
             return new ApiResponse(res.Succes, res.Message);
         }

@@ -387,11 +387,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nickv\\Source\\Repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
+      "projectUniqueName": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
       "projectName": "Chirpel.Contract",
-      "projectPath": "C:\\Users\\nickv\\Source\\Repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
+      "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\Chirpel.Contract.csproj",
       "packagesPath": "C:\\Users\\nickv\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nickv\\Source\\Repos\\Chirpel\\chirpel\\Chirpel.Common\\obj\\",
+      "outputPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chirpel.Common\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nickv\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -444,7 +444,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Logic.Auth
+namespace Chirpel.Models
 {
     public class VerificationToken
     {
