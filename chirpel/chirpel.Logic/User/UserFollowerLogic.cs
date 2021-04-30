@@ -22,6 +22,11 @@ namespace Chirpel.Logic.User
             _authService = Factory.CreateIAuthService();
         }
 
+        public UserFollowerLogic(string followed, string follower)
+        {
+            Followed = followed;
+            Follower = follower;
+        } 
         public List<string> GetFollowers(string id)
         {
             List<string> list = new List<string>();
@@ -44,6 +49,15 @@ namespace Chirpel.Logic.User
                 list.Add(user.Followed);
             }
             return list;
+        }
+        public void Add()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove()
+        {
+            throw new NotImplementedException();
         }
     }
 }

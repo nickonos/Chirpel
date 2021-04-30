@@ -11,5 +11,15 @@ namespace Chirpel.Contract.Models.Post
         public string Content { get; set; }
         public string UserId { get; set; }
         public DateTime PostDate { get; set; }
+
+        public Post() { }
+
+        public Post(string id, string content, string userId, DateTime postDate)
+        {
+            Id = id;
+            Content = content;
+            UserId = userId;
+            PostDate = postDate;
+        }
     }
 }

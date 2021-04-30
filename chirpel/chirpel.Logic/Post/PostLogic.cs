@@ -31,6 +31,11 @@ namespace Chirpel.Logic.Post
             PostDate = postDate;
         }
 
+        public PostLogic(string content, string userId)
+        {
+            Content = content;
+            UserId = userId;
+        }
 
         public void GetById(string id)
         {
@@ -56,6 +61,17 @@ namespace Chirpel.Logic.Post
                 output.Add(post.Id);
             }
             return output;
+        }
+
+        public void Add()
+        {
+            if (Id == null)
+                Id = Guid.NewGuid().ToString();
+
+            if (PostDate == null)
+                PostDate = DateTime.UtcNow;
+
+            _postDAL.Add(new Contract.Models.Post.Post(Id, Content, UserId, PostDate));
         }
     }
 }

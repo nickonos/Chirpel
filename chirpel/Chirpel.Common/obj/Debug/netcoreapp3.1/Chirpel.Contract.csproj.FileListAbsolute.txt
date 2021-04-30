@@ -2,3 +2,8 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.AssemblyInfoInputs.cache
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.AssemblyInfo.cs
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.csproj.CoreCompileInputs.cache
+C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\bin\Debug\netcoreapp3.1\Chirpel.Contract.deps.json
+C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\bin\Debug\netcoreapp3.1\Chirpel.Contract.dll
+C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\bin\Debug\netcoreapp3.1\Chirpel.Contract.pdb
+C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.dll
+C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.pdb

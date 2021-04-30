@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -35,44 +36,50 @@ namespace Chirpel.Controllers
             return uiPost;
         }
 
-        //[HttpGet("explore")]
-        //public List<UIPost> GetExplore()
-        //{
-        //    return postManager.GetExploreFeed();
-        //}
-        //[HttpGet("explore/{lastPost}")]
-        //public List<UIPost> GetExplore(string lastPost)
-        //{
-        //    return postManager.GetExploreFeed(lastPost);
-        //}
+        [HttpGet("explore")]
+        public List<UIPost> GetExplore()
+        {
+            //postManager.GetExploreFeed();
+            return new List<UIPost>();
+        }
+        [HttpGet("explore/{lastPost}")]
+        public List<UIPost> GetExplore(string lastPost)
+        {
+            //return postManager.GetExploreFeed(lastPost);
+            return new List<UIPost>();
+        }
 
-        //[HttpPost("personal")]
-        //public List<UIPost> GetPersonal(VerificationToken token)
-        //{
-        //    if (!_authService.IsTokenValid(token.Value))
-        //        return new List<UIPost>();
+        [HttpPost("personal")]
+        public List<UIPost> GetPersonal(VerificationToken token)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new List<UIPost>();
 
-        //    return postManager.GetPersonalFeed(token.Value);
-        //}
+            return new List<UIPost>();
+            //return postManager.GetPersonalFeed(token.Value);
+        }
 
-        //[HttpPost("personal/{lastPost}")]
-        //public List<UIPost> GetPersonal(VerificationToken token, string lastPost)
-        //{
-        //    if (!_authService.IsTokenValid(token.Value))
-        //        return new List<UIPost>();
+        [HttpPost("personal/{lastPost}")]
+        public List<UIPost> GetPersonal(VerificationToken token, string lastPost)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new List<UIPost>();
 
-        //    return postManager.GetPersonalFeed(token.Value, lastPost);
-        //}
+            return new List<UIPost>();
+            //return postManager.GetPersonalFeed(token.Value, lastPost);
+        }
 
-        //[HttpPost("create")]
-        //public ApiResponse Post(NewPost newPost)
-        //{
-        //    if (!_authService.IsTokenValid(newPost.Token))
-        //        return new ApiResponse(false, "invalid token");
+        [HttpPost("create")]
+        public ApiResponse Post(NewPost newPost)
+        {
+            if (!_authService.IsTokenValid(newPost.Token))
+                return new ApiResponse(false, "Invalid token");
 
-        //    PostLogic post = new PostLogic();
-        //    post.
-        //    return postManager.CreatePost(newPost);
-        //}
+            List<Claim> claims = _authService.GetTokenClaims(newPost.Token).ToList();
+
+            PostLogic post = new PostLogic(newPost.Content, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            post.Add();
+            return new ApiResponse(true, "Post created");
+        }
     }
 }

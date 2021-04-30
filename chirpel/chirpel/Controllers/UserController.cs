@@ -80,93 +80,94 @@ namespace Chirpel.Controllers
             return new ApiResponse(res.Succes, res.Message);
         }
 
-        //[HttpPost("Register")]
-        //public ApiResponse PostRegister(RegisterUser registerUser)
-        //{
-        //    if (_userManager.GetUserByName(registerUser.Username) != null)
-        //        return new ApiResponse(false, $"username");
+        [HttpPost("Register")]
+        public ApiResponse PostRegister(RegisterUser registerUser)
+        {
+            UserLogic user = new UserLogic(registerUser.Username, registerUser.Email, registerUser.Password);
+            Response res = user.Register();
+            return new ApiResponse(res.Succes, res.Message);
+        }
 
-        //    if (_userManager.GetUserByName(registerUser.Email) != null)
-        //        return new ApiResponse(false, "email");
-            
-        //    return _userManager.AddUser(registerUser);
-        //}
+        [HttpPost("settings")]
+        public UserSettingsLogic GetSettings(VerificationToken token)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new UserSettingsLogic();
 
-        //[HttpPost("settings")]
-        //public UserSettingsLogic GetSettings(VerificationToken token)
-        //{
-        //    if (!_authService.IsTokenValid(token.Value))
-        //        return new UserSettingsLogic();
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-        //    List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-        //    UserLogic user = new UserLogic();
-        //    user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            UserSettingsLogic userSettings = new UserSettingsLogic();
+            userSettings.GetById(user.Id);
+            return userSettings;
+        }
 
-        //    return _userManager.GetSettings(user.Id);
-        //}
+        [HttpGet("{UserId}/followers")]
+        public IEnumerable<string> GetFollowers(string UserId)
+        {
+            UserFollowerLogic userFollower = new UserFollowerLogic();
+            List<string> followers = userFollower.GetFollowers(UserId);
 
-        //[HttpGet("{UserId}/followers")]
-        //public IEnumerable<string> GetFollowers(string UserId)
-        //{
-        //    List<Guid> followerIds = _userManager.GetFollowers(UserId);
-        //    List<string> followers = new List<string>();
+            return followers;
+        }
 
-        //    foreach(Guid guid in followerIds)
-        //        followers.Add(_userManager.GetUserById(guid.ToString()).Username);
+        [HttpPost("follow/{UserId}")]
+        public ApiResponse AddFollower(VerificationToken token, string UserId)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new ApiResponse(false, "Invalid verificationtoken");
 
-        //    return followers;
-        //}
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-        //[HttpPost("follow/{UserId}")]
-        //public ApiResponse AddFollower(VerificationToken token, string UserId)
-        //{
-        //    if (!_authService.IsTokenValid(token.Value))
-        //        return new ApiResponse(false, "invalid verificationtoken");
+            UserFollowerLogic userFollower = new UserFollowerLogic(UserId, user.Id);
+            userFollower.Add();
 
-        //    List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-        //    UserLogic user = new UserLogic();
-        //    user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            return new ApiResponse(true, "Follower succesfull");
+        }
 
-        //    return _userManager.AddFollower(UserId, user.Id);
-        //}
+        [HttpPost("unfollow/{UserId}")]
+        public ApiResponse RemoveFollower(VerificationToken token, string UserId)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new ApiResponse(false, "Invalid verificationtoken");
 
-        //[HttpPost("unfollow/{UserId}")]
-        //public ApiResponse RemoveFollower(VerificationToken token, string UserId)
-        //{
-        //    if (!_authService.IsTokenValid(token.Value))
-        //        return new ApiResponse(false, "invalid verificationtoken");
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-        //    List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-        //    UserLogic user = new UserLogic();
-        //    user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            UserFollowerLogic userFollower = new UserFollowerLogic(UserId, user.Id);
+            userFollower.Remove();
 
-        //    return _userManager.RemoveFollower(UserId, user.Id);
-        //}
+            return new ApiResponse(true, "Follower succesfull");
+        }
 
-        //[HttpGet("{UserId}/following")]
-        //public IEnumerable<string> GetFollowing(string UserId)
-        //{
-        //    List<Guid> followerIds = _userManager.GetFollowing(UserId);
-        //    List<string> followers = new List<string>();
+        [HttpGet("{UserId}/following")]
+        public IEnumerable<string> GetFollowing(string UserId)
+        {
+            UserFollowerLogic userFollower = new UserFollowerLogic();
+            List<string> following = userFollower.GetFollowing(UserId);
 
-        //    foreach (Guid guid in followerIds)
-        //        followers.Add(_userManager.GetUserById(guid.ToString()).Username);
+            return following;
+        }
 
-        //    return followers;
-        //}
+        [HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
+        public ApiResponse UpdadateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
+        {
+            if (!_authService.IsTokenValid(profilePictureModel.token))
+                return new ApiResponse(false, "invalid verificationtoken");
 
-        //[HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
-        //public ApiResponse UpdadateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
-        //{
-        //    if (!_authService.IsTokenValid(profilePictureModel.token))
-        //        return new ApiResponse(false, "invalid verificationtoken");
+            List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
 
-        //    List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.token).ToList();
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-        //    UserLogic user = new UserLogic();
-        //    user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            UserSettingsLogic userSettings = new UserSettingsLogic();
+            Response res = userSettings.SetProfilePicture(profilePictureModel.picture, user.Id);
 
-        //    return _userManager.SetProfilePicture(profilePictureModel.picture, user.Id);
-        //}
+            return new ApiResponse(res.Succes, res.Message);
+        }
     }
 }

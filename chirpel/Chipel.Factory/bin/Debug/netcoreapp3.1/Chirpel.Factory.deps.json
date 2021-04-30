@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v3.1": {
       "Chirpel.Factory/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "Chirpel.Data": "1.0.0"
         },
         "runtime": {
@@ -164,18 +164,18 @@
       },
       "System.Security.Cryptography.Cng/4.5.0": {},
       "System.Security.Principal.Windows/4.7.0": {},
-      "Chirpel.Common/1.0.0": {
+      "Chirpel.Contract/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "5.0.4",
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
         },
         "runtime": {
-          "Chirpel.Common.dll": {}
+          "Chirpel.Contract.dll": {}
         }
       },
       "Chirpel.Data/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
@@ -316,7 +316,7 @@
       "path": "system.security.principal.windows/4.7.0",
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
     },
-    "Chirpel.Common/1.0.0": {
+    "Chirpel.Contract/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

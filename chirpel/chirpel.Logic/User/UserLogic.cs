@@ -47,8 +47,11 @@ namespace Chirpel.Logic.User
             Password = password;
         } 
 
-        public void Add()
+        private void Add()
         {
+            if (Id == null)
+                Id = Guid.NewGuid().ToString();
+
             _userDAL.Add(new Contract.Models.Account.User() {Id = Id, Username = Username, Email =Email, Password = Password });
         }
 
