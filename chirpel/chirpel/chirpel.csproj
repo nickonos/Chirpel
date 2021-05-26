@@ -5,6 +5,7 @@
     <AssemblyName>Chirpel</AssemblyName>
     <RootNamespace>Chirpel</RootNamespace>
     <Nullable>annotations</Nullable>
+    <UserSecretsId>2514fc3c-619d-4471-a94c-58a9ecc67047</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chipel.Factory\Chirpel.Factory.csproj" />
     <ProjectReference Include="..\chirpel.Logic\Chirpel.Logic.csproj" />
   </ItemGroup>
 

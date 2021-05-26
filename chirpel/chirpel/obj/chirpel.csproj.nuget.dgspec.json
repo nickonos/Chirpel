@@ -315,6 +315,9 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
+              "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chirpel.Factory.csproj": {
+                "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\Chipel.Factory\\Chirpel.Factory.csproj"
+              },
               "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj": {
                 "projectPath": "C:\\Users\\nickv\\source\\repos\\Chirpel\\chirpel\\chirpel.Logic\\Chirpel.Logic.csproj"
               }

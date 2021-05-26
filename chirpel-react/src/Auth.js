@@ -75,8 +75,7 @@ class Auth extends React.Component {
             this.props.api.post('/user/login', {
                 username: this.state.loginUser.username,
                 password: this.state.loginUser.password
-            })
-                .then(res =>{
+            }).then(res =>{
                     console.log(res)
                     if(res.data.succes){
                         localStorage.setItem("token", res.data.message)

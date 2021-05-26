@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Logic.Post;
 using System;
@@ -22,7 +22,7 @@ namespace Chirpel.Logic.User
 
         public UIPost()
         {
-            _postDAL = Factory.CreateIPostDAL();
+            _postDAL = Factory.Factory.CreateIPostDAL();
         }
 
         public UIPost(string id, string content, string userId, DateTime postDate, List<string> likes, List<string> comments, string userpfp, string username)

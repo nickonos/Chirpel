@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Logic.Auth;
@@ -22,8 +22,8 @@ namespace Chirpel.Logic.User
 
         public UserLogic()
         {
-            _userDAL = Factory.CreateIUserDAL();
-            _authService = Factory.CreateIAuthService();
+            _userDAL = Factory.Factory.CreateIUserDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public UserLogic(string username, string email, string password, string id)
@@ -32,12 +32,16 @@ namespace Chirpel.Logic.User
             Username = username;
             Email = email;
             Password = password;
+            _userDAL = Factory.Factory.CreateIUserDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public UserLogic(string username, string password)
         {
             Username = username;
             Password = password;
+            _userDAL = Factory.Factory.CreateIUserDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public UserLogic(string username, string email, string password)
@@ -45,6 +49,8 @@ namespace Chirpel.Logic.User
             Username = username;
             Email = email;
             Password = password;
+            _userDAL = Factory.Factory.CreateIUserDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         } 
 
         private void Add()
@@ -80,11 +86,10 @@ namespace Chirpel.Logic.User
 
         public void GetByUsername(string username)
         {
-            Contract.Models.Account.User user = _userDAL.GetByUsername(username);
-
-            if (user == null)
+            if (_userDAL.GetByUsername(username) == null)
                 return;
 
+            Contract.Models.Account.User user = _userDAL.GetByUsername(username);
             Id = user.Id;
             Username = user.Username;
             Email = user.Email;

@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Contract.Models.Account;
@@ -18,8 +18,8 @@ namespace Chirpel.Logic.User
 
         public UserFollowerLogic()
         {
-            _userFollowerDAL = Factory.CreateIUserFollowerDAL();
-            _authService = Factory.CreateIAuthService();
+            _userFollowerDAL = Factory.Factory.CreateIUserFollowerDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public UserFollowerLogic(string followed, string follower)

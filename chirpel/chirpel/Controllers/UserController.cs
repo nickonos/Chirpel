@@ -9,18 +9,21 @@ using System.Linq;
 using Chirpel.Logic.User;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Models;
+using Chirpel.Factory;
+using Microsoft.AspNetCore.Cors;
 
 namespace Chirpel.Controllers
 {
+    [EnableCors("venus")]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IAuthService _authService;
 
-        public UserController(JWTService authService)
+        public UserController()
         {
-            _authService = authService;
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         [HttpGet]

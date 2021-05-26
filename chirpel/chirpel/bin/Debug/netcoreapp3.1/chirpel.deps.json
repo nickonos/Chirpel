@@ -8,7 +8,14 @@
       "TRACE",
       "DEBUG",
       "NETCOREAPP",
-      "NETCOREAPP3_1"
+      "NETCOREAPP3_1",
+      "NETCOREAPP1_0_OR_GREATER",
+      "NETCOREAPP1_1_OR_GREATER",
+      "NETCOREAPP2_0_OR_GREATER",
+      "NETCOREAPP2_1_OR_GREATER",
+      "NETCOREAPP2_2_OR_GREATER",
+      "NETCOREAPP3_0_OR_GREATER",
+      "NETCOREAPP3_1_OR_GREATER"
     ],
     "languageVersion": "8.0",
     "platform": "",
@@ -24,7 +31,7 @@
     ".NETCoreApp,Version=v3.1": {
       "Chirpel/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Factory": "1.0.0",
           "Chirpel.Logic": "1.0.0",
           "System.Data.SqlClient": "4.8.2",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
@@ -526,21 +533,21 @@
       "System.Security.Cryptography.Cng/4.5.0": {},
       "System.Security.Principal.Windows/4.7.0": {},
       "System.Text.Encodings.Web/4.5.0": {},
-      "Chirpel.Common/1.0.0": {
+      "Chirpel.Contract/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Http.Features": "5.0.4",
           "System.IdentityModel.Tokens.Jwt": "6.8.0"
         },
         "runtime": {
-          "Chirpel.Common.dll": {}
+          "Chirpel.Contract.dll": {}
         },
         "compile": {
-          "Chirpel.Common.dll": {}
+          "Chirpel.Contract.dll": {}
         }
       },
       "Chirpel.Data/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "System.Data.SqlClient": "4.8.2"
         },
         "runtime": {
@@ -552,7 +559,7 @@
       },
       "Chirpel.Factory/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "Chirpel.Data": "1.0.0"
         },
         "runtime": {
@@ -564,7 +571,7 @@
       },
       "Chirpel.Logic/1.0.0": {
         "dependencies": {
-          "Chirpel.Common": "1.0.0",
+          "Chirpel.Contract": "1.0.0",
           "Chirpel.Factory": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.2.2",
           "System.Data.SqlClient": "4.8.2",
@@ -2455,7 +2462,7 @@
       "path": "system.text.encodings.web/4.5.0",
       "hashPath": "system.text.encodings.web.4.5.0.nupkg.sha512"
     },
-    "Chirpel.Common/1.0.0": {
+    "Chirpel.Contract/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
