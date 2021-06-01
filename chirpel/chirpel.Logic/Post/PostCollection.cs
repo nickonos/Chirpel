@@ -4,7 +4,13 @@ using System.Text;
 
 namespace Chirpel.Logic.Post
 {
-    class PostCollection
+    public class PostCollection
     {
+        public List<PostLogic> Posts { get; private set; }
+
+        public PostCollection()
+        {
+            Posts = new List<PostLogic>();
+        }
     }
 }

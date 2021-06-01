@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chipel.Factory\Chirpel.Factory.csproj" />
     <ProjectReference Include="..\chirpel.Logic\Chirpel.Logic.csproj" />
   </ItemGroup>
 

@@ -9,6 +9,7 @@ using System.Linq;
 using Chirpel.Logic.User;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Models;
+using Chipel.Factory;
 
 namespace Chirpel.Controllers
 {
@@ -18,17 +19,20 @@ namespace Chirpel.Controllers
     {
         private readonly IAuthService _authService;
 
-        public UserController(JWTService authService)
+        public UserController()
         {
-            _authService = authService;
+            _authService = Factory.CreateIAuthService();
         }
 
         [HttpGet]
         public IEnumerable<UserLogic> GetAll()
         {
             //UserLogic userLogic = new UserLogic();
-            List<UserLogic> users = new List<UserLogic>();
-            return users;
+            //List<UserLogic> users = new List<UserLogic>();
+            UserCollection users = new UserCollection();
+            users.GetAll();
+
+            return users.Users;
         }
 
         [HttpGet("{UserId}")]
