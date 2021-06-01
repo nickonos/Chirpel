@@ -4,7 +4,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <ActiveDebugProfile>chirpel</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>FolderProfile2</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

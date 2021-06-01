@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.DAL;
 using System;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace Chirpel.Logic.User
         public UserCollection()
         {
             Users = new List<UserLogic>();
-            _userDal = Factory.CreateIUserDAL();
+            _userDal = Factory.Factory.CreateIUserDAL();
         }
 
         public void GetAll()
