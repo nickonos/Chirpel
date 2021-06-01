@@ -26,7 +26,7 @@ namespace Chirpel.Data.DAL
             return default(TEntity);
         }
 
-        public List<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
             return _databaseQuery.Select<TEntity>();
         }
