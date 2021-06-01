@@ -22,7 +22,5 @@ namespace Chirpel.Data.DAL
         public UserDAL(DatabaseQuery databaseQuery) : base(databaseQuery)
         {
         }
-
-
     }
 }

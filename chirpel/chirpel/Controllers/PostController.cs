@@ -41,6 +41,7 @@ namespace Chirpel.Controllers
         [HttpGet("explore")]
         public List<UIPost> GetExplore()
         {
+            throw new NotImplementedException();
             //postManager.GetExploreFeed();
             return new List<UIPost>();
         }
@@ -48,6 +49,7 @@ namespace Chirpel.Controllers
         public List<UIPost> GetExplore(string lastPost)
         {
             //return postManager.GetExploreFeed(lastPost);
+            throw new NotImplementedException();
             return new List<UIPost>();
         }
 
@@ -57,6 +59,7 @@ namespace Chirpel.Controllers
             if (!_authService.IsTokenValid(token.Value))
                 return new List<UIPost>();
 
+            throw new NotImplementedException();
             return new List<UIPost>();
             //return postManager.GetPersonalFeed(token.Value);
         }
@@ -67,6 +70,7 @@ namespace Chirpel.Controllers
             if (!_authService.IsTokenValid(token.Value))
                 return new List<UIPost>();
 
+            throw new NotImplementedException();
             return new List<UIPost>();
             //return postManager.GetPersonalFeed(token.Value, lastPost);
         }

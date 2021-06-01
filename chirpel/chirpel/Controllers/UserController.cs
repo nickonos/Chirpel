@@ -9,6 +9,7 @@ using System.Linq;
 using Chirpel.Logic.User;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Models;
+
 using Chirpel.Factory;
 using Microsoft.AspNetCore.Cors;
 
@@ -30,8 +31,11 @@ namespace Chirpel.Controllers
         public IEnumerable<UserLogic> GetAll()
         {
             //UserLogic userLogic = new UserLogic();
-            List<UserLogic> users = new List<UserLogic>();
-            return users;
+            //List<UserLogic> users = new List<UserLogic>();
+            UserCollection users = new UserCollection();
+            users.GetAll();
+
+            return users.Users;
         }
 
         [HttpGet("{UserId}")]
