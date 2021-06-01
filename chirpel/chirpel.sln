@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Data", "Chirpel.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirpel.Factory", "Chipel.Factory\Chirpel.Factory.csproj", "{3F2BBF85-9798-4C69-8CAF-2101E0673D27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirpel.Test", "Chirpel.Test\Chirpel.Test.csproj", "{A86DBA5E-28DB-4F43-BBA5-961D7E80AB98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3F2BBF85-9798-4C69-8CAF-2101E0673D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F2BBF85-9798-4C69-8CAF-2101E0673D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F2BBF85-9798-4C69-8CAF-2101E0673D27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A86DBA5E-28DB-4F43-BBA5-961D7E80AB98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A86DBA5E-28DB-4F43-BBA5-961D7E80AB98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A86DBA5E-28DB-4F43-BBA5-961D7E80AB98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A86DBA5E-28DB-4F43-BBA5-961D7E80AB98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

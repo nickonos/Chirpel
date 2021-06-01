@@ -158,7 +158,7 @@ namespace Chirpel.Logic.User
 
             user.Add();
 
-            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id.ToString(), false, false, "", "");
+            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id.ToString());
 
             userSettingsLogic.Add();
 

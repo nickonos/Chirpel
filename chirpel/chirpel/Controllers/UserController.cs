@@ -30,8 +30,10 @@ namespace Chirpel.Controllers
         public IEnumerable<UserLogic> GetAll()
         {
             //UserLogic userLogic = new UserLogic();
-            List<UserLogic> users = new List<UserLogic>();
-            return users;
+            //List<UserLogic> users = new List<UserLogic>();
+            UserCollection userCollection = new UserCollection();
+            userCollection.GetAll();
+            return userCollection.Users;
         }
 
         [HttpGet("{UserId}")]

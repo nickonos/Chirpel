@@ -25,11 +25,15 @@ namespace Chirpel.Logic.Post
 
         public PostLogic(string content, string userId)
         {
+            _postDAL = Factory.Factory.CreateIPostDAL();
+            _authService = Factory.Factory.CreateIAuthService();
             Content = content;
             UserId = userId;
         }
         public PostLogic(string id, string content, string userId, DateTime postDate)
         {
+            _postDAL = Factory.Factory.CreateIPostDAL();
+            _authService = Factory.Factory.CreateIAuthService();
             Id = id;
             Content = content;
             UserId = userId;

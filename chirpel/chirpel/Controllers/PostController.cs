@@ -81,7 +81,7 @@ namespace Chirpel.Controllers
 
             PostLogic post = new PostLogic(newPost.Content, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
             post.Add();
-            return new ApiResponse(true, "Post created");
+            return new ApiResponse(true, post.Id);
         }
     }
 }
