@@ -12,18 +12,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
+using Chirpel.Factory;
+using Microsoft.AspNetCore.Cors;
 
 namespace Chirpel.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [EnableCors("venus")]
     public class PostController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public PostController(IAuthService authservice)
+        public PostController()
         {
-            _authService = authservice;
+            _authService = Factory.Factory.CreateIAuthService() ;
         }
 
         [HttpGet("{id}")]

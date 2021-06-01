@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Contract.Models.Account;
@@ -23,14 +23,14 @@ namespace Chirpel.Logic.User
 
         public UserSettingsLogic()
         {
-            _userSettingsDAL = Factory.CreateIUserSettingsDAL();
-            _authService = Factory.CreateIAuthService();
+            _userSettingsDAL = Factory.Factory.CreateIUserSettingsDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public UserSettingsLogic(string id, bool darkmodeEnabled, bool isPrivate, string bio, string profilePicture)
         {
-            _userSettingsDAL = Factory.CreateIUserSettingsDAL();
-            _authService = Factory.CreateIAuthService();
+            _userSettingsDAL = Factory.Factory.CreateIUserSettingsDAL();
+            _authService = Factory.Factory.CreateIAuthService();
 
             Id = id;
             DarkModeEnabled = darkmodeEnabled;

@@ -11,8 +11,9 @@ import 'primeflex/primeflex.css';
 const axios = require('axios');
 
 const api = axios.create({
-    baseURL: 'https://localhost:44380',
+    baseURL: 'https://localhost:44380/',
     timeout: 5000
+
 });
 
  class App extends React.Component {
@@ -29,7 +30,7 @@ const api = axios.create({
         if(localStorage.getItem("token") !== null){
             api.post('/user/verifyuser', {
                 value: localStorage.getItem("token")
-            })
+            }, {mode:'cors'})
                 .then(res => {
                     if(res.data.succes){
                         this.setState({

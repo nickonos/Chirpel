@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Contract.Models.Post;
@@ -18,8 +18,8 @@ namespace Chirpel.Logic.Post
 
         public PostLikesLogic()
         {
-            _postLikesDAL = Factory.CreateIPostLikesDAL();
-            _authService = Factory.CreateIAuthService();
+            _postLikesDAL = Factory.Factory.CreateIPostLikesDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public List<string> GetLikes(string postId)

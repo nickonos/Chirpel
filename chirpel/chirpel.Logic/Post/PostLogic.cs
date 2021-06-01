@@ -1,4 +1,4 @@
-﻿using Chipel.Factory;
+﻿using Chirpel.Factory;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using System;
@@ -19,8 +19,8 @@ namespace Chirpel.Logic.Post
 
         public PostLogic()
         {
-            _postDAL = Factory.CreateIPostDAL();
-            _authService = Factory.CreateIAuthService();
+            _postDAL = Factory.Factory.CreateIPostDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         }
 
         public PostLogic(string content, string userId)

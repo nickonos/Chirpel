@@ -5,22 +5,11 @@ using Chirpel.Data;
 using Chirpel.Data.DAL;
 using System;
 
-namespace Chipel.Factory
+namespace Chirpel.Factory
 {
     public static class Factory
     {
         private static DatabaseQuery _databaseQuery = new DatabaseQuery();
-        public static IUnitOfWork CreateIUnitofWork()
-        {
-            DatabaseQuery databaseQuery = new DatabaseQuery();
-            return new UnitOfWork(
-                new PostDAL(databaseQuery),
-                new UserDAL(databaseQuery),
-                new UserSettingsDAL(databaseQuery),
-                new UserFollowersDAL(databaseQuery),
-                new PostLikesDAL(databaseQuery)
-                ) ;
-        }
 
         public static IUserDAL CreateIUserDAL()
         {
