@@ -10,5 +10,6 @@ namespace Chirpel.Contract.Interfaces.DAL
         UserFollowers GetFollower(string UserId, string Follower);
         List<UserFollowers> GetFollowers(string UserId);
         List<UserFollowers> GetFollowing(string UserId);
+        void DeleteAll(string UserId);
     }
 }

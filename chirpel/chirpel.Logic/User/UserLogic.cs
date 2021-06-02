@@ -98,6 +98,8 @@ namespace Chirpel.Logic.User
             if (user.Password != Password)
                 return new Response(false, "password");
 
+            Id = user.Id;
+
             return new Response(true, "verified user");
         }
 
@@ -139,6 +141,7 @@ namespace Chirpel.Logic.User
             Password = user.Password;
         }
 
+
         public Response Login()
         {
             Response res = Verify();
@@ -158,6 +161,18 @@ namespace Chirpel.Logic.User
             return new Response(true, token);
         }
 
+        public void GetByPassword(string password)//For test purposes only
+        {
+            Contract.Models.Account.User user = _userDAL.GetByPassword(password);
+
+            if (user == null)
+                return;
+
+            Id = user.Id;
+            Username = user.Username;
+            Email = user.Email;
+            Password = user.Password;
+        }
 
         public Response Register()
         {

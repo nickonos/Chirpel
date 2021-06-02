@@ -67,6 +67,16 @@ namespace Chirpel.Logic.User
             _userSettingsDAL.Add(new UserSettings() { Id = Id, ProfilePicture = ProfilePicture, Bio = Bio, DarkModeEnabled = DarkModeEnabled, IsPrivate = IsPrivate });
         }
 
+        public Response Remove()
+        {
+            if (Id == null)
+                return new Response(false, "UserSettings not found");
+
+            _userSettingsDAL.Remove(new UserSettings() { Id = Id });
+
+            return new Response(true, "item removed");
+        }
+
         public bool GetById(string id)
         {
             UserSettings userSettings = _userSettingsDAL.Get(id);

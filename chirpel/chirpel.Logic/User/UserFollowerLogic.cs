@@ -60,9 +60,14 @@ namespace Chirpel.Logic.User
             Followed = userFollowers.Followed;
             Follower = userFollowers.Follower;
         }
-        public void Add()
+
+        public Response Add()
         {
-            throw new NotImplementedException();
+            if (Followed == null || Follower == null)
+                return new Response(false, "Invalid UserFollower");
+
+            _userFollowerDAL.Add(new UserFollowers() { Follower = Follower, Followed = Followed });
+            return new Response(true, "transaction succesful");
         }
 
         public void Remove()

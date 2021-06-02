@@ -23,7 +23,12 @@ namespace Chirpel.Data.DAL
         {
             return _databaseQuery.Select<UserFollowers>("Follower=@value1", new string[] { UserId });
         }
-            
+        
+        public void DeleteAll(string UserId)
+        {
+            _databaseQuery.Delete("UserFollowers", "Follower=@value1 OR Followed=@value2", new string[] { UserId, UserId });
+        }
+
         public UserFollowersDAL(DatabaseQuery databaseQuery) : base(databaseQuery)
         {
         }

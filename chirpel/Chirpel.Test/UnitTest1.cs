@@ -46,19 +46,19 @@ namespace Chirpel.Test
         public void TestRegister()
         {
             _userController = new UserController();
-            
+
             Random random = new Random();
             string randomstr = random.Next().ToString();
 
-            RegisterUser registerUser = new RegisterUser() { Username = randomstr, Email = randomstr+"@gmail.com", Password = "password"};
+            RegisterUser registerUser = new RegisterUser() { Username = randomstr, Email = randomstr + "@gmail.com", Password = "password" };
 
             ApiResponse RegResponse = _userController.PostRegister(registerUser);
 
             while (!RegResponse.Succes)
-            { 
+            {
                 if (RegResponse.Message != "username" && RegResponse.Message != "password")
-                Assert.Fail($"Register Failed error: {RegResponse.Message}");
-                randomstr = random.Next().ToString(); 
+                    Assert.Fail($"Register Failed error: {RegResponse.Message}");
+                randomstr = random.Next().ToString();
 
                 registerUser = new RegisterUser() { Username = randomstr, Email = randomstr + "@gmail.com", Password = "password" };
                 RegResponse = _userController.PostRegister(registerUser);
@@ -69,7 +69,7 @@ namespace Chirpel.Test
 
             Assert.IsTrue(LogRepsonse.Succes);
         }
-        
+
         [Test]
         public void TestLogin()
         {
@@ -78,7 +78,7 @@ namespace Chirpel.Test
             if (!LogResponse.Succes)
                 Assert.Fail("login failed");
 
-            ApiResponse VerResponse = _userController.VerifyUser(new VerificationToken() {Value = LogResponse.Message });
+            ApiResponse VerResponse = _userController.VerifyUser(new VerificationToken() { Value = LogResponse.Message });
 
             Assert.IsTrue(VerResponse.Succes, $"Message {VerResponse.Message}");
         }
@@ -95,7 +95,29 @@ namespace Chirpel.Test
             Assert.True(LogResponse.Message == "password");
         }
 
+        [Test]
+        public void TestRemoveUser()
+        {
+            UserLogic user = new UserLogic();
+            user.GetByPassword("password");
+            if (user.Id == null)
+                Assert.Fail("No user found");
 
+            ApiResponse LogResponse = _userController.PostLogin(new LoginUser() { Username = user.Username, Password = user.Password });
+
+            if (!LogResponse.Succes)
+                Assert.Fail($"login failed error: {LogResponse.Message}");
+
+            ApiResponse DelResponse = _userController.PostDelete(new VerificationToken() { Value = LogResponse.Message });
+
+            if (!DelResponse.Succes)
+                Assert.Fail($"Delete failed error: {DelResponse.Message}");
+
+            UserLogic newUser = new UserLogic();
+            newUser.GetById(user.Id);
+            Assert.IsNull(newUser.Id);
+
+        }
 
 
     }

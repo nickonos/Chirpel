@@ -9,5 +9,6 @@ namespace Chirpel.Contract.Interfaces.DAL
     {
         User GetByUsername(string username);
         User GetByEmail(string email);
+        User GetByPassword(string password);
     }
 }

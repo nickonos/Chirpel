@@ -26,5 +26,6 @@ namespace Chirpel.Logic.User
                 Users.Add(new UserLogic(user.Username, user.Email, user.Password, user.Id));
             }
         }
+
     }
 }

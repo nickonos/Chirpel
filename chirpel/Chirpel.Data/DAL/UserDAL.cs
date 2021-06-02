@@ -19,6 +19,11 @@ namespace Chirpel.Data.DAL
             return _databaseQuery.SelectFirst<User>($"Email= @Value1", new string[] { email });
         }
 
+        public User GetByPassword(string password)
+        {
+            return _databaseQuery.SelectFirst<User>($"Password= @Value1", new string[] { password });
+        }
+
         public UserDAL(DatabaseQuery databaseQuery) : base(databaseQuery)
         {
         }

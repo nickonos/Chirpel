@@ -75,10 +75,24 @@ namespace Chirpel.Controllers
                 return new ApiResponse(false, "invalid verification token");
 
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            UserLogic user = new UserLogic();
-            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            string id = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
 
-            Response res = user.Remove();
+            UserSettingsLogic userSettings = new UserSettingsLogic();
+            userSettings.GetById(id);
+
+            Response res = userSettings.Remove();
+
+            if(!res.Succes)
+                return new ApiResponse(res.Succes, res.Message);
+
+            UserFollowerCollection userFollowerCollection = new UserFollowerCollection();
+            userFollowerCollection.Remove(id);
+
+
+            UserLogic user = new UserLogic();
+            user.GetById(id) ;
+
+            res = user.Remove();
 
             return new ApiResponse(res.Succes, res.Message);
         }
