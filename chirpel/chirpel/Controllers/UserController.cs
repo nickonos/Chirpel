@@ -29,8 +29,6 @@ namespace Chirpel.Controllers
         [HttpGet]
         public IEnumerable<UserLogic> GetAll()
         {
-            //UserLogic userLogic = new UserLogic();
-            //List<UserLogic> users = new List<UserLogic>();
             UserCollection userCollection = new UserCollection();
             userCollection.GetAll();
             return userCollection.Users;
@@ -159,7 +157,7 @@ namespace Chirpel.Controllers
         }
 
         [HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
-        public ApiResponse UpdadateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
+        public ApiResponse UpdateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
         {
             if (!_authService.IsTokenValid(profilePictureModel.Token))
                 return new ApiResponse(false, "invalid verificationtoken");

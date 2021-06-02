@@ -50,6 +50,16 @@ namespace Chirpel.Logic.User
             }
             return list;
         }
+
+        public void GetPair(string following, string follower)
+        {
+            UserFollowers userFollowers = _userFollowerDAL.GetFollower(following, follower);
+            if (userFollowers == null)
+                return;
+
+            Followed = userFollowers.Followed;
+            Follower = userFollowers.Follower;
+        }
         public void Add()
         {
             throw new NotImplementedException();

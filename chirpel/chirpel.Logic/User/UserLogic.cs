@@ -1,12 +1,9 @@
-﻿using Chirpel.Factory;
-using Chirpel.Contract.Interfaces.Auth;
+﻿using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
 using Chirpel.Logic.Auth;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
-using Chirpel.Contract.Models.Account;
+
 
 namespace Chirpel.Logic.User
 {
@@ -63,12 +60,32 @@ namespace Chirpel.Logic.User
 
         public Response Remove()
         {
-            return new Response(false, "not implemented");
+            if (Id == null)
+                return new Response(false, "User not found");
+
+            _userDAL.Remove(new Contract.Models.Account.User() { Id = Id });
+
+            return new Response(true, "item removed");
         }
 
         public void Update()
         {
-            throw new NotImplementedException();
+            if (Id == null)
+                return;
+
+            Contract.Models.Account.User user = new Contract.Models.Account.User();
+            user.Id = Id;
+
+            if (Username != null)
+                user.Username = Username;
+
+            if (Email != null)
+                user.Email = Email;
+
+            if (Password != null)
+                user.Password = Password;
+
+            _userDAL.Update(user);
         }
 
         public Response Verify()
@@ -124,8 +141,6 @@ namespace Chirpel.Logic.User
 
         public Response Login()
         {
-            GetByUsername(Username);
-
             Response res = Verify();
 
             if (!res.Succes)

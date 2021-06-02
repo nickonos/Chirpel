@@ -9,7 +9,7 @@ namespace Chirpel.Data.DAL
 {
     public class UserFollowersDAL : DAL<UserFollowers>, IUserFollowersDAL
     {
-        public UserFollowers GetFollowers(string UserId, string Follower)
+        public UserFollowers GetFollower(string UserId, string Follower)
         {
             return _databaseQuery.SelectFirst<UserFollowers>("followed=@value1 and follower = @value2", new string[] {UserId, Follower });
         }

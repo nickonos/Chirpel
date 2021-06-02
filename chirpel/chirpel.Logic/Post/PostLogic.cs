@@ -70,7 +70,7 @@ namespace Chirpel.Logic.Post
             if (Id == null)
                 Id = Guid.NewGuid().ToString();
 
-            if (PostDate == null)
+            if (PostDate == DateTime.MinValue)
                 PostDate = DateTime.UtcNow;
 
             _postDAL.Add(new Contract.Models.Post.Post(Id, Content, UserId, PostDate));

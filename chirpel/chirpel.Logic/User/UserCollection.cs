@@ -7,7 +7,7 @@ namespace Chirpel.Logic.User
 {
     public class UserCollection
     {
-        public List<UserLogic> Users { get; set; }
+        public List<UserLogic> Users { get; private set; }
 
         private readonly IUserDAL _userDAL;
 

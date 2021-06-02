@@ -41,14 +41,32 @@ namespace Chirpel.Controllers
         [HttpGet("explore")]
         public List<UIPost> GetExplore()
         {
-            //postManager.GetExploreFeed();
-            return new List<UIPost>();
+            PostCollection postCollection = new PostCollection();
+            postCollection.GetExplore();
+            List<UIPost> uIPosts = new List<UIPost>();
+            foreach (PostLogic post in postCollection.Posts)
+            {
+                UIPost uIPost = new UIPost();
+                uIPost.GetFromPost(post);
+                uIPosts.Add(uIPost);
+            }
+
+            return uIPosts;
         }
         [HttpGet("explore/{lastPost}")]
         public List<UIPost> GetExplore(string lastPost)
         {
-            //return postManager.GetExploreFeed(lastPost);
-            return new List<UIPost>();
+            PostCollection postCollection = new PostCollection();
+            postCollection.GetExplore();
+            List<UIPost> uIPosts = new List<UIPost>();
+            foreach(PostLogic post in postCollection.Posts)
+            {
+                UIPost uIPost = new UIPost();
+                uIPost.GetFromPost(post);
+                uIPosts.Add(uIPost);
+            }
+
+            return uIPosts;
         }
 
         [HttpPost("personal")]
@@ -57,8 +75,19 @@ namespace Chirpel.Controllers
             if (!_authService.IsTokenValid(token.Value))
                 return new List<UIPost>();
 
-            return new List<UIPost>();
-            //return postManager.GetPersonalFeed(token.Value);
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            PostCollection postCollection = new PostCollection();
+            postCollection.GetPersonal(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+
+            List<UIPost> uIPosts = new List<UIPost>();
+            foreach (PostLogic post in postCollection.Posts)
+            {
+                UIPost uIPost = new UIPost();
+                uIPost.GetFromPost(post);
+                uIPosts.Add(uIPost);
+            }
+
+            return uIPosts;
         }
 
         [HttpPost("personal/{lastPost}")]
@@ -67,8 +96,19 @@ namespace Chirpel.Controllers
             if (!_authService.IsTokenValid(token.Value))
                 return new List<UIPost>();
 
-            return new List<UIPost>();
-            //return postManager.GetPersonalFeed(token.Value, lastPost);
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            PostCollection postCollection = new PostCollection();
+            postCollection.GetPersonal(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+
+            List<UIPost> uIPosts = new List<UIPost>();
+            foreach (PostLogic post in postCollection.Posts)
+            {
+                UIPost uIPost = new UIPost();
+                uIPost.GetFromPost(post);
+                uIPosts.Add(uIPost);
+            }
+
+            return uIPosts;
         }
 
         [HttpPost("create")]

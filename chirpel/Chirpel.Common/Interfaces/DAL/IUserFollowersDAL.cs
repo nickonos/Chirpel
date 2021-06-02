@@ -7,7 +7,7 @@ namespace Chirpel.Contract.Interfaces.DAL
 {
     public interface IUserFollowersDAL : IDAL<UserFollowers>
     {
-        UserFollowers GetFollowers(string UserId, string Follower);
+        UserFollowers GetFollower(string UserId, string Follower);
         List<UserFollowers> GetFollowers(string UserId);
         List<UserFollowers> GetFollowing(string UserId);
     }

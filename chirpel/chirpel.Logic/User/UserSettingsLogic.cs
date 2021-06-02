@@ -67,15 +67,18 @@ namespace Chirpel.Logic.User
             _userSettingsDAL.Add(new UserSettings() { Id = Id, ProfilePicture = ProfilePicture, Bio = Bio, DarkModeEnabled = DarkModeEnabled, IsPrivate = IsPrivate });
         }
 
-        public void GetById(string id)
+        public bool GetById(string id)
         {
             UserSettings userSettings = _userSettingsDAL.Get(id);
+            if (userSettings == null)
+                return false;
 
             Id = userSettings.Id;
             DarkModeEnabled = userSettings.DarkModeEnabled;
             IsPrivate = userSettings.IsPrivate;
             Bio = userSettings.Bio;
             ProfilePicture = userSettings.ProfilePicture;
+            return true;
         }
 
         public Response SetProfilePicture(IFormFile picture, string UserId)
