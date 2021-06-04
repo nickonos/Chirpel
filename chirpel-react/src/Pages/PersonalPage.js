@@ -17,8 +17,9 @@ class ExplorePage extends React.Component{
     componentDidMount() {
         this.props.api.get('/post/personal')
             .then(res =>{
-                console.log(res)
-                this.setState({MessageList : res.data})
+                if(res.data !== undefined && res.data !== null){
+                    this.setState({MessageList : res.data})
+                }
             })
     }
 
@@ -47,7 +48,9 @@ class ExplorePage extends React.Component{
     render() {
         return(
             <div>
-                {this.state.MessageList[0] !== undefined ? <Messages  MessageList={this.state.MessageList}></Messages> : <span>Loading messages...</span>}
+                <h1>PersonalPage</h1>
+
+                {this.state.MessageList[0] ? <Messages  MessageList={this.state.MessageList}></Messages> : <span>Loading messages...</span>}
 
                 <div className={"p-float-right"}  style={{right: 20, bottom: 20, position: "fixed"}}>
                     <Button icon="pi pi-plus" className="p-button-rounded p-button-secondary" onClick={ () => this.SetPostWindow(!this.state.PostWindow)} />

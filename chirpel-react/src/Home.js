@@ -1,11 +1,11 @@
 import Header from "./Header";
 import React from "react";
-import {Button} from "primereact/button";
 import ExplorePage from  "./Pages/ExplorePage"
 import PersonalPage from "./Pages/PersonalPage";
-import {Redirect, Route, Switch} from "react-router-dom";
+import {Route} from "react-router-dom";
 import Post from "./Messages/Post";
-
+import NavMenu from "./NavMenu";
+import Profile from "./Profile";
 
 class Home extends React.Component {
     constructor(props) {
@@ -22,8 +22,8 @@ class Home extends React.Component {
                 posts: [],
                 isPrivate: false
             },
-            explorePage: false,
-            personalPage: true
+            explorePage: true,
+            personalPage: false,
         }
     }
 
@@ -46,26 +46,25 @@ class Home extends React.Component {
                 })
         }
     }
-
-
     render() {
         return (
             <div className="App">
-                <Header account={this.state.account} />
-                <Switch>
+                <Header account={this.state.account} loggedin={this.props.loggedin} />
+
+                {this.props.loggedin ? <NavMenu accountId={this.props.accountId} /> : ""}
                     <Route path={"/explore"}>
-                        <ExplorePage api={this.props.api}></ExplorePage>
+                         <ExplorePage api={this.props.api}/>
                     </Route>
                     <Route path={"/personal"}>
-                        <PersonalPage api={this.props.api} visible={this.state.personalPage}></PersonalPage>
+                        <PersonalPage api={this.props.api} visible={this.state.personalPage}/>
                     </Route>
-                    <Route path={"/post/:id"}>
-                        <Post></Post>
-                    </Route>
-                    <Route>
-                        <Redirect to="/personal"/>
-                    </Route>
-                </Switch>
+                    <Route path={"/post/:id"} render={(props) =>
+                        <Post id={props.match.params.id} api={this.props.api}/>
+                    }/>
+                    <Route path={"/profile/:id"} render={(props) =>
+                        <Profile id={props.match.params.id} api={this.props.api}/>
+                    }/>
+
             </div>
         )
     }

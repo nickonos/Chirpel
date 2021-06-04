@@ -1,50 +1,63 @@
 import React from "react";
 import {Menu} from "primereact/menu";
 
-class Menu extends React.Component{
+class NavMenu extends React.Component{
     constructor(props) {
         super(props);
         this.items = [
             {
-                label: 'Options',
-                items: [
-                    {
-                        label: 'Update',
-                        icon: 'pi pi-refresh',
-                        command: () => {
-                            this.toast.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
-                        }
-                    },
-                    {
-                        label: 'Delete',
-                        icon: 'pi pi-times',
-                        command: () => {
-                            this.toast.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted', life: 3000 });
-                        }
-                    }
-                ]
+                style: {marginTop:"5px"},
+                label:'Home',
+                icon:'pi pi-fw pi-home', command:(event) =>{
+                    window.location ="/home";
+                }
+            },
+            {separator: true},
+            {
+                label:'Explore',
+                icon:'pi pi-fw pi-compass',command:(event) =>{
+                    window.location ="/explore";
+                }},
+            {
+                label:'Personal',
+                icon:'pi pi-fw pi-inbox',command:(event) =>{
+                    window.location ="/personal";
+                }},
+            {
+                label: 'Profile',
+                icon:"pi pi-fw pi-user", command:(event) =>{
+                    window.location ="/profile/" + this.props.accountId;
+                }},
+            {
+                label: 'Settings',
+                icon: "pi pi-fw pi-cog",command:(event) =>{
+                    window.location ="/settings";
+                }},
+            {
+                label: 'Help',
+                icon: "pi pi-fw pi pi-question",command:(event) => {
+                    window.location = "/help";
+                }},
+            {
+                separator:true,
             },
             {
-                label: 'Navigate',
-                items: [
-                    {
-                        label: 'React Website',
-                        icon: 'pi pi-external-link',
-                        url: 'https://reactjs.org/'
-                    },
-                    {
-                        label: 'Router',
-                        icon: 'pi pi-upload',
-                        command:(e) => {
-                            window.location.hash = "/fileupload"
-                        }
-                    }
-                ]
-            }
+                label: 'Log out',
+                icon: "pi pi-fw pi-sign-out", command:(event) =>{
+                    this.LogOut();
+                }},
         ];
     }
+
+    LogOut = () => {
+        localStorage.removeItem("token")
+        window.location.reload(true);
+    }
+
     render() {
-        return<Menu></Menu>
+        return<div style={{position: "fixed",height:"100%", top:"0"}}>
+            <Menu style={{padding: "0px",height:"100%"}} model={this.items}></Menu>
+        </div>
     }
 }
-export default Menu
+export default NavMenu

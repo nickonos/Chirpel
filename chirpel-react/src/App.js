@@ -11,7 +11,7 @@ import 'primeflex/primeflex.css';
 const axios = require('axios');
 
 const api = axios.create({
-    baseURL: 'https://localhost:44380/',
+    baseURL: 'https://i468166core.venus.fhict.nl/',
     timeout: 5000
 
 });
@@ -30,7 +30,7 @@ const api = axios.create({
         if(localStorage.getItem("token") !== null){
             api.post('/user/verifyuser', {
                 value: localStorage.getItem("token")
-            }, {mode:'cors'})
+            })
                 .then(res => {
                     if(res.data.succes){
                         this.setState({
@@ -51,21 +51,19 @@ const api = axios.create({
     render() {
         return (
             <div>
-
                 <Router>
                     <Switch>
                         <Route path="/auth" exact>
-                            {this.state.loggedIn ? <Redirect to="/"/> : <Auth loggedin={this.SetLogin} api={api} />}
+                            {this.state.loggedIn ? <Redirect to="/"/> : <Auth SetLogin={this.SetLogin} api={api} />}
                         </Route>
                         <Route path="/" exact>
-                            {this.state.loggedIn ? <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
                         </Route>
-
                         <Route path="/home">
-                            {this.state.loggedIn ? <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route>
-                            <Home loggedin={this.SetLogin} api={api} accountId={this.state.accountId} />
+                            <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} />
                         </Route>
                     </Switch>
                 </Router>

@@ -19,7 +19,6 @@ class ExplorePage extends React.Component{
         this.props.api.get('/post/explore')
             .then(res =>{
                 if(res.data !== undefined && res.data !== null){
-                    console.log("res data", res.data)
                     this.setState({MessageList : res.data})
                 }
             })
@@ -51,18 +50,22 @@ class ExplorePage extends React.Component{
     render() {
         return(
             <div>
-                {this.state.MessageList[0] !== undefined ? <Messages  MessageList={this.state.MessageList} api={this.props.api}></Messages> : <span>Loading messages...</span>}
+                <h1>ExplorePage</h1>
+
+                {this.state.MessageList[0] !== undefined ? <Messages  MessageList={this.state.MessageList} api={this.props.api}/> : <span>Loading messages...</span>}
 
                 <div className={"p-float-right"}  style={{right: 20, bottom: 20, position: "fixed"}}>
                     <Button icon="pi pi-plus" className="p-button-rounded p-button-secondary" onClick={ () => this.SetPostWindow(!this.state.PostWindow)} />
                 </div>
 
                 <Sidebar visible={this.state.PostWindow} position="right" onHide={() => this.SetPostWindow(false)}>
-                    <h1 style={{ fontWeight: 'normal' }}>Create Post</h1>
-                    <InputTextarea rows={5} cols={30} value={this.state.PostText} onChange={(e) => this.SetPostText(e.target.value)} autoResize/>
+                    <div>
+                        <h1 style={{ fontWeight: 'normal' }}>Create Post</h1>
+                        <InputTextarea rows={3} cols={30} value={this.state.PostText} onChange={(e) => this.SetPostText(e.target.value)} autoResize/>
 
-                    <Button type="button" onClick={() =>this.SendCreatePost()} label="Post" className="p-button-sm" style={{ marginRight: '.25em' }} />
-                    <small className="p-error p-d-block">{this.state.PostError}</small>
+                        <Button type="button" onClick={() =>this.SendCreatePost()} label="Post" className="p-button-sm p-button-rounded" style={{ width:"100px" }} />
+                        <small className="p-error p-d-block">{this.state.PostError}</small>
+                    </div>
                 </Sidebar>
             </div>)
     }
