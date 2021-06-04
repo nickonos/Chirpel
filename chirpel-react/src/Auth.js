@@ -221,7 +221,7 @@ class Auth extends React.Component {
                         <h1 style={{fontSize:"100px", marginTop:"30%", marginBottom:"5%"}}>Chirpel</h1>
                         <Button label="Login" style={{width:"10em"}} className={"p-button-rounded"}
                                 onClick={() => this.SetLoginPanel(true)}/><br/>
-                        <Button label="Register" style={{width:"10em"}} className={"p-button-rounded p-button-outlined p-mt-1" }
+                        <Button label="Register" style={{width:"10em", backgroundColor:"white"}} className={"p-button-rounded p-button-outlined p-mt-1" }
                                 onClick={() => this.SetRegisterPanel(true)}/>
                     </div>
                     <div className="p-col-3 p-p-0">

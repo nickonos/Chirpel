@@ -17,6 +17,12 @@ namespace Chirpel.Logic.User
             Users = new List<UserLogic>();
         }
 
+        public UserCollection(IUserDAL userDAL)
+        {
+            _userDAL = userDAL;
+            Users = new List<UserLogic>();
+        }
+
         public void GetAll()
         {
             List<Contract.Models.Account.User> users = _userDAL.GetAll();

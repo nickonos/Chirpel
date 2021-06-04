@@ -10,8 +10,8 @@ namespace Chirpel.Logic.Post
 {
     public class PostLikesLogic
     {
-        public string PostId { get; set; }
-        public string UserId { get; set; }
+        public string PostId { get; private set; }
+        public string UserId { get; private set; }
 
         private readonly IPostLikesDAL _postLikesDAL;
         private readonly IAuthService _authService;
@@ -19,6 +19,20 @@ namespace Chirpel.Logic.Post
         public PostLikesLogic()
         {
             _postLikesDAL = Factory.Factory.CreateIPostLikesDAL();
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public PostLikesLogic(IPostLikesDAL post)
+        {
+            _postLikesDAL = post;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public PostLikesLogic(IPostLikesDAL post, string postId, string userId)
+        {
+            PostId = postId;
+            UserId = userId;
+            _postLikesDAL = post;
             _authService = Factory.Factory.CreateIAuthService();
         }
 
@@ -32,6 +46,17 @@ namespace Chirpel.Logic.Post
                 likes.Add(like.UserId);
             }
             return likes;
+        }
+
+        public void Add()
+        {
+            if (PostId == null || UserId == null)
+                return;
+
+            if (_postLikesDAL.GetPostLikes(PostId, UserId) != null)
+                return;
+
+            _postLikesDAL.Add(new PostLikes() { PostId = PostId, UserId = UserId });
         }
     }
 }

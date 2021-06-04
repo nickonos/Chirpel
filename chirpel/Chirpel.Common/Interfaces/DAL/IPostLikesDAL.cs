@@ -8,5 +8,6 @@ namespace Chirpel.Contract.Interfaces.DAL
     public interface IPostLikesDAL : IDAL<PostLikes>
     {
         List<PostLikes> GetPostLikes(string postId);
+        PostLikes GetPostLikes(string postId, string UserId);
     }
 }

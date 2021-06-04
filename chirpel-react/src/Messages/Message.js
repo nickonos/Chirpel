@@ -13,15 +13,13 @@ class Message extends React.Component {
     render() {
         var profilePicture;
 
-        if (this.props.message.userpfp !== undefined && this.props.message.userpfp !== ""){
+        if (this.props.message.userpfp && this.props.message.userpfp !== ""){
             profilePicture = <Avatar image={require("./../pictures/"+ this.props.message.userpfp)} shape={"circle"}
                             style={{margin: "5px", verticalAlign: "middle"}}/>
         }else{
             profilePicture = <Avatar image={require("./../pictures/Default.jpg")} shape={"circle"}
                     style={{margin: "5px", verticalAlign: "middle"}}/>
         }
-        console.log(DateTime.isDateTime(this.props.message.postDate))
-
 
         return (
             <div className={"message p-component"} style={{width: "40%"}}>

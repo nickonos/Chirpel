@@ -27,6 +27,19 @@ namespace Chirpel.Logic.User
             _authService = Factory.Factory.CreateIAuthService();
         }
 
+        public UserSettingsLogic(IUserSettingsDAL userSettingsDAL)
+        {
+            _userSettingsDAL = userSettingsDAL;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public UserSettingsLogic(IUserSettingsDAL userSettingsDAL, string id)
+        {
+            Id = id;
+            _userSettingsDAL = userSettingsDAL;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
         public UserSettingsLogic(string id)
         {
             _userSettingsDAL = Factory.Factory.CreateIUserSettingsDAL();
@@ -34,6 +47,7 @@ namespace Chirpel.Logic.User
 
             Id = id;
         }
+
 
         public UserSettingsLogic(string id, bool darkmodeEnabled, bool isPrivate, string bio, string profilePicture)
         {

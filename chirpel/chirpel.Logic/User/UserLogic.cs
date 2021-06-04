@@ -23,6 +23,21 @@ namespace Chirpel.Logic.User
             _authService = Factory.Factory.CreateIAuthService();
         }
 
+        public UserLogic(IUserDAL userDAl)
+        {
+            _userDAL = userDAl;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public UserLogic(IUserDAL userDAl, string username, string email, string password)
+        {
+            Username = username;
+            Email = email;
+            Password = password;
+            _userDAL = userDAl;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
         public UserLogic(string username, string email, string password, string id)
         {
             Id = id;
@@ -50,7 +65,7 @@ namespace Chirpel.Logic.User
             _authService = Factory.Factory.CreateIAuthService();
         } 
 
-        private void Add()
+        public void Add()
         {
             if (Id == null)
                 Id = Guid.NewGuid().ToString();
@@ -141,7 +156,6 @@ namespace Chirpel.Logic.User
             Password = user.Password;
         }
 
-
         public Response Login()
         {
             Response res = Verify();
@@ -184,9 +198,9 @@ namespace Chirpel.Logic.User
             if (Id != null)
                 return new Response(false, "email");
             Guid id = Guid.NewGuid();
-            UserLogic user = new UserLogic(Username, Email, Password, id.ToString());
+            Id = id.ToString();
 
-            user.Add();
+            Add();
 
             UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id.ToString());
 

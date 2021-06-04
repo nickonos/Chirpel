@@ -1,4 +1,7 @@
 using Chirpel.Controllers;
+using Chirpel.Data.FakeDAL;
+using Chirpel.Logic;
+using Chirpel.Logic.Post;
 using Chirpel.Logic.User;
 using Chirpel.Models;
 using NUnit.Framework;
@@ -116,9 +119,87 @@ namespace Chirpel.Test
             UserLogic newUser = new UserLogic();
             newUser.GetById(user.Id);
             Assert.IsNull(newUser.Id);
+        }
 
+        [Test]
+        public void TestUserFollowerAdd()
+        {
+            FakeUserFollowersDAL fakeUserFollowersDAL = new FakeUserFollowersDAL();        
+
+            Random random = new Random();
+            string Follower = random.Next().ToString();
+            string Followed = random.Next().ToString();
+
+            UserFollowerLogic userFollowerLogic = new UserFollowerLogic(fakeUserFollowersDAL, Followed, Follower);
+            userFollowerLogic.Add();
+
+            Assert.IsNotNull(fakeUserFollowersDAL.userFollowers.Find(c => c.Followed == Followed && c.Follower == Follower));
+        }
+
+        [Test]
+        public void TestUserAdd()
+        {
+            FakeUserDAL fakeUserDal = new FakeUserDAL();
+
+            Random random = new Random();
+            string Username = random.Next().ToString();
+            string Email = random.Next().ToString();
+            string Password = random.Next().ToString();
+
+            UserLogic userLogic = new UserLogic(fakeUserDal, Username, Email, Password);
+
+            userLogic.Add();
+
+            Assert.IsNotNull(fakeUserDal.Users.Find(c => c.Username == Username && c.Email == Email && c.Password == Password));
         }
 
 
+        [Test]
+        public void TestUserSettingsAdd()
+        {
+            FakeUserSettingsDAL fakeUserSettingsDAL = new FakeUserSettingsDAL();
+
+            Random random = new Random();
+            string id = random.Next().ToString();
+
+            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(fakeUserSettingsDAL, id);
+
+            userSettingsLogic.Add();
+
+            Assert.IsNotNull(fakeUserSettingsDAL.UserSettings.Find(c => c.Id == id));
+        }
+
+
+        [Test]
+        public void TestPostAdd()
+        {
+            FakePostDAL fakePostDAL = new FakePostDAL();
+
+            Random random = new Random();
+            string content = random.Next().ToString();
+            string UserId = random.Next().ToString();
+
+            PostLogic postLogic = new PostLogic(fakePostDAL, content, UserId);
+
+            postLogic.Add();
+
+            Assert.IsNotNull(fakePostDAL.Posts.Find(c => c.UserId == UserId && c.Content == content));
+        }
+
+        [Test]
+        public void TestPostLikesAdd()
+        {
+            FakePostLikesDAL fakePostLikesDAL = new FakePostLikesDAL();
+
+            Random random = new Random();
+            string UserId = random.Next().ToString();
+            string PostId = random.Next().ToString();
+
+            PostLikesLogic postLikesLogic = new PostLikesLogic(fakePostLikesDAL, PostId, UserId);
+
+            postLikesLogic.Add();
+
+            Assert.IsNotNull(fakePostLikesDAL.PostLikes.Find(c => c.PostId == PostId && c.UserId == UserId));
+        }
     }
 }

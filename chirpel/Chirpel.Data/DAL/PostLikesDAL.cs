@@ -18,5 +18,10 @@ namespace Chirpel.Data.DAL
         {
             return _databaseQuery.Select<PostLikes>("PostId = @Value1", new string[] { postId});
         }
+
+        public PostLikes GetPostLikes(string postId, string UserId)
+        {
+            return _databaseQuery.SelectFirst<PostLikes>("PostId = @Value1 And UserId = @Value2", new string[] { postId, UserId });
+        }
     }
 }

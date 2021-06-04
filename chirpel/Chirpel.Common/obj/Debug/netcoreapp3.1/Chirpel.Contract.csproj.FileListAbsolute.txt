@@ -6,4 +6,4 @@ C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\bin\Debug\netcoreapp3
 C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\bin\Debug\netcoreapp3.1\Chirpel.Contract.pdb
 C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.dll
 C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.pdb
-C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.csproj.AssemblyReference.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Common\obj\Debug\netcoreapp3.1\Chirpel.Contract.csprojAssemblyReference.cache

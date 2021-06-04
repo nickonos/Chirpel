@@ -18,9 +18,16 @@ namespace Chirpel.Logic.Post
             Posts = new List<PostLogic>();
         }
 
+        public PostCollection(IPostDAL postDAL)
+        {
+            _postDAL = postDAL;
+            Posts = new List<PostLogic>();
+        }
+
+
         public void GetExplore()
         {
-            List<Contract.Models.Post.Post> posts = _postDAL.GetAll();
+            List<Contract.Models.Post.Post> posts = _postDAL.GetPostsOrderbyDesc();
             int i = 0;
             foreach(Contract.Models.Post.Post post in posts)
             {
@@ -40,7 +47,7 @@ namespace Chirpel.Logic.Post
 
         public void GetPersonal(string userId)
         {
-            List<Contract.Models.Post.Post> posts = _postDAL.GetAll();
+            List<Contract.Models.Post.Post> posts = _postDAL.GetPostsOrderbyDesc();
             int i = 0;
             
             foreach (Contract.Models.Post.Post post in posts)

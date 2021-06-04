@@ -15,6 +15,13 @@ namespace Chirpel.Logic.User
             userFollowers = new List<UserFollowerLogic>();
             _userFollowerDAL = Factory.Factory.CreateIUserFollowerDAL();
         }
+
+        public UserFollowerCollection(IUserFollowersDAL userFollowersDAL)
+        {
+            userFollowers = new List<UserFollowerLogic>();
+            _userFollowerDAL = userFollowersDAL;
+        }
+
         public void Remove(string UserId)
         {
             _userFollowerDAL.DeleteAll(UserId);

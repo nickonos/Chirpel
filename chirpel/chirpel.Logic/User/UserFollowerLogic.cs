@@ -10,8 +10,8 @@ namespace Chirpel.Logic.User
 {
     public class UserFollowerLogic
     {
-        public string Followed { get; set; }
-        public string Follower { get; set; }
+        public string Followed { get; private set; }
+        public string Follower { get; private set; }
 
         private readonly IUserFollowersDAL _userFollowerDAL;
         private readonly IAuthService _authService;
@@ -22,10 +22,27 @@ namespace Chirpel.Logic.User
             _authService = Factory.Factory.CreateIAuthService();
         }
 
+        public UserFollowerLogic(IUserFollowersDAL userFollowersDAL)
+        {
+            _userFollowerDAL = userFollowersDAL;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public UserFollowerLogic(IUserFollowersDAL userFollowersDAL, string followed, string follower)
+        {
+            Followed = followed;
+            Follower = follower;
+            _userFollowerDAL = userFollowersDAL;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+
         public UserFollowerLogic(string followed, string follower)
         {
             Followed = followed;
             Follower = follower;
+            _userFollowerDAL = Factory.Factory.CreateIUserFollowerDAL();
+            _authService = Factory.Factory.CreateIAuthService();
         } 
         public List<string> GetFollowers(string id)
         {
@@ -66,13 +83,22 @@ namespace Chirpel.Logic.User
             if (Followed == null || Follower == null)
                 return new Response(false, "Invalid UserFollower");
 
+            if (_userFollowerDAL.GetFollower(Followed, Follower) != null)
+                return new Response(false, "you already follow this user"); ;
+
             _userFollowerDAL.Add(new UserFollowers() { Follower = Follower, Followed = Followed });
             return new Response(true, "transaction succesful");
         }
 
         public void Remove()
         {
-            throw new NotImplementedException();
+            if (Followed == null || Follower == null)
+                return;
+
+            if (_userFollowerDAL.GetFollower(Followed, Follower) == null)
+                return;
+
+            _userFollowerDAL.Remove(new UserFollowers() { Followed = Followed, Follower = Follower });
         }
     }
 }

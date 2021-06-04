@@ -8,7 +8,6 @@ namespace Chirpel.Contract.Interfaces.DAL
     public interface IPostDAL : IDAL<Post>
     {
         List<Post> GetPostsOrderbyDesc();
-        bool CreatePost(Post post);
         List<Post> GetByUserId(string userId);
     }
 }

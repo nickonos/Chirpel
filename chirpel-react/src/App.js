@@ -50,6 +50,8 @@ const api = axios.create({
 
     render() {
         return (
+            <div>
+
                 <Router>
                     <Switch>
                         <Route path="/auth" exact>
@@ -67,6 +69,8 @@ const api = axios.create({
                         </Route>
                     </Switch>
                 </Router>
+            </div>
+
         )
     }
 }

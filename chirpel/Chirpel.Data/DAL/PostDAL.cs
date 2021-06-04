@@ -14,11 +14,6 @@ namespace Chirpel.Data.DAL
             return _databaseQuery.Select<Post>("PostDate DESC");
         }
 
-        public bool CreatePost(Post post)
-        {
-            return _databaseQuery.Insert(post);
-        }
-
         public List<Post> GetByUserId(string userId)
         {
             return _databaseQuery.Select<Post>("UserId =@value1", new string[] {userId });

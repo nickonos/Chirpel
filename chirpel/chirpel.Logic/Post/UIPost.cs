@@ -20,6 +20,11 @@ namespace Chirpel.Logic.User
 
         private readonly IPostDAL _postDAL;
 
+        public UIPost(IPostDAL postDAL)
+        {
+            _postDAL = postDAL;
+        }
+
         public UIPost()
         {
             _postDAL = Factory.Factory.CreateIPostDAL();
@@ -39,6 +44,9 @@ namespace Chirpel.Logic.User
 
         public void GetFromPost(PostLogic postLogic)
         {
+            if (postLogic.Id == null)
+                return;
+
             PostId = postLogic.Id;
             Content = postLogic.Content;
             UserId = postLogic.UserId;

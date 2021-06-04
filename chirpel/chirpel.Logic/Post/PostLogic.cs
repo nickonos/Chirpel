@@ -17,6 +17,20 @@ namespace Chirpel.Logic.Post
         private readonly IPostDAL _postDAL;
         private readonly IAuthService _authService;
 
+        public PostLogic (IPostDAL postDAL)
+        {
+            _postDAL = postDAL;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
+        public PostLogic(IPostDAL postDAL, string content, string userId)
+        {
+            _postDAL = postDAL;
+            Content = content;
+            UserId = userId;
+            _authService = Factory.Factory.CreateIAuthService();
+        }
+
         public PostLogic()
         {
             _postDAL = Factory.Factory.CreateIPostDAL();
@@ -67,11 +81,14 @@ namespace Chirpel.Logic.Post
 
         public void Add()
         {
+            if (Content == null || UserId == null)
+                return;
             if (Id == null)
                 Id = Guid.NewGuid().ToString();
 
             if (PostDate == DateTime.MinValue)
                 PostDate = DateTime.UtcNow;
+
 
             _postDAL.Add(new Contract.Models.Post.Post(Id, Content, UserId, PostDate));
         }

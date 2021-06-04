@@ -65,7 +65,7 @@ class Header extends React.Component{
 
     render(){
         return(
-            <Menubar style={{maxHeight:"60px"}} model={items} end={this.end}></Menubar>
+            <Menubar style={{maxHeight:"60px", marginBottom: "5px"}} model={items} end={this.end}></Menubar>
         )
     }
 }
