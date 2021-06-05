@@ -5,6 +5,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel\bin\Release\netcoreapp3.1\publish\</_PublishTargetUrl>
-    <History>True|2021-06-04T16:50:40.3976302Z;True|2021-05-25T19:51:06.7544259+02:00;True|2021-05-25T19:14:40.5591720+02:00;True|2021-05-25T19:08:01.7742072+02:00;True|2021-05-25T14:07:39.0229604+02:00;</History>
+    <History>True|2021-06-05T11:43:58.4070461Z;True|2021-06-05T13:41:18.4362356+02:00;True|2021-06-04T18:50:40.3976302+02:00;True|2021-05-25T19:51:06.7544259+02:00;True|2021-05-25T19:14:40.5591720+02:00;True|2021-05-25T19:08:01.7742072+02:00;True|2021-05-25T14:07:39.0229604+02:00;</History>
   </PropertyGroup>
 </Project>

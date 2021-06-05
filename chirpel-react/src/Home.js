@@ -62,7 +62,7 @@ class Home extends React.Component {
                         <Post id={props.match.params.id} api={this.props.api}/>
                     }/>
                     <Route path={"/profile/:id"} render={(props) =>
-                        <Profile id={props.match.params.id} api={this.props.api}/>
+                        <Profile id={props.match.params.id} accountId={this.props.accountId} api={this.props.api}/>
                     }/>
 
             </div>

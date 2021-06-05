@@ -11,8 +11,8 @@ import 'primeflex/primeflex.css';
 const axios = require('axios');
 
 const api = axios.create({
-    baseURL: 'https://i468166core.venus.fhict.nl/',
-    timeout: 5000
+    baseURL: 'https://localhost:44380/',
+    timeout: 10000
 
 });
 
@@ -57,13 +57,13 @@ const api = axios.create({
                             {this.state.loggedIn ? <Redirect to="/"/> : <Auth SetLogin={this.SetLogin} api={api} />}
                         </Route>
                         <Route path="/" exact>
-                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route path="/home">
-                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} /> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route>
-                            <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} />
+                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Auth SetLogin={this.SetLogin} api={api}/>}
                         </Route>
                     </Switch>
                 </Router>

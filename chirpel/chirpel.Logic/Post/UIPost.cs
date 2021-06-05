@@ -61,7 +61,7 @@ namespace Chirpel.Logic.User
             user.GetById(UserId);
 
             UIUser uiUser = new UIUser();
-            uiUser.GetFromUser(user);
+            uiUser.GetFromUser(user, false);
 
             Userpfp = uiUser.ProfilePicture;
             Username = uiUser.Username;

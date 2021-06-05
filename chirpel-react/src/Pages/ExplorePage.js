@@ -16,8 +16,10 @@ class ExplorePage extends React.Component{
     }
 
     componentDidMount() {
+        console.log("send api")
         this.props.api.get('/post/explore')
             .then(res =>{
+                console.log(res.data)
                 if(res.data !== undefined && res.data !== null){
                     this.setState({MessageList : res.data})
                 }

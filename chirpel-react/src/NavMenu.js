@@ -56,7 +56,7 @@ class NavMenu extends React.Component{
 
     render() {
         return<div style={{position: "fixed",height:"100%", top:"0"}}>
-            <Menu style={{padding: "0px",height:"100%"}} model={this.items}></Menu>
+            <Menu style={{padding: "0px",height:"100%"}} model={this.items}/>
         </div>
     }
 }

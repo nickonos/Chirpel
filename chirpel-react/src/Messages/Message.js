@@ -29,7 +29,7 @@ class Message extends React.Component {
                               to={"/profile/" + this.props.message.userId}>@{this.props.message.username}</Link>
                         <span
                             className={"message-date"}
-                            data-pr-tooltip={DateTime.fromISO(this.props.message.postDate,{zone: 'utc'} ).setLocale("nl").toLocaleString(DateTime.DATETIME_FULL)}> — {DateTime.fromISO(this.props.message.postDate,{zone: 'utc'}).toRelative({locale: "nl"})} gepost</span>
+                            data-pr-tooltip={DateTime.fromISO(this.props.message.postDate,{zone: 'utc'} ).setLocale("nl").toLocaleString(DateTime.DATETIME_FULL)}> — posted {DateTime.fromISO(this.props.message.postDate,{zone: 'utc'}).toRelative({locale: "en"})} </span>
                     </div>
                     <div className={"p-d-flex p-jc-between p-ai-end"}>
                         <div style={{

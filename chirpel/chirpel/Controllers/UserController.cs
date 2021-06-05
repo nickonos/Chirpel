@@ -41,7 +41,7 @@ namespace Chirpel.Controllers
             user.GetById(UserId);
 
             UIUser account = new UIUser();
-            account.GetFromUser(user);
+            account.GetFromUser(user, true);
 
             return account;
         }

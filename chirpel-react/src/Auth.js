@@ -76,6 +76,7 @@ class Auth extends React.Component {
                 username: this.state.loginUser.username,
                 password: this.state.loginUser.password
             }).then(res =>{
+                console.log(res.data)
                     if(res.data.succes){
                         localStorage.setItem("token", res.data.message)
                         this.props.SetLogin(res.data.succes)

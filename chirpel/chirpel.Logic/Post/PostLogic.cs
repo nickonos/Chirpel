@@ -66,15 +66,14 @@ namespace Chirpel.Logic.Post
             PostDate = post.PostDate;
         }
 
-        public List<string> GetAllPostsFromUser(string id)
+        public List<PostLogic> GetAllPostsFromUser(string id)
         {
-            List<string> output = new List<string>();
-
+            List<PostLogic> output = new List<PostLogic>();
             List<Contract.Models.Post.Post> posts = _postDAL.GetByUserId(id);
 
             foreach(Contract.Models.Post.Post post in posts)
             {
-                output.Add(post.Id);
+                output.Add(new PostLogic(post.Id, post.Content, post.UserId, post.PostDate));
             }
             return output;
         }

@@ -15,7 +15,7 @@ class ExplorePage extends React.Component{
         }
     }
     componentDidMount() {
-        this.props.api.get('/post/personal')
+        this.props.api.post('/post/personal', {Value: localStorage.getItem("token")})
             .then(res =>{
                 if(res.data !== undefined && res.data !== null){
                     this.setState({MessageList : res.data})

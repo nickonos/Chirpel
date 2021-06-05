@@ -16,11 +16,15 @@ namespace Chirpel.Logic.User
         public bool IsPrivate { get; set; }
         public List<string> Followers { get; set; }
         public List<string> Following { get; set; }
-        public List<string> Posts { get; set; }
+        public List<UIPost> Posts { get; set; }
 
-        public UIUser() { }
+        public UIUser() {
+            Followers = new List<string>();
+            Following = new List<string>();
+            Posts = new List<UIPost>();
+        }
 
-        public UIUser(string id, string username, string bio, string profilePicture, bool isPrivate, List<string> followers, List<string> following, List<string> posts)
+        public UIUser(string id, string username, string bio, string profilePicture, bool isPrivate, List<string> followers, List<string> following, List<UIPost> posts)
         {
             Id = id;
             Username = username;
@@ -32,7 +36,7 @@ namespace Chirpel.Logic.User
             Posts = posts;
         }
 
-        public void GetFromUser(UserLogic user)
+        public void GetFromUser(UserLogic user, bool deeper)
         {
             Id = user.Id;
             Username = user.Username;
@@ -49,7 +53,17 @@ namespace Chirpel.Logic.User
             Following = userFollowerLogic.GetFollowing(Id);
 
             PostLogic postLogic = new PostLogic();
-            Posts = postLogic.GetAllPostsFromUser(Id);
+            List<PostLogic> posts = postLogic.GetAllPostsFromUser(Id);
+            if (deeper)
+            {
+                foreach(PostLogic post in posts)
+                {
+                    UIPost uIPost = new UIPost();
+                    uIPost.GetFromPost(post);
+                    Posts.Add(uIPost);
+                }
+            }
+            
         }
     }
 }
