@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
 import {Route, BrowserRouter as Router, Switch, Redirect} from "react-router-dom";
-import Auth from "./Auth"
-import Home from "./Home"
+import AuthPage from "./Pages/AuthPage"
+import HomePage from "./Pages/HomePage"
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -11,7 +11,7 @@ import 'primeflex/primeflex.css';
 const axios = require('axios');
 
 const api = axios.create({
-    baseURL: 'https://localhost:44380/',
+    baseURL: 'https://i468166core.venus.fhict.nl/',
     timeout: 10000
 
 });
@@ -54,16 +54,16 @@ const api = axios.create({
                 <Router>
                     <Switch>
                         <Route path="/auth" exact>
-                            {this.state.loggedIn ? <Redirect to="/"/> : <Auth SetLogin={this.SetLogin} api={api} />}
+                            {this.state.loggedIn ? <Redirect to="/"/> : <AuthPage SetLogin={this.SetLogin} api={api} />}
                         </Route>
                         <Route path="/" exact>
-                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
+                            {this.state.loggedIn ? <HomePage loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
                         </Route>
-                        <Route path="/home">
-                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
+                        <Route path="/home" exact>
+                            {this.state.loggedIn ? <HomePage loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Redirect to="/auth"/>}
                         </Route>
                         <Route>
-                            {this.state.loggedIn ? <Home loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <Auth SetLogin={this.SetLogin} api={api}/>}
+                            {this.state.loggedIn ? <HomePage loggedin={this.state.loggedIn} api={api} accountId={this.state.accountId} SetLogin={this.SetLogin} /> : <AuthPage SetLogin={this.SetLogin} api={api}/>}
                         </Route>
                     </Switch>
                 </Router>

@@ -13,4 +13,4 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\bin\Debug\netcoreapp3.
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\bin\Debug\netcoreapp3.1\Chirpel.Factory.pdb
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\bin\Debug\netcoreapp3.1\Chirpel.Contract.dll
 C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\bin\Debug\netcoreapp3.1\Chirpel.Contract.pdb
-C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\obj\Debug\netcoreapp3.1\Chirpel.Logic.csprojAssemblyReference.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\chirpel.Logic\obj\Debug\netcoreapp3.1\Chirpel.Logic.csproj.AssemblyReference.cache

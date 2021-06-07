@@ -65,5 +65,15 @@ namespace Chirpel.Logic.Post
                 i++;
             }
         }
+
+        public void GetAllPostsFromUser(string id)
+        {
+            List<Contract.Models.Post.Post> posts = _postDAL.GetByUserId(id);
+
+            foreach (Contract.Models.Post.Post post in posts)
+            {
+                Posts.Add(new PostLogic(post.Id, post.Content, post.UserId, post.PostDate));
+            }
+        }
     }
 }

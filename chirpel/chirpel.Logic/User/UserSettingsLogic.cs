@@ -48,6 +48,14 @@ namespace Chirpel.Logic.User
             Id = id;
         }
 
+        public UserSettingsLogic(string id, string bio)
+        {
+            _userSettingsDAL = Factory.Factory.CreateIUserSettingsDAL();
+            _authService = Factory.Factory.CreateIAuthService();
+
+            Id = id;
+            Bio = bio;
+        }
 
         public UserSettingsLogic(string id, bool darkmodeEnabled, bool isPrivate, string bio, string profilePicture)
         {
@@ -103,6 +111,23 @@ namespace Chirpel.Logic.User
             Bio = userSettings.Bio;
             ProfilePicture = userSettings.ProfilePicture;
             return true;
+        }
+
+        public void Update()
+        {
+            if (Id == null)
+                return;
+            UserSettings user = new UserSettings() { Id = Id };
+            if (Bio != null)
+                user.Bio = Bio;
+            if (DarkModeEnabled != null)
+                user.DarkModeEnabled = DarkModeEnabled;
+            if (IsPrivate != null)
+                user.IsPrivate = IsPrivate;
+            if (ProfilePicture != null)
+                user.ProfilePicture = ProfilePicture;
+
+            _userSettingsDAL.Update(user);
         }
 
         public Response SetProfilePicture(IFormFile picture, string UserId)

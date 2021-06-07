@@ -1,14 +1,15 @@
-import Header from "./Header";
+import Header from "../Header";
 import React from "react";
-import ExplorePage from  "./Pages/ExplorePage"
-import PersonalPage from "./Pages/PersonalPage";
+import ExplorePage from "./ExplorePage"
+import PersonalPage from "./PersonalPage";
 import {Route} from "react-router-dom";
-import Post from "./Messages/Post";
-import NavMenu from "./NavMenu";
-import Profile from "./Profile";
-import Settings from "./Pages/Settings";
+import Post from "../Messages/Post";
+import NavMenu from "../NavMenu";
+import ProfilePage from "./ProfilePage";
+import SettingsPage from "./SettingsPage";
+import HelpPage from "./HelpPage"
 
-class Home extends React.Component {
+class HomePage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -47,30 +48,34 @@ class Home extends React.Component {
                 })
         }
     }
+
     render() {
         return (
             <div className="App">
                 <Header account={this.state.account} loggedin={this.props.loggedin} />
 
                 {this.props.loggedin ? <NavMenu accountId={this.props.accountId} /> : ""}
-                    <Route path={"/explore"}>
+                    <Route path={"/explore"} exact>
                          <ExplorePage api={this.props.api}/>
                     </Route>
-                    <Route path={"/settings"}> 
-                        <Settings/>
+                    <Route path={"/settings"} exact>
+                        <SettingsPage/>
                     </Route>
-                    <Route path={"/personal"}>
+                    <Route path={"/help"} exact>
+                        <HelpPage/>
+                    </Route>
+                    <Route path={"/personal"} exact>
                         <PersonalPage api={this.props.api} visible={this.state.personalPage}/>
                     </Route>
                     <Route path={"/post/:id"} render={(props) =>
                         <Post id={props.match.params.id} api={this.props.api}/>
                     }/>
                     <Route path={"/profile/:id"} render={(props) =>
-                        <Profile id={props.match.params.id} accountId={this.props.accountId} api={this.props.api}/>
+                        <ProfilePage id={props.match.params.id} accountId={this.props.accountId} api={this.props.api}/>
                     }/>
-
+                    
             </div>
         )
     }
 }
-export default Home
+export default HomePage

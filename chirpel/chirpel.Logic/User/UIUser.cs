@@ -52,11 +52,11 @@ namespace Chirpel.Logic.User
             Followers = userFollowerLogic.GetFollowers(Id);
             Following = userFollowerLogic.GetFollowing(Id);
 
-            PostLogic postLogic = new PostLogic();
-            List<PostLogic> posts = postLogic.GetAllPostsFromUser(Id);
+            PostCollection postCollection= new PostCollection();
+            postCollection.GetAllPostsFromUser(Id);
             if (deeper)
             {
-                foreach(PostLogic post in posts)
+                foreach(PostLogic post in postCollection.Posts)
                 {
                     UIPost uIPost = new UIPost();
                     uIPost.GetFromPost(post);

@@ -1,14 +1,15 @@
 import React from "react";
 import {Menu} from "primereact/menu";
 
+
 class NavMenu extends React.Component{
     constructor(props) {
         super(props);
         this.items = [
             {
-                style: {marginTop:"5px"},
-                label:'Home',
-                icon:'pi pi-fw pi-home', command:(event) =>{
+                style: {marginTop:"5px", marginLeft:"30px", fontWeight:"bold"},
+                label:'Chirpel',
+                command:(event) =>{
                     window.location ="/home";
                 }
             },

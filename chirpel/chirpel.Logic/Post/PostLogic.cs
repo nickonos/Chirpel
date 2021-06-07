@@ -66,18 +66,6 @@ namespace Chirpel.Logic.Post
             PostDate = post.PostDate;
         }
 
-        public List<PostLogic> GetAllPostsFromUser(string id)
-        {
-            List<PostLogic> output = new List<PostLogic>();
-            List<Contract.Models.Post.Post> posts = _postDAL.GetByUserId(id);
-
-            foreach(Contract.Models.Post.Post post in posts)
-            {
-                output.Add(new PostLogic(post.Id, post.Content, post.UserId, post.PostDate));
-            }
-            return output;
-        }
-
         public void Add()
         {
             if (Content == null || UserId == null)
@@ -90,6 +78,14 @@ namespace Chirpel.Logic.Post
 
 
             _postDAL.Add(new Contract.Models.Post.Post(Id, Content, UserId, PostDate));
+        }
+
+        public void Remove()
+        {
+            if (Id == null)
+                return;
+
+            _postDAL.Remove(new Contract.Models.Post.Post(Id, Content, UserId, PostDate));
         }
     }
 }

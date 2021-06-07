@@ -120,6 +120,21 @@ namespace Chirpel.Controllers
             return userSettings;
         }
 
+        [HttpPost("settings/bio/{bio}")]
+        public ApiResponse UpdateBio(VerificationToken token, string bio)
+        {
+            if (!_authService.IsTokenValid(token.Value))
+                return new ApiResponse(false, "invalid token");
+
+            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            string id = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
+
+            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id , bio);
+            userSettingsLogic.Update();
+            return new ApiResponse(true, "succes");
+        }
+
+
         [HttpGet("{UserId}/followers")]
         public IEnumerable<string> GetFollowers(string UserId)
         {

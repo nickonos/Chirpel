@@ -6,6 +6,7 @@ using Chirpel.Logic.User;
 using Chirpel.Models;
 using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace Chirpel.Test
 {
@@ -119,6 +120,25 @@ namespace Chirpel.Test
             UserLogic newUser = new UserLogic();
             newUser.GetById(user.Id);
             Assert.IsNull(newUser.Id);
+        }
+
+        [Test]
+        public void TestRemovePost()
+        {
+            UserLogic user = new UserLogic();
+            user.GetByUsername("test");
+
+            PostCollection postCollection = new PostCollection();
+            postCollection.GetAllPostsFromUser(user.Id);
+
+            string postId = postCollection.Posts[0].Id;
+            PostLogic postLogic = new PostLogic(postCollection.Posts[0].Id, postCollection.Posts[0].Content, postCollection.Posts[0].Content, postCollection.Posts[0].PostDate);
+            postLogic.Remove();
+
+            PostLogic test = new PostLogic();
+            test.GetById(postId);
+
+            Assert.IsNotNull(test.Id);
         }
 
         [Test]

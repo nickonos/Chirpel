@@ -1,11 +1,11 @@
-import './App.css';
+import '../App.css';
 import React from 'react';
 import {Button} from "primereact/button";
 import {Sidebar} from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import {Password} from 'primereact/password';
 
-class Auth extends React.Component {
+class AuthPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -284,4 +284,4 @@ class Auth extends React.Component {
         )
     }
 }
-export default Auth
+export default AuthPage

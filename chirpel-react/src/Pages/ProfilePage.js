@@ -1,13 +1,13 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import Message from "./Messages/Message";
+import Message from "../Messages/Message";
 import {Divider} from "primereact/divider";
 import {InputTextarea} from "primereact/inputtextarea";
 import {Avatar} from "primereact/avatar";
 import {Button} from "primereact/button";
-import './Profile.css';
+import './ProfilePage.css';
 
-class Profile extends React.Component {
+class ProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -85,7 +85,7 @@ class Profile extends React.Component {
                             <div className="profile-name">
                                 <div className="profile-name p-d-flex p-jc-between" style={{width: "100%"}}>
                                     <div className="account-name">
-                                        {<Avatar image={require("./pictures/Default.jpg")} shape={"circle"} style={{
+                                        {<Avatar image={require("../pictures/Default.jpg")} shape={"circle"} style={{
                                             margin: "5px",
                                             verticalAlign: "middle",
                                             height: "100px",
@@ -167,4 +167,4 @@ class Profile extends React.Component {
         )
     }
 }
-export default Profile
+export default ProfilePage

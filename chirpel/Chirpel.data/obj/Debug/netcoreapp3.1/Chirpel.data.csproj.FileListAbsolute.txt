@@ -9,4 +9,4 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Data\obj\Debug\netcoreapp3.1
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Data\obj\Debug\netcoreapp3.1\Chirpel.Data.csproj.CopyComplete
 C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Data\bin\Debug\netcoreapp3.1\Chirpel.Contract.dll
 C:\Users\nickv\Source\Repos\Chirpel\chirpel\Chirpel.Data\bin\Debug\netcoreapp3.1\Chirpel.Contract.pdb
-C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Data\obj\Debug\netcoreapp3.1\Chirpel.Data.csprojAssemblyReference.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Data\obj\Debug\netcoreapp3.1\Chirpel.Data.csproj.AssemblyReference.cache

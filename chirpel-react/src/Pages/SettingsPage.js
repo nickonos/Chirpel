@@ -1,6 +1,6 @@
 import React from "react";
 
-class Settings extends React.Component{
+class SettingsPage extends React.Component{
     constructor(props) {
         super(props);
         this.state= {
@@ -14,4 +14,4 @@ class Settings extends React.Component{
         </div>)
     }
 }
-export default Settings
+export default SettingsPage
