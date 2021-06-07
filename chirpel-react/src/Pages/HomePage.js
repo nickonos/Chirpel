@@ -6,6 +6,7 @@ import {Route} from "react-router-dom";
 import Post from "./Messages/Post";
 import NavMenu from "./NavMenu";
 import Profile from "./Profile";
+import Settings from "./Pages/Settings";
 
 class Home extends React.Component {
     constructor(props) {
@@ -54,6 +55,9 @@ class Home extends React.Component {
                 {this.props.loggedin ? <NavMenu accountId={this.props.accountId} /> : ""}
                     <Route path={"/explore"}>
                          <ExplorePage api={this.props.api}/>
+                    </Route>
+                    <Route path={"/settings"}> 
+                        <Settings/>
                     </Route>
                     <Route path={"/personal"}>
                         <PersonalPage api={this.props.api} visible={this.state.personalPage}/>
