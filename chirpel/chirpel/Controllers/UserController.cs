@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Chirpel.Logic;
-using Chirpel.Logic.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

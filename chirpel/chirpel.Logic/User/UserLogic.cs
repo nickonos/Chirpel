@@ -1,6 +1,7 @@
 ﻿using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Contract.Interfaces.DAL;
-using Chirpel.Logic.Auth;
+using Chirpel.Contract.Models.Auth;
+using Chirpel.Logic.Post;
 using System;
 using System.Security.Claims;
 
@@ -207,6 +208,22 @@ namespace Chirpel.Logic.User
             userSettingsLogic.Add();
 
             return new Response(true, "User Registered");
+        }
+
+        public Response CreatePost(string Content)
+        {
+            string guid = Guid.NewGuid().ToString();
+            DateTime date = DateTime.UtcNow;
+            if (Content == null || Content.Length < 1 || Content.Length > 255)
+                return new Response(false, "invalid content");
+
+            if (Id == null)
+                return new Response(false, "invalid user");
+
+            PostLogic post = new PostLogic(guid, Content, Id, date);
+            post.Add();
+            //_postDAL.add(post);
+            return new Response(true, "Post Added");
         }
     }
 }
