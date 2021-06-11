@@ -2,7 +2,6 @@
 using Chirpel.Contract.Models.Post;
 using Chirpel.Data;
 using Chirpel.Logic;
-using Chirpel.Logic.Auth;
 using Chirpel.Logic.Post;
 using Chirpel.Logic.User;
 using Chirpel.Models;
@@ -119,9 +118,11 @@ namespace Chirpel.Controllers
 
             List<Claim> claims = _authService.GetTokenClaims(newPost.Token).ToList();
 
-            PostLogic post = new PostLogic(newPost.Content, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
-            post.Add();
-            return new ApiResponse(true, post.Id);
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            Response response = user.CreatePost(newPost.Content);
+            
+            return new ApiResponse(response.Succes, response.Message);
         }
     }
 }

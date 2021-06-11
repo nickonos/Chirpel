@@ -1,5 +1,4 @@
 ﻿using Chirpel.Contract.Interfaces.Auth;
-using Chirpel.Logic.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;

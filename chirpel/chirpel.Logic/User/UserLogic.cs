@@ -17,26 +17,30 @@ namespace Chirpel.Logic.User
 
         private readonly IUserDAL _userDAL;
         private readonly IAuthService _authService;
+        private readonly IPostDAL _postDAL;
 
         public UserLogic()
         {
             _userDAL = Factory.Factory.CreateIUserDAL();
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = Factory.Factory.CreateIPostDAL();
         }
 
-        public UserLogic(IUserDAL userDAl)
+        public UserLogic(IUserDAL userDAl, IPostDAL postDAL)
         {
             _userDAL = userDAl;
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = postDAL;
         }
 
-        public UserLogic(IUserDAL userDAl, string username, string email, string password)
+        public UserLogic(IUserDAL userDAl, IPostDAL postDAL ,string username, string email, string password)
         {
             Username = username;
             Email = email;
             Password = password;
             _userDAL = userDAl;
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = postDAL;
         }
 
         public UserLogic(string username, string email, string password, string id)
@@ -47,6 +51,7 @@ namespace Chirpel.Logic.User
             Password = password;
             _userDAL = Factory.Factory.CreateIUserDAL();
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = Factory.Factory.CreateIPostDAL();
         }
 
         public UserLogic(string username, string password)
@@ -55,6 +60,7 @@ namespace Chirpel.Logic.User
             Password = password;
             _userDAL = Factory.Factory.CreateIUserDAL();
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = Factory.Factory.CreateIPostDAL();
         }
 
         public UserLogic(string username, string email, string password)
@@ -64,6 +70,7 @@ namespace Chirpel.Logic.User
             Password = password;
             _userDAL = Factory.Factory.CreateIUserDAL();
             _authService = Factory.Factory.CreateIAuthService();
+            _postDAL = Factory.Factory.CreateIPostDAL();
         } 
 
         public void Add()
@@ -189,7 +196,7 @@ namespace Chirpel.Logic.User
             Password = user.Password;
         }
 
-        public Response Register()
+        public Response Register(bool includeSettings)
         {
             GetByUsername(Username);
             if (Id != null)
@@ -202,10 +209,13 @@ namespace Chirpel.Logic.User
             Id = id.ToString();
 
             Add();
+            if (includeSettings)
+            {
+                UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id.ToString());
 
-            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id.ToString());
-
-            userSettingsLogic.Add();
+                userSettingsLogic.Add();
+            }
+           
 
             return new Response(true, "User Registered");
         }
@@ -220,10 +230,10 @@ namespace Chirpel.Logic.User
             if (Id == null)
                 return new Response(false, "invalid user");
 
-            PostLogic post = new PostLogic(guid, Content, Id, date);
-            post.Add();
-            //_postDAL.add(post);
-            return new Response(true, "Post Added");
+            Contract.Models.Post.Post post = new Contract.Models.Post.Post() { Id = guid, Content = Content, UserId = Id, PostDate = date };
+            
+            _postDAL.Add(post);
+            return new Response(true, post.Id);
         }
     }
 }

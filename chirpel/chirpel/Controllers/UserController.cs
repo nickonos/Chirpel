@@ -100,7 +100,7 @@ namespace Chirpel.Controllers
         public ApiResponse PostRegister(RegisterUser registerUser)
         {
             UserLogic user = new UserLogic(registerUser.Username, registerUser.Email, registerUser.Password);
-            Response res = user.Register();
+            Response res = user.Register(true);
             return new ApiResponse(res.Succes, res.Message);
         }
 
