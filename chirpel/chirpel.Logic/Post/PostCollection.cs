@@ -75,5 +75,17 @@ namespace Chirpel.Logic.Post
                 Posts.Add(new PostLogic(post.Id, post.Content, post.UserId, post.PostDate));
             }
         }
+
+        public void RemoveAllPostFromUser(string id)
+        {
+            List<Contract.Models.Post.Post> posts = _postDAL.GetByUserId(id);
+
+            foreach (Contract.Models.Post.Post post in posts)
+            {
+                PostLikesLogic postLikes = new PostLikesLogic();
+                postLikes.RemoveLikesFromPost(post.Id);
+                _postDAL.Remove(post);
+            }
+        }
     }
 }

@@ -11,9 +11,8 @@ import 'primeflex/primeflex.css';
 const axios = require('axios');
 
 const api = axios.create({
-    baseURL: 'https://i468166core.venus.fhict.nl/',
+    baseURL: 'https://localhost:5001/',
     timeout: 10000
-
 });
 
  class App extends React.Component {

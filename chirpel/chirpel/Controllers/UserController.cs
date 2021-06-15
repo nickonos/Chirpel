@@ -10,6 +10,7 @@ using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Models;
 using Chirpel.Factory;
 using Microsoft.AspNetCore.Cors;
+using Chirpel.Logic.Post;
 
 namespace Chirpel.Controllers
 {
@@ -81,12 +82,14 @@ namespace Chirpel.Controllers
 
             Response res = userSettings.Remove();
 
-            if(!res.Succes)
-                return new ApiResponse(res.Succes, res.Message);
-
             UserFollowerCollection userFollowerCollection = new UserFollowerCollection();
             userFollowerCollection.Remove(id);
 
+            PostCollection postCollection = new PostCollection();
+            postCollection.RemoveAllPostFromUser(id);
+
+            PostLikesLogic postLikes = new PostLikesLogic();
+            postLikes.RemoveLikesFromUser(id);
 
             UserLogic user = new UserLogic();
             user.GetById(id) ;
@@ -119,16 +122,16 @@ namespace Chirpel.Controllers
             return userSettings;
         }
 
-        [HttpPost("settings/bio/{bio}")]
-        public ApiResponse UpdateBio(VerificationToken token, string bio)
+        [HttpPost("settings/bio")]
+        public ApiResponse UpdateBio(UpdateBio updateBio)
         {
-            if (!_authService.IsTokenValid(token.Value))
+            if (!_authService.IsTokenValid(updateBio.Token))
                 return new ApiResponse(false, "invalid token");
 
-            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
+            List<Claim> claims = _authService.GetTokenClaims(updateBio.Token).ToList();
             string id = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
 
-            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id , bio);
+            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id , updateBio.Bio);
             userSettingsLogic.Update();
             return new ApiResponse(true, "succes");
         }

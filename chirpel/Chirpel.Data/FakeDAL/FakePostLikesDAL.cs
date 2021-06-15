@@ -46,6 +46,11 @@ namespace Chirpel.Data.FakeDAL
             return PostLikes.Find(c => c.PostId == postId && c.UserId == UserId);
         }
 
+        public List<PostLikes> GetPostLikesFromUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public FakePostLikesDAL()
         {
             PostLikes = new List<PostLikes>();

@@ -58,5 +58,25 @@ namespace Chirpel.Logic.Post
 
             _postLikesDAL.Add(new PostLikes() { PostId = PostId, UserId = UserId });
         }
+
+        public void RemoveLikesFromUser(string userId)
+        {
+            List<PostLikes> postLikes = _postLikesDAL.GetPostLikesFromUser(userId);
+
+            foreach(PostLikes postLike in postLikes)
+            {
+                _postLikesDAL.Remove(postLike);
+            }
+        }
+
+        public void RemoveLikesFromPost(string postId)
+        {
+            List<PostLikes> postLikes = _postLikesDAL.GetPostLikes(postId);
+
+            foreach (PostLikes postLike in postLikes)
+            {
+                _postLikesDAL.Remove(postLike);
+            }
+        }
     }
 }

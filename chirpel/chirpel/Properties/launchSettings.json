@@ -21,7 +21,7 @@
     "chirpel": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "User",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

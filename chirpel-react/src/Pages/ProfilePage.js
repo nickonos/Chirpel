@@ -22,7 +22,8 @@ class ProfilePage extends React.Component {
                 isPrivate: false
             },
             editing: false,
-            FollowingUser: false
+            FollowingUser: false,
+            tempBio: ""
         }
     }
 
@@ -32,7 +33,7 @@ class ProfilePage extends React.Component {
                 this.setState({
                     account: {
                         accountId: res.data.id,
-                        bio: "this is a bio",
+                        bio: res.data.bio,
                         username: res.data.username,
                         followers: res.data.followers,
                         following: res.data.following,
@@ -40,18 +41,33 @@ class ProfilePage extends React.Component {
                         isPrivate: res.data.isPrivate,
                         FollowerCount: res.data.followers.length,
                         FollowingCount: res.data.following.length,
-                    }
+                    },
+                    tempBio : res.data.bio
                 })
                 if(res.data.followers.find(c => c === this.props.accountId) !== undefined){
                     this.setState({
                         FollowingUser: true
                     })
                 }
-
             })
     }
 
+    setValue(value){
+        this.setState({
+            tempBio: value
+        })
+    }
+
     toggleEditing() {
+        if(this.state.editing){
+            this.props.api.post("user/settings/bio/",{
+                Token : localStorage.getItem("token"),
+                Bio : this.state.tempBio
+            })
+                .then(res => {
+                    console.log(res)
+                })
+        }
         this.setState({
             editing: !this.state.editing
         })
@@ -130,7 +146,7 @@ class ProfilePage extends React.Component {
                                     </div>
                                     <br/>
 
-                                    <div><InputTextarea style={{width: "100%"}} value={this.state.account.bio}
+                                    <div><InputTextarea style={{width: "100%"}} value={this.state.tempBio}
                                                         onChange={(e) => this.setValue(e.target.value)}/></div>
                                     <br/>
                                 </div>

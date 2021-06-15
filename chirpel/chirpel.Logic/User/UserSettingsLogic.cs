@@ -101,6 +101,8 @@ namespace Chirpel.Logic.User
 
         public bool GetById(string id)
         {
+            if (id == null)
+                return false;
             UserSettings userSettings = _userSettingsDAL.Get(id);
             if (userSettings == null)
                 return false;
