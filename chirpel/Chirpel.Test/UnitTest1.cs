@@ -1,8 +1,8 @@
 using Chirpel.Controllers;
 using Chirpel.Data.FakeDAL;
 using Chirpel.Logic;
-using Chirpel.Logic.Post;
-using Chirpel.Logic.User;
+using Chirpel.Logic.Account;
+using Chirpel.Logic.Message;
 using Chirpel.Models;
 using NUnit.Framework;
 using System;
@@ -132,9 +132,9 @@ namespace Chirpel.Test
             postCollection.GetAllPostsFromUser(user.Id);
 
             string postId = postCollection.Posts[0].Id;
-            PostLogic postLogic = new PostLogic(postCollection.Posts[0].Id, postCollection.Posts[0].Content, postCollection.Posts[0].Content, postCollection.Posts[0].PostDate);
-            postLogic.Remove();
-
+            PostLogic postLogic = new PostLogic(postCollection.Posts[0].Id, postCollection.Posts[0].Content, postCollection.Posts[0].User, postCollection.Posts[0].PostDate);
+            postCollection.DeletePost(postLogic);
+            
             PostLogic test = new PostLogic();
             test.GetById(postId);
 
@@ -142,88 +142,183 @@ namespace Chirpel.Test
         }
     }
 
-    public class UnitTests{
+    public class UnitTests
+    {
+        private FakePostLikesDAL fakePostLikesDAL;
+        private FakePostDAL fakePostDAL;
+        private FakeUserDAL fakeUserDAL;
+        private FakeUserFollowersDAL fakeUserFollowerDAL;
+        private FakeUserSettingsDAL fakeUserSettingDAL;
 
+        [SetUp]
+        public void Setup()
+        {
+            fakePostLikesDAL = new FakePostLikesDAL();
+            fakePostDAL = new FakePostDAL();
+            fakeUserDAL = new FakeUserDAL();
+            fakeUserFollowerDAL = new FakeUserFollowersDAL();
+            fakeUserSettingDAL = new FakeUserSettingsDAL();
+        }
+        
         [Test]
         public void TestPostLikesAdd()
         {
-            FakePostLikesDAL fakePostLikesDAL = new FakePostLikesDAL();
-
             Random random = new Random();
-            string UserId = random.Next().ToString();
-            string PostId = random.Next().ToString();
 
-            PostLikesLogic postLikesLogic = new PostLikesLogic(fakePostLikesDAL, PostId, UserId);
+            string Username = random.Next().ToString();
+            string Password = random.Next().ToString();
+            string Email = random.Next().ToString();
+            
+            string Content = random.Next().ToString();
 
-            postLikesLogic.Add();
+            UserCollection userCollection = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res = userCollection.Register(Username, Email, Password);
+            
+            if (!res.Succes)
+                Assert.Fail($"Register failed msg: {res.Message}");
 
-            Assert.IsNotNull(fakePostLikesDAL.PostLikes.Find(c => c.PostId == PostId && c.UserId == UserId));
+            UserLogic userLogic = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic.GetByUsername(Username);
+
+            Assert.IsNotNull(userLogic.Id, "user login failed");
+
+            PostCollection postCollection = new PostCollection(fakePostDAL, fakePostLikesDAL);
+            Response response = postCollection.AddPost(Content, userLogic);
+
+            if (!response.Succes)
+                Assert.Fail($"AddPost failed msg: {response.Message}");
+
+
+            string Username1 = random.Next().ToString();
+            string Password1 = random.Next().ToString();
+            string Email1 = random.Next().ToString();
+
+           
+            UserCollection userCollection1 = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res1 = userCollection1.Register(Username1, Email1, Password1);
+
+            if (!res1.Succes)
+                Assert.Fail($"Register failed msg: {res1.Message}");
+
+            UserLogic userLogic1 = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic1.GetByUsername(Username);
+
+            PostLogic postLogic = new PostLogic(fakePostDAL, fakePostLikesDAL);
+            postLogic.GetById(postCollection.Posts[0].Id);
+            Response response1 = postLogic.Like(userLogic1);
+
+            if (!response1.Succes)
+                Assert.Fail($"like failed msg: {response1.Message}");
+
+            Assert.IsNotNull(fakePostLikesDAL.PostLikes.Find(c => c.PostId == postLogic.Id && c.UserId == userLogic1.Id));
         }
 
         [Test]
         public void TestPostAdd()
         {
-            FakePostDAL fakePostDAL = new FakePostDAL();
-            FakeUserDAL fakeUserDAL = new FakeUserDAL();
-
             Random random = new Random();
-            string content = random.Next().ToString();
-            UserLogic user = new UserLogic(fakeUserDAL, fakePostDAL, "username", "email", "password");
 
-            Response response = user.Register(false);
+            string Username = random.Next().ToString();
+            string Password = random.Next().ToString();
+            string Email = random.Next().ToString();
+
+            string Content = random.Next().ToString();
+
+            UserCollection userCollection = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res = userCollection.Register(Username, Email, Password);
+
+            if (!res.Succes)
+                Assert.Fail($"Register failed msg: {res.Message}");
+
+            UserLogic userLogic = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic.GetByUsername(Username);
+
+            Assert.IsNotNull(userLogic.Id, "user login failed");
+
+            PostCollection postCollection = new PostCollection(fakePostDAL, fakePostLikesDAL);
+            Response response = postCollection.AddPost(Content, userLogic);
+
             if (!response.Succes)
-                Assert.Fail("register error");
-            user.CreatePost(content);
+                Assert.Fail($"AddPost failed msg: {response.Message}");
 
-            Assert.IsNotNull(fakePostDAL.Posts.Find(c => c.UserId == user.Id && c.Content == content));
+            Assert.IsNotNull(fakePostDAL.Posts.Find(c => c.Content == Content && c.UserId == userLogic.Id));
         }
 
         [Test]
         public void TestUserSettingsAdd()
         {
-            FakeUserSettingsDAL fakeUserSettingsDAL = new FakeUserSettingsDAL();
-
             Random random = new Random();
-            string id = random.Next().ToString();
 
-            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(fakeUserSettingsDAL, id);
+            string Username = random.Next().ToString();
+            string Password = random.Next().ToString();
+            string Email = random.Next().ToString();
 
-            userSettingsLogic.Add();
+            UserCollection userCollection = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res = userCollection.Register(Username, Email, Password);
 
-            Assert.IsNotNull(fakeUserSettingsDAL.UserSettings.Find(c => c.Id == id));
+            
+            if (!res.Succes)
+                Assert.Fail($"Register failed msg: {res.Message}");
+
+            UserLogic userLogic = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic.GetByUsername(Username);
+
+
+            Assert.IsNotNull(fakeUserSettingDAL.UserSettings.Find(c => c.Id == userLogic.Id));
         }
 
         [Test]
         public void TestUserAdd()
         {
-            FakeUserDAL fakeUserDal = new FakeUserDAL();
-            FakePostDAL fakePostDAL = new FakePostDAL();
-
             Random random = new Random();
+
             string Username = random.Next().ToString();
-            string Email = random.Next().ToString();
             string Password = random.Next().ToString();
+            string Email = random.Next().ToString();
 
-            UserLogic userLogic = new UserLogic(fakeUserDal, fakePostDAL, Username, Email, Password);
+            UserCollection userCollection = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res = userCollection.Register(Username, Email, Password);
 
-            userLogic.Add();
+            if (!res.Succes)
+                Assert.Fail($"Register failed msg: {res.Message}");
 
-            Assert.IsNotNull(fakeUserDal.Users.Find(c => c.Username == Username && c.Email == Email && c.Password == Password));
+            Assert.IsNotNull(fakeUserDAL.Users.Find(c => c.Username == Username && c.Email == Email && c.Password == Password));
         }
 
         [Test]
         public void TestUserFollowerAdd()
         {
-            FakeUserFollowersDAL fakeUserFollowersDAL = new FakeUserFollowersDAL();
-
             Random random = new Random();
-            string Follower = random.Next().ToString();
-            string Followed = random.Next().ToString();
 
-            UserFollowerLogic userFollowerLogic = new UserFollowerLogic(fakeUserFollowersDAL, Followed, Follower);
-            userFollowerLogic.Add();
+            string Username = random.Next().ToString();
+            string Password = random.Next().ToString();
+            string Email = random.Next().ToString();
 
-            Assert.IsNotNull(fakeUserFollowersDAL.userFollowers.Find(c => c.Followed == Followed && c.Follower == Follower));
+            UserCollection userCollection = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res = userCollection.Register(Username, Email, Password);
+
+            if (!res.Succes)
+                Assert.Fail($"Register failed msg: {res.Message}");
+
+            UserLogic userLogic = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic.GetByUsername(Username);
+
+            string Username1 = random.Next().ToString();
+            string Password1 = random.Next().ToString();
+            string Email1 = random.Next().ToString();
+
+            UserCollection userCollection1 = new UserCollection(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            Response res1 = userCollection.Register(Username1, Email1, Password1);
+
+            if (!res1.Succes)
+                Assert.Fail($"Register1 failed msg: {res1.Message}");
+
+            UserLogic userLogic1 = new UserLogic(fakeUserDAL, fakeUserFollowerDAL, fakeUserSettingDAL);
+            userLogic1.GetByUsername(Username);
+
+            userLogic.FollowUser(userLogic1);
+
+            Assert.IsNotNull(fakeUserFollowerDAL.userFollowers.Find(c => c.Follower == userLogic.Id && c.Followed == userLogic1.Id));
         }
     }
 }
