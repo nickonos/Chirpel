@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Chirpel.Contract.Models.Post
+namespace Chirpel.Contract.Models.Message
 {
     public class PostLikes
     {

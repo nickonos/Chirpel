@@ -1,4 +1,4 @@
-﻿using Chirpel.Contract.Models.Post;
+﻿using Chirpel.Contract.Models.Message;
 using System;
 using System.Collections.Generic;
 using System.Text;

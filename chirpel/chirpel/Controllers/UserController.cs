@@ -5,12 +5,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Chirpel.Logic.User;
+using Chirpel.Logic.Account;
 using Chirpel.Contract.Interfaces.Auth;
 using Chirpel.Models;
 using Chirpel.Factory;
 using Microsoft.AspNetCore.Cors;
-using Chirpel.Logic.Post;
+using Chirpel.Logic.Message;
 
 namespace Chirpel.Controllers
 {
@@ -40,10 +40,8 @@ namespace Chirpel.Controllers
             UserLogic user = new UserLogic();
             user.GetById(UserId);
 
-            UIUser account = new UIUser();
-            account.GetFromUser(user, true);
-
-            return account;
+            UIUser uIUser = UIUtilities.ConvertToUIUser(user);
+            return uIUser;
         }
 
 
@@ -77,24 +75,8 @@ namespace Chirpel.Controllers
             List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
             string id = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
 
-            UserSettingsLogic userSettings = new UserSettingsLogic();
-            userSettings.GetById(id);
-
-            Response res = userSettings.Remove();
-
-            UserFollowerCollection userFollowerCollection = new UserFollowerCollection();
-            userFollowerCollection.Remove(id);
-
-            PostCollection postCollection = new PostCollection();
-            postCollection.RemoveAllPostFromUser(id);
-
-            PostLikesLogic postLikes = new PostLikesLogic();
-            postLikes.RemoveLikesFromUser(id);
-
-            UserLogic user = new UserLogic();
-            user.GetById(id) ;
-
-            res = user.Remove();
+            UserCollection userCollection = new UserCollection();
+            Response res = userCollection.RemoveUser(id);
 
             return new ApiResponse(res.Succes, res.Message);
         }
@@ -102,24 +84,11 @@ namespace Chirpel.Controllers
         [HttpPost("Register")]
         public ApiResponse PostRegister(RegisterUser registerUser)
         {
-            UserLogic user = new UserLogic(registerUser.Username, registerUser.Email, registerUser.Password);
-            Response res = user.Register(true);
+
+            UserCollection userCollection = new UserCollection();
+            Response res = userCollection.Register(registerUser.Username, registerUser.Email, registerUser.Password);
+           
             return new ApiResponse(res.Succes, res.Message);
-        }
-
-        [HttpPost("settings")]
-        public UserSettingsLogic GetSettings(VerificationToken token)
-        {
-            if (!_authService.IsTokenValid(token.Value))
-                return new UserSettingsLogic();
-
-            List<Claim> claims = _authService.GetTokenClaims(token.Value).ToList();
-            UserLogic user = new UserLogic();
-            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
-
-            UserSettingsLogic userSettings = new UserSettingsLogic();
-            userSettings.GetById(user.Id);
-            return userSettings;
         }
 
         [HttpPost("settings/bio")]
@@ -131,8 +100,10 @@ namespace Chirpel.Controllers
             List<Claim> claims = _authService.GetTokenClaims(updateBio.Token).ToList();
             string id = claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value;
 
-            UserSettingsLogic userSettingsLogic = new UserSettingsLogic(id , updateBio.Bio);
-            userSettingsLogic.Update();
+            UserLogic userLogic = new UserLogic();
+            userLogic.GetById(id);
+            userLogic.UpdateBio(updateBio.Bio);
+
             return new ApiResponse(true, "succes");
         }
 
@@ -140,8 +111,14 @@ namespace Chirpel.Controllers
         [HttpGet("{UserId}/followers")]
         public IEnumerable<string> GetFollowers(string UserId)
         {
-            UserFollowerLogic userFollower = new UserFollowerLogic();
-            List<string> followers = userFollower.GetFollowers(UserId);
+            UserCollection userCollection = new UserCollection();
+            userCollection.GetFollowers(UserId);
+
+            List<string> followers = new List<string>();
+            foreach(UserLogic userLogic in userCollection.Users)
+            {
+                followers.Add(userLogic.Id);
+            }
 
             return followers;
         }
@@ -156,10 +133,12 @@ namespace Chirpel.Controllers
             UserLogic user = new UserLogic();
             user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            UserFollowerLogic userFollower = new UserFollowerLogic(UserId, user.Id);
-            userFollower.Add();
+            UserLogic userLogic = new UserLogic();
+            userLogic.GetById(UserId);
 
-            return new ApiResponse(true, "Follower succesfull");
+            Response res = user.FollowUser(userLogic);
+
+            return new ApiResponse(res.Succes, res.Message);
         }
 
         [HttpPost("unfollow/{UserId}")]
@@ -172,36 +151,28 @@ namespace Chirpel.Controllers
             UserLogic user = new UserLogic();
             user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            UserFollowerLogic userFollower = new UserFollowerLogic(UserId, user.Id);
-            userFollower.Remove();
+            UserLogic userLogic = new UserLogic();
+            userLogic.GetById(UserId);
 
-            return new ApiResponse(true, "Follower succesfull");
+            Response res = user.UnfollowUser(userLogic);
+
+            return new ApiResponse(res.Succes, res.Message);
         }
 
         [HttpGet("{UserId}/following")]
         public IEnumerable<string> GetFollowing(string UserId)
         {
-            UserFollowerLogic userFollower = new UserFollowerLogic();
-            List<string> following = userFollower.GetFollowing(UserId);
+            UserLogic userLogic = new UserLogic();
+            userLogic.GetById(UserId);
+            userLogic.GetFollowing();
+
+            List<string> following = new List<string>();
+            foreach (UserLogic userLogic1 in userLogic.Following)
+            {
+                following.Add(userLogic1.Id);
+            }
 
             return following;
-        }
-
-        [HttpPost("settings/ProfilePicture"), DisableRequestSizeLimit]
-        public ApiResponse UpdateProfilepicture([FromForm] ProfilePictureModel profilePictureModel)
-        {
-            if (!_authService.IsTokenValid(profilePictureModel.Token))
-                return new ApiResponse(false, "invalid verificationtoken");
-
-            List<Claim> claims = _authService.GetTokenClaims(profilePictureModel.Token).ToList();
-
-            UserLogic user = new UserLogic();
-            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
-
-            UserSettingsLogic userSettings = new UserSettingsLogic();
-            Response res = userSettings.SetProfilePicture(profilePictureModel.Picture, user.Id);
-
-            return new ApiResponse(res.Succes, res.Message);
         }
     }
 }

@@ -17,10 +17,7 @@ class SettingsPage extends React.Component{
             if(res.data.succes){
                 localStorage.removeItem("token")
                 window.location.href ="/auth"
-            }
-            }
-        )
-
+            }})
     }
 
     render() {
