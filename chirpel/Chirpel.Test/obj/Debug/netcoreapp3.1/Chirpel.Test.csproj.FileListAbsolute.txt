@@ -122,4 +122,4 @@ C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\obj\Debug\netcoreapp3.1
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\bin\Debug\netcoreapp3.1\Chirpel.deps.json
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\bin\Debug\netcoreapp3.1\Chirpel.runtimeconfig.json
 C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\bin\Debug\netcoreapp3.1\Chirpel.runtimeconfig.dev.json
-C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\obj\Debug\netcoreapp3.1\Chirpel.Test.csproj.AssemblyReference.cache
+C:\Users\nickv\source\repos\Chirpel\chirpel\Chirpel.Test\obj\Debug\netcoreapp3.1\Chirpel.Test.csprojAssemblyReference.cache

@@ -1,6 +1,6 @@
 ﻿using Chirpel.Contract.Interfaces;
 using Chirpel.Contract.Interfaces.DAL;
-using Chirpel.Contract.Models.Post;
+using Chirpel.Contract.Models.Message;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,6 +44,11 @@ namespace Chirpel.Data.FakeDAL
         public PostLikes GetPostLikes(string postId, string UserId)
         {
             return PostLikes.Find(c => c.PostId == postId && c.UserId == UserId);
+        }
+
+        public List<PostLikes> GetPostLikesFromUser(string userId)
+        {
+            throw new NotImplementedException();
         }
 
         public FakePostLikesDAL()

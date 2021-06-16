@@ -36,7 +36,7 @@ namespace Chirpel.Data.DAL
             string query = "";
             
             PropertyInfo[] propInfo = typeof(TEntity).GetProperties();
-            string[] tempValues = new string[propInfo.Length];
+            object[] tempValues = new object[propInfo.Length];
             int i = 0;
             foreach (PropertyInfo prop in propInfo)
             {
@@ -46,12 +46,12 @@ namespace Chirpel.Data.DAL
                         query += " and ";
 
                     query += $"{prop.Name}=@Value{i + 1}";
-                    tempValues[i] = prop.GetValue(entity).ToString();
+                    tempValues[i] = prop.GetValue(entity);
                     i++;
                 }
 
             }
-            string[] values = new string[i];
+            object[] values = new object[i];
             for (int j = 0; j < values.Length; j++)
             {
                 values[j] = tempValues[j];
@@ -67,12 +67,14 @@ namespace Chirpel.Data.DAL
             int i = 0;
             string query = "";
             string idval = "";
+            
             foreach (PropertyInfo prop in propInfo)
             {
                 if (prop.Name == "Id")
                 {
                     idval = prop.GetValue(entity).ToString();
                     exec = true;
+                    continue;
                 }
                     
                 if(prop.GetValue(entity) != null)
@@ -86,12 +88,12 @@ namespace Chirpel.Data.DAL
                 }
                 
             }
-            tempValues[i] = idval;
             string[] values = new string[i+1];
-            for(int j =0; j < values.Length; j++)
+            for(int j =0; j < i; j++)
             {
                 values[j] = tempValues[j];
             }
+            values[i] = idval;
             if(exec)
                 _databaseQuery.Update(typeof(TEntity).Name, query,$"id=@value{i+1}", values);
         }

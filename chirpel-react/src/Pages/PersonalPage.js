@@ -50,7 +50,7 @@ class ExplorePage extends React.Component{
             <div>
                 <h1>PersonalPage</h1>
 
-                {this.state.MessageList[0] ? <Messages  MessageList={this.state.MessageList}></Messages> : <span>Loading messages...</span>}
+                {this.state.MessageList[0] ? <Messages  MessageList={this.state.MessageList}/> : <span>Loading messages...</span>}
 
                 <div className={"p-float-right"}  style={{right: 20, bottom: 20, position: "fixed"}}>
                     <Button icon="pi pi-plus" className="p-button-rounded p-button-secondary" onClick={ () => this.SetPostWindow(!this.state.PostWindow)} />

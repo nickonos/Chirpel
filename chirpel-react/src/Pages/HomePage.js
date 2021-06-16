@@ -59,7 +59,7 @@ class HomePage extends React.Component {
                          <ExplorePage api={this.props.api}/>
                     </Route>
                     <Route path={"/settings"} exact>
-                        <SettingsPage/>
+                        <SettingsPage api={this.props.api}/>
                     </Route>
                     <Route path={"/help"} exact>
                         <HelpPage/>

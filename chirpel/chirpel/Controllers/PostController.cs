@@ -1,18 +1,14 @@
 ﻿using Chirpel.Contract.Interfaces.Auth;
-using Chirpel.Contract.Models.Post;
+using Chirpel.Contract.Models.Message;
 using Chirpel.Data;
 using Chirpel.Logic;
-using Chirpel.Logic.Auth;
-using Chirpel.Logic.Post;
-using Chirpel.Logic.User;
+using Chirpel.Logic.Message;
+using Chirpel.Logic.Account;
 using Chirpel.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Chirpel.Factory;
 using Microsoft.AspNetCore.Cors;
 
 namespace Chirpel.Controllers
@@ -33,9 +29,9 @@ namespace Chirpel.Controllers
         {
             PostLogic post = new PostLogic();
             post.GetById(id);
-            UIPost uiPost = new UIPost();
-            uiPost.GetFromPost(post);
-            return uiPost;
+            UIPost uIPost = UIUtilities.ConvertToUIPost(post);
+
+            return uIPost;
         }
 
         [HttpGet("explore")]
@@ -43,30 +39,16 @@ namespace Chirpel.Controllers
         {
             PostCollection postCollection = new PostCollection();
             postCollection.GetExplore();
-            List<UIPost> uIPosts = new List<UIPost>();
-            foreach (PostLogic post in postCollection.Posts)
-            {
-                UIPost uIPost = new UIPost();
-                uIPost.GetFromPost(post);
-                uIPosts.Add(uIPost);
-            }
 
-            return uIPosts;
+            return UIUtilities.ConvertToUIPosts(postCollection.Posts);
         }
         [HttpGet("explore/{lastPost}")]
         public List<UIPost> GetExplore(string lastPost)
         {
             PostCollection postCollection = new PostCollection();
             postCollection.GetExplore();
-            List<UIPost> uIPosts = new List<UIPost>();
-            foreach(PostLogic post in postCollection.Posts)
-            {
-                UIPost uIPost = new UIPost();
-                uIPost.GetFromPost(post);
-                uIPosts.Add(uIPost);
-            }
 
-            return uIPosts;
+            return UIUtilities.ConvertToUIPosts(postCollection.Posts);
         }
 
         [HttpPost("personal")]
@@ -79,15 +61,7 @@ namespace Chirpel.Controllers
             PostCollection postCollection = new PostCollection();
             postCollection.GetPersonal(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            List<UIPost> uIPosts = new List<UIPost>();
-            foreach (PostLogic post in postCollection.Posts)
-            {
-                UIPost uIPost = new UIPost();
-                uIPost.GetFromPost(post);
-                uIPosts.Add(uIPost);
-            }
-
-            return uIPosts;
+            return UIUtilities.ConvertToUIPosts(postCollection.Posts);
         }
 
         [HttpPost("personal/{lastPost}")]
@@ -100,15 +74,7 @@ namespace Chirpel.Controllers
             PostCollection postCollection = new PostCollection();
             postCollection.GetPersonal(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
 
-            List<UIPost> uIPosts = new List<UIPost>();
-            foreach (PostLogic post in postCollection.Posts)
-            {
-                UIPost uIPost = new UIPost();
-                uIPost.GetFromPost(post);
-                uIPosts.Add(uIPost);
-            }
-
-            return uIPosts;
+            return UIUtilities.ConvertToUIPosts(postCollection.Posts);
         }
 
         [HttpPost("create")]
@@ -119,9 +85,12 @@ namespace Chirpel.Controllers
 
             List<Claim> claims = _authService.GetTokenClaims(newPost.Token).ToList();
 
-            PostLogic post = new PostLogic(newPost.Content, claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
-            post.Add();
-            return new ApiResponse(true, post.Id);
+            UserLogic user = new UserLogic();
+            user.GetById(claims.FirstOrDefault(e => e.Type.Equals(ClaimTypes.Name)).Value);
+            PostCollection postCollection = new PostCollection();
+            Response response = postCollection.AddPost(newPost.Content, user);
+            
+            return new ApiResponse(response.Succes, response.Message);
         }
     }
 }

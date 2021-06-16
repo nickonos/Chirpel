@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Chirpel.Contract.Interfaces;
 using Chirpel.Contract.Interfaces.DAL;
-using Chirpel.Contract.Models.Post;
+using Chirpel.Contract.Models.Message;
 
 namespace Chirpel.Data.FakeDAL
 {
