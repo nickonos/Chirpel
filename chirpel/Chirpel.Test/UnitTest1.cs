@@ -20,7 +20,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestCase1CreatePost()
+        public void CreatePost_LoggedIn_True()
         {
             _userController = new UserController();
             LoginUser user = new LoginUser() { Username = "test", Password = "test" };
@@ -47,7 +47,7 @@ namespace Chirpel.Test
 
 
         [Test]
-        public void TestRegister()
+        public void Register_UsernameEmailValid_True()
         {
             _userController = new UserController();
 
@@ -75,7 +75,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestLogin()
+        public void Login_UsernamePasswordValid_True()
         {
             LoginUser user = new LoginUser() { Username = "test", Password = "test" };
             ApiResponse LogResponse = _userController.PostLogin(user);
@@ -89,7 +89,7 @@ namespace Chirpel.Test
 
 
         [Test]
-        public void TestLoginFail()
+        public void Login_UsernamePasswordValid_False()
         {
             LoginUser user = new LoginUser() { Username = "test", Password = "tes123" };
             ApiResponse LogResponse = _userController.PostLogin(user);
@@ -100,7 +100,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestRemoveUser()
+        public void RemoveUser_LoggedIn_True()
         {
             UserLogic user = new UserLogic();
             user.GetByPassword("password");
@@ -123,7 +123,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestRemovePost()
+        public void RemovePost_PostFromUser_True()
         {
             UserLogic user = new UserLogic();
             user.GetByUsername("test");
@@ -161,7 +161,7 @@ namespace Chirpel.Test
         }
         
         [Test]
-        public void TestPostLikesAdd()
+        public void Like_PostNotLiked_True()
         {
             Random random = new Random();
 
@@ -214,7 +214,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestPostAdd()
+        public void AddPost_ContentAndUserNotNull_True()
         {
             Random random = new Random();
 
@@ -245,7 +245,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestUserSettingsAdd()
+        public void RegisterSettings_UsernameAndEmailValid_True()
         {
             Random random = new Random();
 
@@ -268,7 +268,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestUserAdd()
+        public void RegisterUser_UsernameAndEmailValid_True()
         {
             Random random = new Random();
 
@@ -286,7 +286,7 @@ namespace Chirpel.Test
         }
 
         [Test]
-        public void TestUserFollowerAdd()
+        public void FollowUser_UserNotFollowed_True()
         {
             Random random = new Random();
 
