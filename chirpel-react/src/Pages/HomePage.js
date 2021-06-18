@@ -73,7 +73,7 @@ class HomePage extends React.Component {
                     <Route path={"/profile/:id"} render={(props) =>
                         <ProfilePage id={props.match.params.id} accountId={this.props.accountId} api={this.props.api}/>
                     }/>
-                    
+
             </div>
         )
     }
